@@ -801,23 +801,6 @@ with st.spinner("Cargando..."):
     df_manual = load_ventas_manuales()
     df        = merge_ventas(df_dux, df_manual)
 
-# ── Debug temporal (borrar después) ──────────────────────────────────────────
-import data_processor as _dp
-_debug_cache = _dp.VENTAS_CACHE_PATH
-with st.expander("🔧 Debug datos (borrar después)", expanded=False):
-    st.write(f"**BASE_DIR:** `{_dp._BASE_DIR}`")
-    st.write(f"**Cache path:** `{_debug_cache}`")
-    st.write(f"**Cache existe:** {_debug_cache.exists()}")
-    st.write(f"**XLS en data/ventas:** {list((_dp._BASE_DIR / 'data' / 'ventas').glob('*.xls'))}")
-    st.write(f"**df_dux:** {len(df_dux)} filas, neto={df_dux['neto'].sum() if not df_dux.empty else 0}")
-    st.write(f"**df_manual:** {len(df_manual)} filas")
-    st.write(f"**df total:** {len(df)} filas, neto={df['neto'].sum() if not df.empty else 0}")
-    # Listar archivos en data/
-    _data_dir = _dp._BASE_DIR / "data"
-    if _data_dir.exists():
-        st.write(f"**Archivos en data/:** {[f.name for f in _data_dir.iterdir() if f.is_file()]}")
-    else:
-        st.write(f"**data/ NO EXISTE en** `{_dp._BASE_DIR}`")
 
 # ── Garantizar columnas clave (evita KeyError en Streamlit Cloud) ─────────
 _cols_requeridas = {
@@ -1021,14 +1004,26 @@ if tab1:
     with col_per:
         periodo = st.selectbox(
             "Período",
-            ["Este mes", "Últimos 30 días", "Últimos 60 días", "Hoy"],
-            index=0, label_visibility="collapsed",
+            ["Hoy", "Últimos 2 días", "Últimos 7 días", "Últimos 15 días", "Este mes", "Últimos 30 días", "Últimos 60 días"],
+            index=4, label_visibility="collapsed",
         )
 
     if periodo == "Este mes":
         fecha_desde = date(hoy.year, hoy.month, 1)
         fecha_hasta = hoy
         label_periodo = fmt_fecha(hoy, "mes")
+    elif periodo == "Últimos 2 días":
+        fecha_desde = hoy - timedelta(days=1)
+        fecha_hasta = hoy
+        label_periodo = "Últimos 2 días"
+    elif periodo == "Últimos 7 días":
+        fecha_desde = hoy - timedelta(days=6)
+        fecha_hasta = hoy
+        label_periodo = "Últimos 7 días"
+    elif periodo == "Últimos 15 días":
+        fecha_desde = hoy - timedelta(days=14)
+        fecha_hasta = hoy
+        label_periodo = "Últimos 15 días"
     elif periodo == "Últimos 30 días":
         fecha_desde = hoy - timedelta(days=30)
         fecha_hasta = hoy
