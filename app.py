@@ -609,8 +609,8 @@ def seccion(titulo):
 def progress_bar(pct, color="#00c96b"):
     pct = min(max(pct, 0), 100)
     return f"""
-    <div class="progress-bar-bg">
-        <div class="progress-bar-fill" style="width:{pct}%;background:{color}"></div>
+    <div style="background:#ffffff0e;border-radius:4px;height:6px;overflow:hidden;min-width:80px">
+        <div style="width:{pct}%;background:{color};height:100%;border-radius:4px;transition:width 0.6s ease"></div>
     </div>"""
 
 
