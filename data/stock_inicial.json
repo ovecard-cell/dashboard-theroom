@@ -6,37 +6,37 @@
     "prefijos": ["REMERA BASICA LYCRA TOM"]
   },
   {
-    "proveedor": "KAZUMA", "tipo": "Remera Over",
+    "proveedor": "KAZUMA", "tipo": "Remera Over (Poppies/LosAngeles/Coral/Every)",
     "stock_inicial": 31, "vendidos_manual": 2,
     "costo_unit": 7272, "fecha_ingreso": "2026-03-26",
     "prefijos": ["REMERA OVER POPPIES","REMERA OVER LOS ANGELES","REMERA OVER CORAL","REMERA OVER EVERY"]
   },
   {
-    "proveedor": "KAZUMA", "tipo": "Remera Regular",
+    "proveedor": "KAZUMA", "tipo": "Remera Regular (Tacos/Grave/Juicy)",
     "stock_inicial": 24, "vendidos_manual": 2,
     "costo_unit": 7272, "fecha_ingreso": "2026-03-26",
     "prefijos": ["REMERA REGULAR TACOS","REMERA REGULAR GRAVE","REMERA REGULAR JUICY"]
   },
   {
-    "proveedor": "KAZUMA", "tipo": "Camisa Rothe Verde Militar",
+    "proveedor": "KAZUMA", "tipo": "Camisa Rothe",
     "stock_inicial": 4, "vendidos_manual": 2,
     "costo_unit": 15000, "fecha_ingreso": "2026-03-26",
     "prefijos": ["CAMISA ROTHE"]
   },
   {
-    "proveedor": "KAZUMA", "tipo": "Jean Rig Mom",
+    "proveedor": "KAZUMA", "tipo": "Jean Rig Mom (Mirox/Jaro)",
     "stock_inicial": 13, "vendidos_manual": 0,
     "costo_unit": 20000, "fecha_ingreso": "2026-03-26",
     "prefijos": ["JEAN RIG MOM MIROX","JEAN RIG MOM JARO"]
   },
   {
     "proveedor": "LISBON", "tipo": "Pantalón Ringo",
-    "stock_inicial": 12, "vendidos_manual": 1,
+    "stock_inicial": 16, "vendidos_manual": 1,
     "costo_unit": 25000, "fecha_ingreso": "2026-03-28",
     "prefijos": ["PANTALON RINGO"]
   },
   {
-    "proveedor": "LISBON", "tipo": "Jeans",
+    "proveedor": "LISBON", "tipo": "Jeans (Seven/Falcon)",
     "stock_inicial": 22, "vendidos_manual": 0,
     "costo_unit": 22000, "fecha_ingreso": "2026-03-28",
     "prefijos": ["JEAN SEVEN STRAIGHT","JEAN FALCON REGULAR"]
@@ -48,22 +48,28 @@
     "prefijos": ["CHOMBA TEJIDA"]
   },
   {
-    "proveedor": "LISBON", "tipo": "Remera Over Lisa",
+    "proveedor": "LISBON", "tipo": "Remera Over Lisa LB",
     "stock_inicial": 18, "vendidos_manual": 1,
     "costo_unit": 8000, "fecha_ingreso": "2026-03-28",
     "prefijos": ["REMERA OVER LISA LB"]
   },
   {
-    "proveedor": "LISBON", "tipo": "Remera Over Estampada",
-    "stock_inicial": 6, "vendidos_manual": 1,
+    "proveedor": "LISBON", "tipo": "Remera Over Triend&True",
+    "stock_inicial": 7, "vendidos_manual": 1,
     "costo_unit": 9000, "fecha_ingreso": "2026-03-28",
     "prefijos": ["REMERA OVER TRIEND"]
   },
   {
-    "proveedor": "DISTRICT", "tipo": "Remera",
-    "stock_inicial": 30, "vendidos_manual": 3,
+    "proveedor": "DISTRICT", "tipo": "Remera Girona",
+    "stock_inicial": 17, "vendidos_manual": 2,
     "costo_unit": 8000, "fecha_ingreso": "2026-03-30",
-    "prefijos": ["REMERA GIRONA","REMERA NAPOLES"]
+    "prefijos": ["REMERA GIRONA"]
+  },
+  {
+    "proveedor": "DISTRICT", "tipo": "Remera Napoles",
+    "stock_inicial": 13, "vendidos_manual": 1,
+    "costo_unit": 8000, "fecha_ingreso": "2026-03-30",
+    "prefijos": ["REMERA NAPOLES"]
   },
   {
     "proveedor": "DISTRICT", "tipo": "Chomba Eminem II",
@@ -79,7 +85,7 @@
   },
   {
     "proveedor": "DISTRICT", "tipo": "Billetera",
-    "stock_inicial": 3, "vendidos_manual": 0,
+    "stock_inicial": 5, "vendidos_manual": 0,
     "costo_unit": 5000, "fecha_ingreso": "2026-03-30",
     "prefijos": ["BILLETERA"]
   }

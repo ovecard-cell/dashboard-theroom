@@ -2605,9 +2605,159 @@ if tab5:
             else:
                 alerta_html("No hay productos del stock nuevo en el Dux aún — verificá que los archivos cargados incluyan ventas del período", "amarillo")
 
-        # ── Inventario completo desde Dux ─────────────────────────────────────
+        # ── Velocidad detallada por SKU (talle/color) — Compras 2026 ────────
         from data_processor import load_stock_dux
         df_stock_dux = load_stock_dux("data/stock_dux.xls")
+
+        if not df_stock_dux.empty and stock_ini:
+            seccion("Velocidad por SKU — detalle talle/color (Compras 2026)")
+            st.markdown(
+                '<div style="color:#8888aa;font-size:0.78rem;margin-bottom:12px">'
+                'Cruce entre stock actual de Dux y ventas registradas. Datos precisos al último .xls cargado.</div>',
+                unsafe_allow_html=True
+            )
+
+            _all_prefixes = []
+            for _item in stock_ini:
+                for _p in _item["prefijos"]:
+                    _all_prefixes.append((_p.upper(), _item["proveedor"], _item["tipo"],
+                                          _item["costo_unit"], _item["fecha_ingreso"]))
+
+            for _prov_vel in ["KAZUMA", "LISBON", "DISTRICT"]:
+                _prov_prefixes = [(p, pr, t, c, f) for p, pr, t, c, f in _all_prefixes if pr == _prov_vel]
+                if not _prov_prefixes:
+                    continue
+
+                _fecha_ing = pd.Timestamp(_prov_prefixes[0][4]).date()
+                _dias_tr = max((hoy - _fecha_ing).days, 1)
+
+                # Recopilar SKUs de este proveedor
+                _sku_rows = []
+                for _pfx, _pr, _tipo, _costo_u, _fi in _prov_prefixes:
+                    _mask_stk = df_stock_dux["producto"].str.upper().str.startswith(_pfx)
+                    _sub_stk = df_stock_dux[_mask_stk]
+                    for _, _rs in _sub_stk.iterrows():
+                        _prod_name = _rs["producto"]
+                        _stock_act = int(_rs["cantidad"])
+                        # Ventas de este SKU exacto
+                        if not df.empty:
+                            _v_mask = df["producto"].str.upper() == _prod_name.upper()
+                            _vendidos_sku = int(df.loc[_v_mask, "cantidad"].sum())
+                            _neto_sku = df.loc[_v_mask, "neto"].sum()
+                        else:
+                            _vendidos_sku = 0
+                            _neto_sku = 0
+                        _stock_ini_sku = _stock_act + _vendidos_sku
+                        _vel_sku = _vendidos_sku / _dias_tr
+                        _dias_stock_sku = round(_stock_act / _vel_sku) if _vel_sku > 0 else 9999
+                        _ganancia_sku = _neto_sku - (_costo_u * _vendidos_sku)
+                        _margen_sku = (_ganancia_sku / _neto_sku * 100) if _neto_sku > 0 else 0
+
+                        _sku_rows.append({
+                            "producto": _prod_name,
+                            "tipo": _tipo,
+                            "stock_ini": _stock_ini_sku,
+                            "vendidos": _vendidos_sku,
+                            "stock_act": _stock_act,
+                            "vel": _vel_sku,
+                            "dias_stock": _dias_stock_sku,
+                            "neto": _neto_sku,
+                            "ganancia": _ganancia_sku,
+                            "margen": _margen_sku,
+                            "costo_u": _costo_u,
+                        })
+
+                if not _sku_rows:
+                    continue
+
+                _total_ini = sum(r["stock_ini"] for r in _sku_rows)
+                _total_vend = sum(r["vendidos"] for r in _sku_rows)
+                _total_quedan = sum(r["stock_act"] for r in _sku_rows)
+                _total_neto = sum(r["neto"] for r in _sku_rows)
+                _pct_prov = round(_total_vend / _total_ini * 100, 1) if _total_ini > 0 else 0
+                _vel_prov = _total_vend / _dias_tr
+                _costo_parado = sum(r["stock_act"] * r["costo_u"] for r in _sku_rows)
+
+                _prov_colors = {"KAZUMA": "#3a86ff", "LISBON": "#8b5cf6", "DISTRICT": "#f7b731"}
+                _pc = _prov_colors.get(_prov_vel, "#aaaacc")
+
+                st.markdown(
+                    f'<div style="margin:18px 0 8px 0;padding:10px 14px;border-left:3px solid {_pc};'
+                    f'background:rgba(255,255,255,0.03);border-radius:0 6px 6px 0">'
+                    f'<span style="font-weight:700;color:{_pc};font-size:1rem">{_prov_vel}</span>'
+                    f'<span style="color:#8888aa;font-size:0.82rem;margin-left:16px">'
+                    f'Ingresó {_fecha_ing.strftime("%d/%m")} · {_dias_tr} días · '
+                    f'{_total_vend}/{_total_ini} vendidos ({_pct_prov}%) · '
+                    f'Vel {_vel_prov:.2f}/día · '
+                    f'Neto {fmt(_total_neto)} · '
+                    f'Costo parado {fmt(_costo_parado)}'
+                    f'</span></div>',
+                    unsafe_allow_html=True
+                )
+
+                # Tabla de SKUs
+                _rows_html = ""
+                _sku_rows_sorted = sorted(_sku_rows, key=lambda x: (-x["vendidos"], x["producto"]))
+                for _sr in _sku_rows_sorted:
+                    if _sr["stock_act"] == 0 and _sr["vendidos"] == 0:
+                        continue  # SKU agotado y sin data
+                    _v = _sr["vendidos"]
+                    _sa = _sr["stock_act"]
+                    _vel_s = _sr["vel"]
+                    _ds = _sr["dias_stock"]
+
+                    # Color de estado
+                    if _v == 0 and _sa > 0:
+                        _est = '<span style="color:#e94560;font-weight:700">SIN VENTA</span>'
+                        _row_bg = "rgba(233,69,96,0.05)"
+                    elif _vel_s >= 0.5:
+                        _est = '<span style="color:#00c96b;font-weight:700">ROTA BIEN</span>'
+                        _row_bg = "rgba(0,201,107,0.05)"
+                    elif _vel_s >= 0.15:
+                        _est = '<span style="color:#aaaacc">NORMAL</span>'
+                        _row_bg = "transparent"
+                    elif _sa == 0:
+                        _est = '<span style="color:#00c96b;font-weight:700">AGOTADO</span>'
+                        _row_bg = "rgba(0,201,107,0.08)"
+                    else:
+                        _est = '<span style="color:#ffaa55;font-weight:700">LENTO</span>'
+                        _row_bg = "rgba(255,170,85,0.05)"
+
+                    _ds_txt = f"{_ds}d" if _ds < 9999 else "∞"
+                    if isinstance(_ds, int) and _ds > 365:
+                        _ds_txt = f"+1a"
+                    elif isinstance(_ds, int) and _ds > 90:
+                        _ds_txt = f"~{_ds//30}m"
+
+                    _rows_html += (
+                        f'<tr style="background:{_row_bg}">'
+                        f'<td style="font-size:0.82rem">{_sr["producto"]}</td>'
+                        f'<td style="text-align:center;color:#8888aa">{_sr["stock_ini"]}</td>'
+                        f'<td style="text-align:center;color:#00c96b;font-weight:700">{_v}</td>'
+                        f'<td style="text-align:center;color:#eeeeff">{_sa}</td>'
+                        f'<td style="text-align:center;color:{"#00c96b" if _vel_s >= 0.3 else "#e94560" if _vel_s == 0 else "#ffaa55"};font-weight:600">{_vel_s:.2f}</td>'
+                        f'<td style="text-align:center;color:#8888aa">{_ds_txt}</td>'
+                        f'<td style="text-align:right">{fmt(_sr["neto"]) if _sr["neto"] > 0 else "-"}</td>'
+                        f'<td style="text-align:center">{_est}</td>'
+                        f'</tr>'
+                    )
+
+                st.markdown(
+                    f'<div class="tabla-wrapper"><table class="tabla-custom">'
+                    f'<thead><tr>'
+                    f'<th>Producto (talle/color)</th>'
+                    f'<th style="text-align:center">Ini</th>'
+                    f'<th style="text-align:center">Vend</th>'
+                    f'<th style="text-align:center">Stock</th>'
+                    f'<th style="text-align:center">Vel/día</th>'
+                    f'<th style="text-align:center">Para</th>'
+                    f'<th style="text-align:right">Neto</th>'
+                    f'<th style="text-align:center">Estado</th>'
+                    f'</tr></thead><tbody>{_rows_html}</tbody></table></div>',
+                    unsafe_allow_html=True
+                )
+
+        # ── Inventario completo desde Dux ─────────────────────────────────────
 
         if not df_stock_dux.empty:
             con_stock = df_stock_dux[df_stock_dux["cantidad"] > 0].copy()
