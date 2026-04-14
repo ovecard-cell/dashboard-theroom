@@ -2888,12 +2888,6 @@ if tab5:
         inventario_dux = {}
 
         if not sin_datos:
-            # DEBUG — borrar después
-            with st.expander("🔧 DEBUG stock_tipo (borrar después)"):
-                st.write("stock_tipo values:", df["stock_tipo"].value_counts().to_dict() if "stock_tipo" in df.columns else "NO EXISTE")
-                st.write("proveedor_nuevo values:", df["proveedor_nuevo"].value_counts().to_dict() if "proveedor_nuevo" in df.columns else "NO EXISTE")
-                st.write("Total filas df:", len(df))
-                st.write("Columnas:", sorted(df.columns.tolist()))
             for prov in ["KAZUMA", "LISBON", "DISTRICT"]:
                 nuevo_prov = df[(df["stock_tipo"] == "NUEVO") & (df["proveedor_nuevo"] == prov)]
                 if nuevo_prov.empty:

@@ -1,7 +1,7 @@
 [
   {
     "proveedor": "KAZUMA", "tipo": "Remera Básica Lycra Tom",
-    "stock_inicial": 43, "vendidos_manual": 9,
+    "stock_inicial": 43, "vendidos_manual": 7,
     "costo_unit": 7272, "fecha_ingreso": "2026-03-26",
     "prefijos": ["REMERA BASICA LYCRA TOM"]
   },
@@ -13,13 +13,13 @@
   },
   {
     "proveedor": "KAZUMA", "tipo": "Remera Regular",
-    "stock_inicial": 24, "vendidos_manual": 3,
+    "stock_inicial": 24, "vendidos_manual": 2,
     "costo_unit": 7272, "fecha_ingreso": "2026-03-26",
     "prefijos": ["REMERA REGULAR TACOS","REMERA REGULAR GRAVE","REMERA REGULAR JUICY"]
   },
   {
     "proveedor": "KAZUMA", "tipo": "Camisa Rothe Verde Militar",
-    "stock_inicial": 4, "vendidos_manual": 1,
+    "stock_inicial": 4, "vendidos_manual": 2,
     "costo_unit": 15000, "fecha_ingreso": "2026-03-26",
     "prefijos": ["CAMISA ROTHE"]
   },
@@ -31,13 +31,13 @@
   },
   {
     "proveedor": "LISBON", "tipo": "Pantalón Ringo",
-    "stock_inicial": 12, "vendidos_manual": 0,
+    "stock_inicial": 12, "vendidos_manual": 1,
     "costo_unit": 25000, "fecha_ingreso": "2026-03-28",
     "prefijos": ["PANTALON RINGO"]
   },
   {
     "proveedor": "LISBON", "tipo": "Jeans",
-    "stock_inicial": 22, "vendidos_manual": 1,
+    "stock_inicial": 22, "vendidos_manual": 0,
     "costo_unit": 22000, "fecha_ingreso": "2026-03-28",
     "prefijos": ["JEAN SEVEN STRAIGHT","JEAN FALCON REGULAR"]
   },
@@ -55,13 +55,13 @@
   },
   {
     "proveedor": "LISBON", "tipo": "Remera Over Estampada",
-    "stock_inicial": 6, "vendidos_manual": 0,
+    "stock_inicial": 6, "vendidos_manual": 1,
     "costo_unit": 9000, "fecha_ingreso": "2026-03-28",
     "prefijos": ["REMERA OVER TRIEND"]
   },
   {
     "proveedor": "DISTRICT", "tipo": "Remera",
-    "stock_inicial": 30, "vendidos_manual": 2,
+    "stock_inicial": 30, "vendidos_manual": 3,
     "costo_unit": 8000, "fecha_ingreso": "2026-03-30",
     "prefijos": ["REMERA GIRONA","REMERA NAPOLES"]
   },
