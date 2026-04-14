@@ -3,6 +3,9 @@ import json
 from pathlib import Path
 from datetime import datetime, date
 
+# Base dir: la carpeta donde está este archivo (funciona local y en Streamlit Cloud)
+_BASE_DIR = Path(__file__).resolve().parent
+
 # ── Clasificación de stock nuevo ──────────────────────────────────────────────
 
 KAZUMA_DATE = pd.Timestamp("2026-03-26")
@@ -70,7 +73,7 @@ def _leer_xls_directo(path) -> pd.DataFrame:
     return pd.DataFrame(rows, columns=headers)
 
 
-VENTAS_CACHE_PATH = Path("data/ventas_cache.json")
+VENTAS_CACHE_PATH = _BASE_DIR / "data" / "ventas_cache.json"
 
 def _guardar_cache_ventas(df: pd.DataFrame):
     """Guarda el DataFrame procesado como JSON para que la nube lo pueda leer."""
@@ -112,7 +115,7 @@ def load_dux_files(folder: str = "data/ventas") -> pd.DataFrame:
     aplica filtros y devuelve un DataFrame limpio.
     Si no hay .xls (ej. en Streamlit Cloud), lee el cache JSON.
     """
-    path = Path(folder)
+    path = _BASE_DIR / folder if not Path(folder).is_absolute() else Path(folder)
     archivos = list(path.glob("*.xls")) + list(path.glob("*.xlsx"))
 
     if not archivos:
@@ -262,7 +265,7 @@ def proyeccion_mes(df: pd.DataFrame) -> float:
 
 def load_ventas_manuales(path: str = "data/ventas_manuales.json") -> pd.DataFrame:
     """Carga ventas ingresadas manualmente (sin Dux)."""
-    p = Path(path)
+    p = _BASE_DIR / path if not Path(path).is_absolute() else Path(path)
     if not p.exists():
         return pd.DataFrame()
     data = __import__("json").loads(p.read_text(encoding="utf-8"))
@@ -393,11 +396,11 @@ def load_compras_dux(path) -> list:
     return gastos
 
 
-STOCK_CACHE_PATH = Path("data/stock_dux_cache.json")
+STOCK_CACHE_PATH = _BASE_DIR / "data" / "stock_dux_cache.json"
 
 def load_stock_dux(path: str = "data/stock_dux.xls") -> pd.DataFrame:
     """Lee el archivo de Valorización de Stock exportado de Dux."""
-    p = Path(path)
+    p = _BASE_DIR / path if not Path(path).is_absolute() else Path(path)
     if not p.exists():
         # Sin .xls → usar cache
         if STOCK_CACHE_PATH.exists():
