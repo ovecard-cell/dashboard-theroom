@@ -1252,7 +1252,7 @@ if tab1:
         with dc1:
             st.markdown(metric_card("💰","Ventas sin IVA",fmt(neto_per),"Lo que registra Dux neto","verde"), unsafe_allow_html=True)
             with st.expander("Ver detalle ventas"):
-                if not df_per.empty:
+                if not df_per.empty and "producto" in df_per.columns:
                     top_prod = df_per.groupby("producto")["neto"].sum().sort_values(ascending=False).head(10)
                     for prod, neto_p in top_prod.items():
                         st.markdown(f'<div style="display:flex;justify-content:space-between;padding:3px 0;font-size:0.82rem"><span style="color:#ccc">{str(prod)[:40]}</span><span style="color:#00c96b;font-weight:700">{fmt(neto_p)}</span></div>', unsafe_allow_html=True)
@@ -3010,7 +3010,7 @@ if tab5b:
 
         with st.form("simulador_precio"):
             sp1, sp2, sp3 = st.columns(3)
-            sim_costo = sp1.number_input("Costo del producto $", min_value=1000, step=1000, value=10000)
+            sim_costo = sp1.number_input("Costo ($)", min_value=1000, step=1000, value=10000)
             sim_markup = sp2.number_input("Markup", min_value=1.0, max_value=5.0, step=0.1, value=2.5)
             sim_canal = sp3.selectbox("Canal de venta", ["Local (efectivo)", "Local (transferencia)", "Online 3 cuotas", "Online 6 cuotas", "Online 9 cuotas"])
 
@@ -3169,12 +3169,12 @@ if tab5b:
             ])
 
             pp1, pp2 = st.columns(2)
-            promo_costo1 = pp1.number_input("Costo producto 1 $", min_value=1000, step=1000, value=10000, key="pc1")
-            promo_pvp1   = pp2.number_input("PVP lista producto 1 $", min_value=1000, step=1000, value=25000, key="ppvp1")
+            promo_costo1 = pp1.number_input("Costo prod 1 ($)", min_value=1000, step=1000, value=10000, key="pc1")
+            promo_pvp1   = pp2.number_input("PVP prod 1 ($)", min_value=1000, step=1000, value=25000, key="ppvp1")
 
             pp3, pp4 = st.columns(2)
-            promo_costo2 = pp3.number_input("Costo producto 2 $ (si aplica)", min_value=0, step=1000, value=10000, key="pc2")
-            promo_pvp2   = pp4.number_input("PVP lista producto 2 $ (si aplica)", min_value=0, step=1000, value=25000, key="ppvp2")
+            promo_costo2 = pp3.number_input("Costo prod 2 ($)", min_value=0, step=1000, value=10000, key="pc2")
+            promo_pvp2   = pp4.number_input("PVP prod 2 ($)", min_value=0, step=1000, value=25000, key="ppvp2")
 
             if tipo_promo == "Descuento %":
                 promo_desc = st.slider("Descuento %", 5, 70, 20)
