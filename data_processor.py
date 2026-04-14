@@ -1,4 +1,5 @@
 import pandas as pd
+import json
 from pathlib import Path
 from datetime import datetime, date
 
@@ -69,16 +70,54 @@ def _leer_xls_directo(path) -> pd.DataFrame:
     return pd.DataFrame(rows, columns=headers)
 
 
+VENTAS_CACHE_PATH = Path("data/ventas_cache.json")
+
+def _guardar_cache_ventas(df: pd.DataFrame):
+    """Guarda el DataFrame procesado como JSON para que la nube lo pueda leer."""
+    if df.empty:
+        return
+    cache_df = df.copy()
+    # Convertir fechas a string para JSON
+    for col in ["fecha", "fecha_dia"]:
+        if col in cache_df.columns:
+            cache_df[col] = cache_df[col].astype(str)
+    # Guardar solo columnas procesadas (no las _raw)
+    cols_guardar = [c for c in cache_df.columns if not c.endswith("_raw")]
+    cache_df[cols_guardar].to_json(
+        str(VENTAS_CACHE_PATH), orient="records", force_ascii=False, indent=2
+    )
+
+
+def _cargar_cache_ventas() -> pd.DataFrame:
+    """Lee el cache de ventas si existe."""
+    if not VENTAS_CACHE_PATH.exists():
+        return pd.DataFrame()
+    try:
+        df = pd.read_json(str(VENTAS_CACHE_PATH), orient="records")
+        if df.empty:
+            return df
+        df["fecha"] = pd.to_datetime(df["fecha"], errors="coerce")
+        df["fecha_dia"] = df["fecha"].dt.date
+        df["anio"] = df["fecha"].dt.year
+        df["mes"] = df["fecha"].dt.month
+        return df
+    except Exception as e:
+        print(f"[WARN] No se pudo leer cache de ventas: {e}")
+        return pd.DataFrame()
+
+
 def load_dux_files(folder: str = "data/ventas") -> pd.DataFrame:
     """
     Lee todos los .xls exportados por Dux en la carpeta indicada,
     aplica filtros y devuelve un DataFrame limpio.
+    Si no hay .xls (ej. en Streamlit Cloud), lee el cache JSON.
     """
     path = Path(folder)
     archivos = list(path.glob("*.xls")) + list(path.glob("*.xlsx"))
 
     if not archivos:
-        return pd.DataFrame()
+        # Sin .xls → usar cache (para Streamlit Cloud)
+        return _cargar_cache_ventas()
 
     frames = []
     for f in archivos:
@@ -164,7 +203,12 @@ def load_dux_files(folder: str = "data/ventas") -> pd.DataFrame:
     df["anio"] = df["fecha"].dt.year
     df["mes"] = df["fecha"].dt.month
 
-    return df.reset_index(drop=True)
+    df = df.reset_index(drop=True)
+
+    # ── Guardar cache para Streamlit Cloud ───────────────────────────────────
+    _guardar_cache_ventas(df)
+
+    return df
 
 
 # ── Helpers de análisis ───────────────────────────────────────────────────────
@@ -349,10 +393,18 @@ def load_compras_dux(path) -> list:
     return gastos
 
 
+STOCK_CACHE_PATH = Path("data/stock_dux_cache.json")
+
 def load_stock_dux(path: str = "data/stock_dux.xls") -> pd.DataFrame:
     """Lee el archivo de Valorización de Stock exportado de Dux."""
     p = Path(path)
     if not p.exists():
+        # Sin .xls → usar cache
+        if STOCK_CACHE_PATH.exists():
+            try:
+                return pd.read_json(str(STOCK_CACHE_PATH), orient="records")
+            except Exception:
+                pass
         return pd.DataFrame()
     import xlrd
     wb = xlrd.open_workbook(str(p))
@@ -375,7 +427,11 @@ def load_stock_dux(path: str = "data/stock_dux.xls") -> pd.DataFrame:
                 })
         except Exception:
             pass
-    return pd.DataFrame(productos)
+    df = pd.DataFrame(productos)
+    # Guardar cache para Streamlit Cloud
+    if not df.empty:
+        df.to_json(str(STOCK_CACHE_PATH), orient="records", force_ascii=False, indent=2)
+    return df
 
 
 def stock_nuevo_resumen(df: pd.DataFrame, stock_inicial: list) -> pd.DataFrame:
