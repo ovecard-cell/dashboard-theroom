@@ -801,6 +801,24 @@ with st.spinner("Cargando..."):
     df_manual = load_ventas_manuales()
     df        = merge_ventas(df_dux, df_manual)
 
+# ── Debug temporal (borrar después) ──────────────────────────────────────────
+import data_processor as _dp
+_debug_cache = _dp.VENTAS_CACHE_PATH
+with st.expander("🔧 Debug datos (borrar después)", expanded=False):
+    st.write(f"**BASE_DIR:** `{_dp._BASE_DIR}`")
+    st.write(f"**Cache path:** `{_debug_cache}`")
+    st.write(f"**Cache existe:** {_debug_cache.exists()}")
+    st.write(f"**XLS en data/ventas:** {list((_dp._BASE_DIR / 'data' / 'ventas').glob('*.xls'))}")
+    st.write(f"**df_dux:** {len(df_dux)} filas, neto={df_dux['neto'].sum() if not df_dux.empty else 0}")
+    st.write(f"**df_manual:** {len(df_manual)} filas")
+    st.write(f"**df total:** {len(df)} filas, neto={df['neto'].sum() if not df.empty else 0}")
+    # Listar archivos en data/
+    _data_dir = _dp._BASE_DIR / "data"
+    if _data_dir.exists():
+        st.write(f"**Archivos en data/:** {[f.name for f in _data_dir.iterdir() if f.is_file()]}")
+    else:
+        st.write(f"**data/ NO EXISTE en** `{_dp._BASE_DIR}`")
+
 # ── Garantizar columnas clave (evita KeyError en Streamlit Cloud) ─────────
 _cols_requeridas = {
     "producto": "", "forma_pago": "", "marca": "", "rubro": "", "sub_rubro": "",
