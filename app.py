@@ -691,8 +691,16 @@ if "api_key" not in st.session_state:
 
 
 # ── Login / Usuarios ──────────────────────────────────────────────────────────
-_p_users = Path("data/usuarios.json")
-_usuarios = json.loads(_p_users.read_text(encoding="utf-8")) if _p_users.exists() else []
+# Usuarios: primero intenta Streamlit Secrets (seguro), si no, archivo local
+try:
+    _usuarios = st.secrets.get("usuarios", [])
+    if _usuarios:
+        _usuarios = [dict(u) for u in _usuarios]
+except Exception:
+    _usuarios = []
+if not _usuarios:
+    _p_users = Path("data/usuarios.json")
+    _usuarios = json.loads(_p_users.read_text(encoding="utf-8")) if _p_users.exists() else []
 
 # Permisos por rol: qué tabs ve cada uno
 PERMISOS_ROL = {
