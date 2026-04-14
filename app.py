@@ -793,6 +793,18 @@ with st.spinner("Cargando..."):
     df_manual = load_ventas_manuales()
     df        = merge_ventas(df_dux, df_manual)
 
+# ── Garantizar columnas clave (evita KeyError en Streamlit Cloud) ─────────
+_cols_requeridas = {
+    "producto": "", "forma_pago": "", "marca": "", "rubro": "", "sub_rubro": "",
+    "personal": "", "canal": "", "stock_tipo": "VIEJO", "proveedor_nuevo": "",
+    "fecha_dia": pd.NaT, "fecha": pd.NaT,
+    "neto": 0, "cantidad": 0, "costo": 0, "precio_lista": 0, "descuento": 0,
+    "total_con_iva": 0, "ganancia": 0, "margen": 0,
+}
+for _col, _default in _cols_requeridas.items():
+    if _col not in df.columns:
+        df[_col] = _default
+
 cheques  = get_cheques()
 stock_ini = get_stock_ini()
 sin_datos = df.empty
