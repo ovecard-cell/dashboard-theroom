@@ -1126,15 +1126,127 @@ if tab1:
         with row_b2[0]:
             st.markdown(metric_card("💳", "Mercado Pago", fmt(mp),
                 f"al {fecha_banco}", "verde" if mp > 0 else "rojo"), unsafe_allow_html=True)
+        # ── Control de caja automático ────────────────────────────────────
+        _p_ctrl = Path("data/control_caja.json")
+        _ctrl = json.loads(_p_ctrl.read_text(encoding="utf-8")) if _p_ctrl.exists() else {}
+        _ajuste_base = _ctrl.get("ajuste_base", 0)
+        _fecha_corte = _ctrl.get("fecha_corte", "2026-01-01")
+
+        # Calcular efectivo esperado: ajuste + ventas efectivo Dux totales
+        if not df.empty:
+            _ef_dux = df[df["forma_pago"].astype(str).str.upper().str.contains("EFECT", na=False)]
+            _efectivo_dux_total = _ef_dux["neto"].sum()
+        else:
+            _efectivo_dux_total = 0
+        _efectivo_esperado = _ajuste_base + _efectivo_dux_total
+
+        # Mostrar el efectivo esperado (no el manual de bancos.json)
         with row_b2[1]:
-            st.markdown(metric_card("💵", "Efectivo / Caja", fmt(efectivo),
-                f"segun Dux", "verde" if efectivo > 0 else "gris"), unsafe_allow_html=True)
+            st.markdown(metric_card("💵", "EFECTIVO / CAJA", fmt(_efectivo_esperado),
+                f"segun Dux + ajuste", "verde" if _efectivo_esperado > 0 else "gris"), unsafe_allow_html=True)
+
+        # Recalcular disponible con el efectivo correcto
+        disponible = max(santander, 0) + max(mp, 0) + _efectivo_esperado
+
         with row_b2[2]:
             st.markdown(metric_card("💰", "Disponible real", fmt(disponible),
                 f"Santander + MP + Caja", "azul"), unsafe_allow_html=True)
         with row_b2[3]:
             st.markdown(metric_card("🔴", "Deuda total", fmt(-descubierto),
                 f"BBVA + Corrientes + Galicia", "rojo"), unsafe_allow_html=True)
+
+        # ── Cuadro de control de caja ────────────────────────────────────
+        _ultimo_arqueo = _ctrl.get("arqueos", [])[-1] if _ctrl.get("arqueos") else None
+        if _ultimo_arqueo:
+            _fecha_arq = _ultimo_arqueo["fecha"]
+            _real_arq = _ultimo_arqueo["efectivo_real"]
+            _dif_actual = _efectivo_esperado - _real_arq if _efectivo_esperado != _real_arq else 0
+
+            # Solo mostrar si hay ventas nuevas después del último arqueo
+            _ventas_post_arqueo = 0
+            if not df.empty:
+                _fecha_arq_date = date.fromisoformat(_fecha_arq)
+                _ef_post = _ef_dux[_ef_dux["fecha_dia"] > date.fromisoformat(_fecha_corte)]
+                _ventas_post_arqueo = _ef_post["neto"].sum()
+
+        with st.expander(f"🔍 Control de caja — último arqueo: {_ultimo_arqueo['fecha'] if _ultimo_arqueo else 'ninguno'}", expanded=False):
+            st.markdown(
+                f'<div style="background:#1a1a2e;padding:14px 18px;border-radius:8px;border:1px solid #ffffff10">'
+                f'<div style="display:flex;gap:30px;flex-wrap:wrap">'
+                f'<div><span style="color:#6666aa;font-size:0.75rem;text-transform:uppercase">Efectivo según Dux</span>'
+                f'<div style="color:#eeeeff;font-size:1.2rem;font-weight:700">{fmt(_efectivo_dux_total)}</div></div>'
+                f'<div><span style="color:#6666aa;font-size:0.75rem;text-transform:uppercase">Ajuste base (14/04)</span>'
+                f'<div style="color:#f7b731;font-size:1.2rem;font-weight:700">{fmt(_ajuste_base)}</div></div>'
+                f'<div><span style="color:#6666aa;font-size:0.75rem;text-transform:uppercase">Esperado en caja</span>'
+                f'<div style="color:#00c96b;font-size:1.2rem;font-weight:700">{fmt(_efectivo_esperado)}</div></div>'
+                f'</div>'
+                f'<div style="margin-top:12px;color:#8888aa;font-size:0.78rem">'
+                f'Cada vez que se sube un .xls nuevo, este número se actualiza automáticamente. '
+                f'Si Gabriela cuenta la caja y no coincide → hay un problema.</div>'
+                f'</div>',
+                unsafe_allow_html=True
+            )
+
+            # Input para nuevo arqueo
+            st.markdown('<div style="margin-top:12px">', unsafe_allow_html=True)
+            _arq_cols = st.columns([2, 2, 1])
+            with _arq_cols[0]:
+                _nuevo_real = st.number_input("Efectivo real en caja $", step=1000, value=0, key="arqueo_real")
+            with _arq_cols[1]:
+                _nota_arq = st.text_input("Nota (opcional)", key="arqueo_nota")
+            with _arq_cols[2]:
+                st.markdown('<div style="height:28px"></div>', unsafe_allow_html=True)
+                if st.button("Registrar arqueo", key="btn_arqueo"):
+                    if _nuevo_real > 0:
+                        _dif_arq = _nuevo_real - _efectivo_esperado
+                        _nuevo_arqueo = {
+                            "fecha": hoy.isoformat(),
+                            "efectivo_real": _nuevo_real,
+                            "efectivo_dux": round(_efectivo_dux_total),
+                            "esperado": round(_efectivo_esperado),
+                            "diferencia": round(_dif_arq),
+                            "nota": _nota_arq or ""
+                        }
+                        _ctrl["arqueos"].append(_nuevo_arqueo)
+                        _p_ctrl.write_text(json.dumps(_ctrl, ensure_ascii=False, indent=2), encoding="utf-8")
+
+                        if abs(_dif_arq) < 500:
+                            st.success(f"Caja cuadra. Diferencia: ${_dif_arq:,.0f}")
+                        elif _dif_arq < 0:
+                            st.error(f"FALTANTE: {fmt(abs(_dif_arq))} — hay menos plata de la que debería")
+                        else:
+                            st.warning(f"SOBRANTE: {fmt(_dif_arq)} — hay más plata de la que debería")
+                        st.rerun()
+            st.markdown('</div>', unsafe_allow_html=True)
+
+            # Historial de arqueos
+            if _ctrl.get("arqueos") and len(_ctrl["arqueos"]) > 1:
+                st.markdown(
+                    '<div style="margin-top:16px;font-size:0.75rem;color:#6666aa;text-transform:uppercase;'
+                    'letter-spacing:1px;font-weight:600">Historial de arqueos</div>',
+                    unsafe_allow_html=True
+                )
+                _arq_html = ""
+                for _a in reversed(_ctrl["arqueos"]):
+                    _d = _a.get("diferencia", 0)
+                    _col_d = "#00c96b" if abs(_d) < 500 else "#e94560" if _d < 0 else "#f7b731"
+                    _arq_html += (
+                        f'<tr>'
+                        f'<td>{_a["fecha"]}</td>'
+                        f'<td style="text-align:right">{fmt(_a["efectivo_real"])}</td>'
+                        f'<td style="text-align:right">{fmt(_a.get("esperado", _a.get("efectivo_dux", 0)))}</td>'
+                        f'<td style="text-align:right;color:{_col_d};font-weight:700">{fmt(_d)}</td>'
+                        f'<td style="color:#8888aa">{_a.get("nota", "")}</td>'
+                        f'</tr>'
+                    )
+                st.markdown(
+                    f'<div class="tabla-wrapper"><table class="tabla-custom"><thead><tr>'
+                    f'<th>Fecha</th><th style="text-align:right">Real</th>'
+                    f'<th style="text-align:right">Esperado</th>'
+                    f'<th style="text-align:right">Diferencia</th><th>Nota</th>'
+                    f'</tr></thead><tbody>{_arq_html}</tbody></table></div>',
+                    unsafe_allow_html=True
+                )
     else:
         alerta_html("Sin datos bancarios — actualizalos en Config", "azul")
 

@@ -1,0 +1,14 @@
+{
+  "ajuste_base": 20570,
+  "fecha_corte": "2026-04-13",
+  "nota": "Diferencia blanqueada al 14/04/2026. Efectivo real $282.400 vs Dux $261.830. De aca en adelante tiene que cuadrar.",
+  "arqueos": [
+    {
+      "fecha": "2026-04-14",
+      "efectivo_real": 282400,
+      "efectivo_dux": 261830,
+      "diferencia": 20570,
+      "nota": "Punto de partida — diferencia aceptada"
+    }
+  ]
+}
