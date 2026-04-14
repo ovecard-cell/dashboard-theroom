@@ -1,0 +1,6 @@
+[
+  {"usuario": "gustavo", "password": "theroom2026", "nombre": "Gustavo", "rol": "dueno"},
+  {"usuario": "gabriela", "password": "gabi2026", "nombre": "Gabriela", "rol": "gerente"},
+  {"usuario": "tiki", "password": "tiki2026", "nombre": "Tiki", "rol": "admin"},
+  {"usuario": "facu", "password": "facu2026", "nombre": "Facu", "rol": "marketing"}
+]

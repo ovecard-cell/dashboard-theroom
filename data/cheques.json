@@ -1,0 +1,65 @@
+[
+  {
+    "id": "#213",
+    "proveedor": "Lisbon",
+    "concepto": "Compra anterior — VENCIDO sin cobrar",
+    "vencimiento": "2026-04-04",
+    "monto": 1279705.10,
+    "tipo": "emitido",
+    "estado": "pendiente"
+  },
+  {
+    "id": "#214",
+    "proveedor": "Lisbon",
+    "concepto": "Compra anterior",
+    "vencimiento": "2026-04-15",
+    "monto": 1279705,
+    "tipo": "emitido",
+    "estado": "pendiente"
+  },
+  {
+    "id": "#215",
+    "proveedor": "Dacob/Kazuma",
+    "concepto": "Compra nueva 1/3",
+    "vencimiento": "2026-04-21",
+    "monto": 573127,
+    "tipo": "emitido",
+    "estado": "pendiente"
+  },
+  {
+    "id": "#216",
+    "proveedor": "Dacob/Kazuma",
+    "concepto": "Compra nueva 2/3",
+    "vencimiento": "2026-05-21",
+    "monto": 573127,
+    "tipo": "emitido",
+    "estado": "pendiente"
+  },
+  {
+    "id": "#217",
+    "proveedor": "Dacob/Kazuma",
+    "concepto": "Compra nueva 3/3",
+    "vencimiento": "2026-06-21",
+    "monto": 573127,
+    "tipo": "emitido",
+    "estado": "pendiente"
+  },
+  {
+    "id": "-",
+    "proveedor": "Lisbon (Dandy)",
+    "concepto": "Compra marzo — dilatar hasta mayo",
+    "vencimiento": "2026-05-01",
+    "monto": 1975000,
+    "tipo": "por_negociar",
+    "estado": "pendiente"
+  },
+  {
+    "id": "-",
+    "proveedor": "District (Tarkus)",
+    "concepto": "Compra marzo — dilatar hasta mayo",
+    "vencimiento": "2026-05-01",
+    "monto": 956512,
+    "tipo": "por_negociar",
+    "estado": "pendiente"
+  }
+]

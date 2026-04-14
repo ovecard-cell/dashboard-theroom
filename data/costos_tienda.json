@@ -1,0 +1,27 @@
+{
+  "impuestos": {
+    "iva_costo": 0.105,
+    "iibb_rentas": 0.045,
+    "imp_credito_debito": 0.006
+  },
+  "comisiones_mp": {
+    "pasarela": 0.0507,
+    "cuotas_3": 0.0651,
+    "cuotas_6": 0.1242,
+    "cuotas_9": 0.2049,
+    "plataforma": 0.01
+  },
+  "costos_fijos_venta": {
+    "packaging": 400,
+    "publicidad_ecommerce": 4000,
+    "envio_promedio": 5000
+  },
+  "descuentos": {
+    "efectivo": 0.15,
+    "transferencia": 0.10
+  },
+  "markup": {
+    "remeras": 2.5,
+    "default": 2.3
+  }
+}

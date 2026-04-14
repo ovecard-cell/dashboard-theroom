@@ -1,0 +1,9 @@
+__pycache__/
+*.pyc
+.env
+streamlit.log
+data/ventas/*.xls
+data/ventas/*.xlsx
+data/stock_dux.xls
+data/simulador_theroom.xlsx
+*.tmp

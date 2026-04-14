@@ -1,0 +1,31 @@
+[
+  {"id": 1, "fecha": "2026-02-06", "monto": 500000, "concepto": "Cheque", "categoria": "Cobertura cheques", "periodo": "2026", "estado": "pendiente"},
+  {"id": 2, "fecha": "2026-02-17", "monto": 625000, "concepto": "Cheque", "categoria": "Cobertura cheques", "periodo": "2026", "estado": "pendiente"},
+  {"id": 3, "fecha": "2026-02-21", "monto": 300000, "concepto": "Al Corrientes", "categoria": "Cobertura descubierto", "periodo": "2026", "estado": "pendiente"},
+  {"id": 4, "fecha": "2026-02-25", "monto": 315000, "concepto": "Cheque", "categoria": "Cobertura cheques", "periodo": "2026", "estado": "pendiente"},
+  {"id": 5, "fecha": "2026-03-02", "monto": 1207500, "concepto": "Cheque", "categoria": "Cobertura cheques", "periodo": "2026", "estado": "pendiente"},
+  {"id": 6, "fecha": "2026-01-01", "monto": 1160000, "concepto": "Tarjeta Bruder", "categoria": "Tarjeta", "periodo": "2026", "estado": "pendiente"},
+  {"id": 7, "fecha": "2026-03-17", "monto": 840000, "concepto": "Cheque (salvar cheque)", "categoria": "Cobertura cheques", "periodo": "2026", "estado": "pendiente"},
+  {"id": 8, "fecha": "2026-03-17", "monto": 9400000, "concepto": "Poner al dia BBVA", "categoria": "Cobertura descubierto", "periodo": "2026", "estado": "pendiente"},
+  {"id": 9, "fecha": "2026-03-31", "monto": 950600, "concepto": "Cheque (salvar cheque)", "categoria": "Cobertura cheques", "periodo": "2026", "estado": "pendiente"},
+  {"id": 10, "fecha": "2026-04-01", "monto": 500000, "concepto": "Quincena Sofia", "categoria": "Sueldos", "periodo": "2026", "estado": "pendiente"},
+
+  {"id": 11, "fecha": "2023-09-01", "monto": 9000, "concepto": "Contrato Bruder", "categoria": "Legal", "periodo": "2022-2025", "estado": "pendiente"},
+  {"id": 12, "fecha": "2023-09-01", "monto": 335000, "concepto": "Marketing", "categoria": "Marketing", "periodo": "2022-2025", "estado": "pendiente"},
+  {"id": 13, "fecha": "2023-10-01", "monto": 620000, "concepto": "Despedir a Karen", "categoria": "Sueldos", "periodo": "2022-2025", "estado": "pendiente"},
+  {"id": 14, "fecha": "2023-10-01", "monto": 10000, "concepto": "Falto 10000 Karen", "categoria": "Sueldos", "periodo": "2022-2025", "estado": "pendiente"},
+  {"id": 15, "fecha": "2023-10-01", "monto": 63000, "concepto": "Fer abogado", "categoria": "Legal", "periodo": "2022-2025", "estado": "pendiente"},
+  {"id": 16, "fecha": "2025-06-01", "monto": 2000, "concepto": "Vinilo The Room", "categoria": "Local", "periodo": "2022-2025", "estado": "pendiente"},
+  {"id": 17, "fecha": "2026-03-02", "monto": 500000, "concepto": "Cheque", "categoria": "Cobertura cheques", "periodo": "2022-2025", "estado": "pendiente"},
+  {"id": 18, "fecha": "2022-06-24", "monto": 713500, "concepto": "Plata invertida", "categoria": "Inversion inicial", "periodo": "2022-2025", "estado": "pendiente"},
+  {"id": 19, "fecha": "2022-08-12", "monto": 65000, "concepto": "Programa The Room", "categoria": "Software", "periodo": "2022-2025", "estado": "pendiente"},
+  {"id": 20, "fecha": "2022-12-23", "monto": 57800, "concepto": "Programa", "categoria": "Software", "periodo": "2022-2025", "estado": "pendiente"},
+  {"id": 21, "fecha": "2008-03-23", "monto": 50000, "concepto": "Programa", "categoria": "Software", "periodo": "2022-2025", "estado": "pendiente"},
+  {"id": 22, "fecha": "2024-01-05", "monto": 1972000, "concepto": "Pauta publicitaria", "categoria": "Marketing", "periodo": "2022-2025", "estado": "pendiente"},
+
+  {"id": 23, "fecha": "2026-01-01", "monto": 18588779, "concepto": "Prestamo departamento", "categoria": "Prestamo grande", "periodo": "prestamos", "estado": "pendiente"},
+  {"id": 24, "fecha": "2026-01-01", "monto": 1200000, "concepto": "Ultimo prestamo", "categoria": "Prestamo grande", "periodo": "prestamos", "estado": "pendiente"},
+  {"id": 25, "fecha": "2026-01-01", "monto": 110000, "concepto": "Alquiler diferencia", "categoria": "Prestamo grande", "periodo": "prestamos", "estado": "pendiente"},
+  {"id": 26, "fecha": "2026-01-01", "monto": 6681000, "concepto": "Plata prestada Wendy", "categoria": "Prestamo grande", "periodo": "prestamos", "estado": "pendiente"},
+  {"id": 27, "fecha": "2026-01-01", "monto": 1, "concepto": "Wendy — USD 1.000 (pendiente convertir al devolver)", "categoria": "Prestamo grande", "periodo": "prestamos", "estado": "pendiente"}
+]

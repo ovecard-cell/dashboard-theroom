@@ -1,0 +1,378 @@
+[
+  {
+    "fecha": "2026-04-01",
+    "concepto": "Impuesto al cheque (Ley 25413) — Banco Corrientes",
+    "monto": 4691.54,
+    "categoria": "AFIP / Impuestos",
+    "medio": "Banco Corrientes",
+    "notas": "Débito automático extracto 01/04"
+  },
+  {
+    "fecha": "2026-04-09",
+    "concepto": "Pago tarjeta de crédito — Cobro T.Credito ref 1254977483",
+    "monto": 1719442.16,
+    "categoria": "Gastos bancarios",
+    "medio": "Banco Corrientes",
+    "notas": "Débito automático extracto 09/04"
+  },
+  {
+    "fecha": "2026-04-09",
+    "concepto": "Pago tarjeta de crédito — Cobro T.Credito ref 1215585654",
+    "monto": 163.7,
+    "categoria": "Gastos bancarios",
+    "medio": "Banco Corrientes",
+    "notas": "Débito automático extracto 09/04"
+  },
+  {
+    "fecha": "2026-04-10",
+    "concepto": "Impuesto al cheque (Ley 25413) — Banco Corrientes",
+    "monto": 10317.63,
+    "categoria": "AFIP / Impuestos",
+    "medio": "Banco Corrientes",
+    "notas": "Débito automático extracto 10/04"
+  },
+  {
+    "fecha": "2026-04-07",
+    "concepto": "Impuesto Ley — IMPUESTO LEY 06/04/26 00006",
+    "monto": 445.58,
+    "categoria": "AFIP / Impuestos",
+    "medio": "BBVA Frances",
+    "notas": "Importado de bbva.xls"
+  },
+  {
+    "fecha": "2026-04-06",
+    "concepto": "Sellado — SELLADO",
+    "monto": 7.15,
+    "categoria": "AFIP / Impuestos",
+    "medio": "BBVA Frances",
+    "notas": "Importado de bbva.xls"
+  },
+  {
+    "fecha": "2026-04-06",
+    "concepto": "Intereses bancarios — AJUSTE DE IN 000000000000000",
+    "monto": 190.76,
+    "categoria": "Gastos bancarios",
+    "medio": "BBVA Frances",
+    "notas": "Importado de bbva.xls"
+  },
+  {
+    "fecha": "2026-04-06",
+    "concepto": "IVA — IVA TASA RED",
+    "monto": 20.02,
+    "categoria": "AFIP / Impuestos",
+    "medio": "BBVA Frances",
+    "notas": "Importado de bbva.xls"
+  },
+  {
+    "fecha": "2026-04-06",
+    "concepto": "Percepcion IIBB — PERCEPCION I",
+    "monto": 2.86,
+    "categoria": "AFIP / Impuestos",
+    "medio": "BBVA Frances",
+    "notas": "Importado de bbva.xls"
+  },
+  {
+    "fecha": "2026-04-06",
+    "concepto": "Impuesto Ley — IMPUESTO LEY 01/04/26 00007",
+    "monto": 1531.19,
+    "categoria": "AFIP / Impuestos",
+    "medio": "BBVA Frances",
+    "notas": "Importado de bbva.xls"
+  },
+  {
+    "fecha": "2026-04-06",
+    "concepto": "Comision bancaria — COM MANT FRA 03/26 120008885",
+    "monto": 59000.0,
+    "categoria": "Gastos bancarios",
+    "medio": "BBVA Frances",
+    "notas": "Importado de bbva.xls"
+  },
+  {
+    "fecha": "2026-04-06",
+    "concepto": "IVA — IVA TASA GRA",
+    "monto": 12390.0,
+    "categoria": "AFIP / Impuestos",
+    "medio": "BBVA Frances",
+    "notas": "Importado de bbva.xls"
+  },
+  {
+    "fecha": "2026-04-06",
+    "concepto": "Percepcion IIBB — PERCEPCION I",
+    "monto": 1770.0,
+    "categoria": "AFIP / Impuestos",
+    "medio": "BBVA Frances",
+    "notas": "Importado de bbva.xls"
+  },
+  {
+    "fecha": "2026-04-06",
+    "concepto": "Percepcion IIBB — PERCEPCION I",
+    "monto": 885.0,
+    "categoria": "AFIP / Impuestos",
+    "medio": "BBVA Frances",
+    "notas": "Importado de bbva.xls"
+  },
+  {
+    "fecha": "2026-04-01",
+    "concepto": "Sellado — SELLADO",
+    "monto": 3073.48,
+    "categoria": "AFIP / Impuestos",
+    "medio": "BBVA Frances",
+    "notas": "Importado de bbva.xls"
+  },
+  {
+    "fecha": "2026-04-01",
+    "concepto": "Percepcion IIBB — PER. CORRIEN 31/03/26 00002L",
+    "monto": 45000.0,
+    "categoria": "AFIP / Impuestos",
+    "medio": "BBVA Frances",
+    "notas": "Importado de bbva.xls"
+  },
+  {
+    "fecha": "2026-04-01",
+    "concepto": "Impuesto al cheque (Ley 25413)",
+    "monto": 54000.0,
+    "categoria": "AFIP / Impuestos",
+    "medio": "BBVA Frances",
+    "notas": "Importado de bbva.xls"
+  },
+  {
+    "fecha": "2026-04-01",
+    "concepto": "Intereses bancarios — INTERES COBR 000000000202603",
+    "monto": 74316.58,
+    "categoria": "Gastos bancarios",
+    "medio": "BBVA Frances",
+    "notas": "Importado de bbva.xls"
+  },
+  {
+    "fecha": "2026-04-01",
+    "concepto": "IVA — IVA TASA RED",
+    "monto": 7803.24,
+    "categoria": "AFIP / Impuestos",
+    "medio": "BBVA Frances",
+    "notas": "Importado de bbva.xls"
+  },
+  {
+    "fecha": "2026-04-01",
+    "concepto": "Percepcion IIBB — PERCEPCION I",
+    "monto": 1114.74,
+    "categoria": "AFIP / Impuestos",
+    "medio": "BBVA Frances",
+    "notas": "Importado de bbva.xls"
+  },
+  {
+    "fecha": "2026-04-01",
+    "concepto": "Débito automático — OG-DEBITO DI 25586PROS ALAR",
+    "monto": 62284.53,
+    "categoria": "Gastos bancarios",
+    "medio": "BBVA Frances",
+    "notas": "Importado de bbva.xls"
+  },
+  {
+    "fecha": "2026-04-01",
+    "concepto": "Débito automático — OG-DEBITO DI 25586PROS ALAR",
+    "monto": 60499.78,
+    "categoria": "Gastos bancarios",
+    "medio": "BBVA Frances",
+    "notas": "Importado de bbva.xls"
+  },
+  {
+    "fecha": "2026-04-06",
+    "concepto": "Aguas de Corrientes — servicio de agua",
+    "monto": 21437.07,
+    "categoria": "Servicios (luz/gas/tel)",
+    "medio": "Mercado Pago",
+    "notas": "Extracto MP BRUDER SRL abril"
+  },
+  {
+    "fecha": "2026-04-07",
+    "concepto": "MiCorreo — envio / correo",
+    "monto": 7242.38,
+    "categoria": "Transporte",
+    "medio": "Mercado Pago",
+    "notas": "Extracto MP BRUDER SRL abril"
+  },
+  {
+    "fecha": "2026-04-11",
+    "concepto": "DPEC — servicio electrico",
+    "monto": 252502.73,
+    "categoria": "Servicios (luz/gas/tel)",
+    "medio": "Mercado Pago",
+    "notas": "Extracto MP BRUDER SRL abril"
+  },
+  {
+    "fecha": "2026-04-01",
+    "concepto": "Comision servicio de cuenta Galicia — marzo 2026",
+    "monto": 60000,
+    "categoria": "Gastos bancarios",
+    "medio": "Galicia",
+    "notas": "Extracto Galicia abril"
+  },
+  {
+    "fecha": "2026-04-01",
+    "concepto": "IVA sobre comision Galicia — marzo 2026",
+    "monto": 12600,
+    "categoria": "AFIP / Impuestos",
+    "medio": "Galicia",
+    "notas": "Extracto Galicia abril"
+  },
+  {
+    "fecha": "2026-04-01",
+    "concepto": "Percepcion IVA — Galicia marzo 2026",
+    "monto": 1800,
+    "categoria": "AFIP / Impuestos",
+    "medio": "Galicia",
+    "notas": "Extracto Galicia abril"
+  },
+  {
+    "fecha": "2026-04-01",
+    "concepto": "Impuesto al cheque (Ley 25413) — Galicia",
+    "monto": 446.40,
+    "categoria": "AFIP / Impuestos",
+    "medio": "Galicia",
+    "notas": "Extracto Galicia abril"
+  },
+  {
+    "fecha": "2026-04-01",
+    "concepto": "Intereses saldos deudores — Galicia marzo 2026",
+    "monto": 1028.56,
+    "categoria": "Gastos bancarios",
+    "medio": "Galicia",
+    "notas": "Extracto Galicia abril"
+  },
+  {
+    "fecha": "2026-04-01",
+    "concepto": "Impuesto de sellos — Galicia marzo 2026",
+    "monto": 41.14,
+    "categoria": "AFIP / Impuestos",
+    "medio": "Galicia",
+    "notas": "Extracto Galicia abril"
+  },
+  {
+    "fecha": "2026-04-01",
+    "concepto": "IVA sellos — Galicia marzo 2026",
+    "monto": 108,
+    "categoria": "AFIP / Impuestos",
+    "medio": "Galicia",
+    "notas": "Extracto Galicia abril"
+  },
+  {
+    "fecha": "2026-04-01",
+    "concepto": "Impuesto al cheque (Ley 25413) — Galicia",
+    "monto": 7.07,
+    "categoria": "AFIP / Impuestos",
+    "medio": "Galicia",
+    "notas": "Extracto Galicia abril"
+  },
+  {
+    "fecha": "2026-04-01",
+    "concepto": "Echeq #211 cobrado (clearing 48hs)",
+    "monto": 1279705.10,
+    "categoria": "Cheque debitado",
+    "medio": "Santander",
+    "notas": "E-cheq anterior cobrado en Santander 01/04"
+  },
+  {
+    "fecha": "2026-04-01",
+    "concepto": "Echeq #212 cobrado (clearing 48hs)",
+    "monto": 1279705.10,
+    "categoria": "Cheque debitado",
+    "medio": "Santander",
+    "notas": "E-cheq anterior cobrado en Santander 01/04"
+  },
+  {
+    "fecha": "2026-04-01",
+    "concepto": "Debito Debin (proveedor CUIT 30715123580)",
+    "monto": 78166,
+    "categoria": "Mercadería",
+    "medio": "Santander",
+    "notas": "Extracto Santander abril"
+  },
+  {
+    "fecha": "2026-04-01",
+    "concepto": "Imp. Ley 25413 debito 0.6% — Santander",
+    "monto": 15827.31,
+    "categoria": "AFIP / Impuestos",
+    "medio": "Santander",
+    "notas": "Extracto Santander abril"
+  },
+  {
+    "fecha": "2026-04-01",
+    "concepto": "Imp. Ley 25413 credito 0.6% — Santander",
+    "monto": 384,
+    "categoria": "AFIP / Impuestos",
+    "medio": "Santander",
+    "notas": "Extracto Santander abril"
+  },
+  {
+    "fecha": "2026-04-01",
+    "concepto": "IIBB Corrientes 0.5% — Santander",
+    "monto": 320,
+    "categoria": "AFIP / Impuestos",
+    "medio": "Santander",
+    "notas": "Extracto Santander abril"
+  },
+  {
+    "fecha": "2026-04-06",
+    "concepto": "Pago tarjeta Visa (deb. automatico) — Santander",
+    "monto": 425348.37,
+    "categoria": "Gastos bancarios",
+    "medio": "Santander",
+    "notas": "Extracto Santander 06/04"
+  },
+  {
+    "fecha": "2026-04-06",
+    "concepto": "Imp. Ley 25413 credito + debito — Santander",
+    "monto": 4524.93,
+    "categoria": "AFIP / Impuestos",
+    "medio": "Santander",
+    "notas": "Extracto Santander 06/04"
+  },
+  {
+    "fecha": "2026-04-06",
+    "concepto": "IIBB Corrientes 0.5% — Santander",
+    "monto": 1642.44,
+    "categoria": "AFIP / Impuestos",
+    "medio": "Santander",
+    "notas": "Extracto Santander 06/04"
+  },
+  {
+    "fecha": "2026-04-07",
+    "concepto": "Pago tarjeta Visa (deb. automatico) — Santander",
+    "monto": 865764.38,
+    "categoria": "Gastos bancarios",
+    "medio": "Santander",
+    "notas": "Extracto Santander 07/04"
+  },
+  {
+    "fecha": "2026-04-07",
+    "concepto": "Imp. Ley 25413 credito + debito + IIBB — Santander",
+    "monto": 22430.44,
+    "categoria": "AFIP / Impuestos",
+    "medio": "Santander",
+    "notas": "Extracto Santander 07/04 (Ley 25413 + IIBB 0.5% sobre $1.566K)"
+  },
+  {
+    "fecha": "2026-04-08",
+    "concepto": "Imp. Ley 25413 + IIBB — Santander",
+    "monto": 1866.49,
+    "categoria": "AFIP / Impuestos",
+    "medio": "Santander",
+    "notas": "Extracto Santander 08/04"
+  },
+  {
+    "fecha": "2026-04-09",
+    "concepto": "Imp. Ley 25413 + IIBB — Santander",
+    "monto": 1217.05,
+    "categoria": "AFIP / Impuestos",
+    "medio": "Santander",
+    "notas": "Extracto Santander 09/04"
+  },
+  {
+    "fecha": "2026-04-10",
+    "concepto": "Imp. Ley 25413 + IIBB — Santander",
+    "monto": 276.55,
+    "categoria": "AFIP / Impuestos",
+    "medio": "Santander",
+    "notas": "Extracto Santander 10/04 (debito $3.31 + credito $149.04 + IIBB $124.20)"
+  }
+]
