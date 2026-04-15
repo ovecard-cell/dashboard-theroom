@@ -571,16 +571,22 @@ def parsear_extracto_corrientes(file_bytes: bytes, nombre_archivo: str) -> dict:
     """
     import xlrd, io
 
+    # Intentar primero con xlrd (.xls), luego openpyxl (.xlsx)
+    wb = None
     try:
         wb = xlrd.open_workbook(file_contents=file_bytes)
     except Exception:
-        # Intentar como xlsx
-        import openpyxl
-        from openpyxl import load_workbook
-        wb_xl = load_workbook(io.BytesIO(file_bytes), data_only=True)
-        ws_xl = wb_xl.active
-        rows_raw = [[str(c.value or "") for c in row] for row in ws_xl.iter_rows()]
-        return _parsear_extracto_rows(rows_raw, nombre_archivo)
+        pass
+
+    if wb is None:
+        try:
+            from openpyxl import load_workbook
+            wb_xl = load_workbook(io.BytesIO(file_bytes), data_only=True)
+            ws_xl = wb_xl.active
+            rows_raw = [[str(c.value or "") for c in row] for row in ws_xl.iter_rows()]
+            return _parsear_extracto_rows(rows_raw, nombre_archivo)
+        except Exception as e:
+            return {"error": f"No se pudo leer el archivo: {e}. Probá exportarlo como .xls desde el banco."}
 
     ws = wb.sheet_by_index(0)
     rows_raw = []
