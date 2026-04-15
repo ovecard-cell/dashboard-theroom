@@ -1,26 +1,52 @@
 # Instrucciones para Tiki — The Room
 
-## Todos los días hacés UNA sola cosa:
+---
 
-### Exportar las ventas de Dux
-1. Abrís Dux
-2. Exportás el reporte de ventas como **.xls**
-3. Copiás el archivo en esta carpeta:
+## Reportes que tenés que subir
 
-   `Dash board the room → data → ventas`
+### 1. Ventas del día (TODOS LOS DIAS)
+- Dux > Reportes > **Consulta de Ventas Detallada**
+- Rango: el día anterior (ej: hoy miércoles 15 exportás martes 14)
+- Exportar como **.xls**
+- Copiar en: `Dash board the room > data > ventas`
+- **Si no hubo ventas, exportá igual.** Así queda el registro de que no se vendió nada.
 
-**Eso es todo.** Gustavo se encarga del resto con Claude Code.
+### 2. Stock valorizado (TODOS LOS LUNES)
+- Dux > Reportes > **Valorización de Stock**
+- Exportar como **.xls**
+- Guardar como: `Dash board the room > data > stock_dux.xls`
+- Esto pisa el archivo anterior, está bien.
+
+### 3. Compras del mes (DIA 1 de cada mes)
+- Dux > Reportes > **Consulta de Compras Detallada**
+- Rango: todo el mes anterior
+- Exportar como **.xls**
+- Subir desde el dashboard: pestaña Config > "Importar compras Dux"
 
 ---
 
-## Los saldos de los bancos
+## Reglas
 
-No necesitás hacer nada. Gustavo le manda una captura de pantalla del homebanking
-a Claude Code y él lo carga solo.
+- Siempre **.xls** — no PDF, no capturas, no Excel nuevo (.xlsx)
+- NO borrar archivos viejos de la carpeta ventas
+- NO tocar ningún otro archivo
+- Si un día no subís, avisale a Gustavo por qué
+- Subir SIEMPRE, aunque haya 0 ventas
 
 ---
 
-## Si el dashboard no abre
+## Accesos al dashboard
 
-Doble clic en `run.bat` y abrís el navegador en:
-**http://localhost:8501**
+### Desde la compu del local:
+1. Doble clic en `run.bat`
+2. Navegador: **http://localhost:8501**
+
+### Desde cualquier lado (online):
+**https://ovecard-cell-dashboard-theroom.streamlit.app**
+
+### Usuarios:
+| Quien | Usuario | Contraseña |
+|-------|---------|------------|
+| Gustavo | gustavo | theroom2026 |
+| Gabriela | gabriela | gabi2026 |
+| Tiki | tiki | tiki2026 |

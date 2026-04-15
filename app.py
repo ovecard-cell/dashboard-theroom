@@ -707,7 +707,7 @@ PERMISOS_ROL = {
     "dueno":     ["Resumen", "Resultados", "Movimientos", "Inconsistencias", "Stock", "Simulador", "Cheques", "Deuda Personal", "Chat IA", "Config"],
     "gerente":   ["Resumen", "Resultados", "Movimientos", "Inconsistencias", "Stock", "Simulador", "Cheques", "Deuda Personal", "Chat IA", "Config"],
     "admin":     ["Resumen", "Movimientos", "Inconsistencias", "Cheques", "Config"],
-    "marketing": ["Resumen", "Resultados", "Stock", "Simulador"],
+    "marketing": ["Resumen", "Stock"],
 }
 
 if "usuario_actual" not in st.session_state:
@@ -2491,17 +2491,40 @@ if tab5:
     else:
         df_stock = stock_nuevo_resumen(df, stock_ini)
 
-        # Alertas
+        # Alertas — todas las líneas de stock nuevo
         for _, r in df_stock.iterrows():
-            if r["Vendidos"] == 0 and r["Días transcurridos"] >= 15:
+            vel = r["Vel/día"]
+            pct = r["% Vendido"]
+            dias = r["Días transcurridos"]
+            quedan = int(r["Quedan"])
+            ini = int(r["Stock Inicial"])
+            vend = int(r["Vendidos"])
+            ds = r["Días de stock"]
+
+            if vend == 0:
                 alerta_html(
-                    f"{r['Proveedor']} — {r['Tipo']}: sin ventas en {r['Días transcurridos']} días → Revisar precio / visibilidad",
+                    f"{r['Proveedor']} — {r['Tipo']}: SIN VENTAS en {dias} días ({ini} uds paradas) → Revisar precio / visibilidad / ubicación",
                     "roja"
                 )
-            elif r["% Vendido"] >= 50:
+            elif pct >= 50:
                 alerta_html(
-                    f"{r['Proveedor']} — {r['Tipo']}: {r['% Vendido']}% vendido ({r['Quedan']} unidades restantes) → Considerar reposición",
+                    f"{r['Proveedor']} — {r['Tipo']}: {pct}% vendido ({quedan} restantes, vel {vel:.2f}/día) → Considerar reposición",
                     "verde"
+                )
+            elif vel < 0.15:
+                alerta_html(
+                    f"{r['Proveedor']} — {r['Tipo']}: MUY LENTO — {vend}/{ini} vendidos en {dias} días (vel {vel:.2f}/día) → Empujar o bajar precio",
+                    "amarilla"
+                )
+            elif vel < 0.3:
+                alerta_html(
+                    f"{r['Proveedor']} — {r['Tipo']}: LENTO — {vend}/{ini} vendidos en {dias} días (vel {vel:.2f}/día, quedan {quedan} para ~{ds if ds != '∞' else '∞'}d)",
+                    "amarilla"
+                )
+            else:
+                alerta_html(
+                    f"{r['Proveedor']} — {r['Tipo']}: OK — {vend}/{ini} vendidos (vel {vel:.2f}/día, quedan {quedan})",
+                    "azul"
                 )
 
         # Resumen total nuevo
@@ -4135,47 +4158,46 @@ if tab9:
     )
 
     if compras_file:
-        if st.button("Procesar gastos de Dux", use_container_width=True, key="btn_procesar_compras"):
+        with st.spinner("Procesando gastos..."):
             from data_processor import load_compras_dux
             gastos_nuevos_dux = load_compras_dux(compras_file.getvalue())
 
-            if not gastos_nuevos_dux:
-                st.warning("No se encontraron gastos en el archivo")
-            else:
-                # Deduplicar contra gastos existentes
-                gastos_existentes = get_gastos()
-                claves_existentes = set()
-                for g in gastos_existentes:
-                    claves_existentes.add((g["fecha"], round(g["monto"], 2)))
+        if not gastos_nuevos_dux:
+            st.warning("No se encontraron gastos en el archivo. Verificá que sea Consulta de Compras Detallada.")
+        else:
+            # Deduplicar contra gastos existentes
+            gastos_existentes = get_gastos()
+            claves_existentes = set()
+            for g in gastos_existentes:
+                claves_existentes.add((g["fecha"], round(g["monto"], 2)))
 
-                agregados = 0
-                duplicados = 0
-                for g in gastos_nuevos_dux:
-                    clave = (g["fecha"], round(g["monto"], 2))
-                    if clave not in claves_existentes:
-                        gastos_existentes.append(g)
-                        claves_existentes.add(clave)
-                        agregados += 1
-                    else:
-                        duplicados += 1
+            agregados = 0
+            duplicados = 0
+            for g in gastos_nuevos_dux:
+                clave = (g["fecha"], round(g["monto"], 2))
+                if clave not in claves_existentes:
+                    gastos_existentes.append(g)
+                    claves_existentes.add(clave)
+                    agregados += 1
+                else:
+                    duplicados += 1
 
+            if agregados > 0:
                 save_gastos(gastos_existentes)
-                st.success(f"Procesado: {agregados} gastos nuevos cargados, {duplicados} duplicados omitidos")
+                st.success(f"{agregados} gastos nuevos cargados, {duplicados} duplicados omitidos")
 
-                # Mostrar lo que se cargó
-                if agregados > 0:
-                    with st.expander(f"Ver {agregados} gastos nuevos"):
-                        rows_cn = ""
-                        for g in gastos_nuevos_dux:
-                            if (g["fecha"], round(g["monto"], 2)) not in claves_existentes or True:
-                                rows_cn += f'<tr><td>{g["fecha"]}</td><td style="font-size:0.82rem">{g["concepto"][:50]}</td><td>{g["categoria"]}</td><td>{g["medio"]}</td><td style="text-align:right;color:#e94560;font-weight:700">{fmt(g["monto"])}</td></tr>'
-                        st.markdown(
-                            f'<div class="tabla-wrapper"><table class="tabla-custom">'
-                            f'<thead><tr><th>Fecha</th><th>Concepto</th><th>Categoria</th><th>Medio</th><th style="text-align:right">Monto</th></tr></thead>'
-                            f'<tbody>{rows_cn}</tbody></table></div>',
-                            unsafe_allow_html=True,
-                        )
-                st.rerun()
+                with st.expander(f"Ver {agregados} gastos nuevos"):
+                    rows_cn = ""
+                    for g in gastos_nuevos_dux:
+                        rows_cn += f'<tr><td>{g["fecha"]}</td><td style="font-size:0.82rem">{g["concepto"][:50]}</td><td>{g["categoria"]}</td><td>{g["medio"]}</td><td style="text-align:right;color:#e94560;font-weight:700">{fmt(g["monto"])}</td></tr>'
+                    st.markdown(
+                        f'<div class="tabla-wrapper"><table class="tabla-custom">'
+                        f'<thead><tr><th>Fecha</th><th>Concepto</th><th>Categoria</th><th>Medio</th><th style="text-align:right">Monto</th></tr></thead>'
+                        f'<tbody>{rows_cn}</tbody></table></div>',
+                        unsafe_allow_html=True,
+                    )
+            else:
+                st.info(f"Todos los gastos ya estaban cargados ({duplicados} duplicados)")
 
     # ── SUBIR ARCHIVO DUX ────────────────────────────────────────────────────
     seccion("Subir archivo de ventas (Dux)")
