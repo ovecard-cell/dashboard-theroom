@@ -299,10 +299,13 @@ def merge_ventas(df_dux: pd.DataFrame, df_manual: pd.DataFrame) -> pd.DataFrame:
 def load_compras_dux(path) -> list:
     """Lee el archivo de Consulta de Compras Detallada exportado de Dux."""
     import xlrd
-    if isinstance(path, (str, Path)):
-        wb = xlrd.open_workbook(str(path))
-    else:
-        wb = xlrd.open_workbook(file_contents=path)
+    try:
+        if isinstance(path, (str, Path)):
+            wb = xlrd.open_workbook(str(path))
+        else:
+            wb = xlrd.open_workbook(file_contents=path)
+    except Exception:
+        return []
     ws = wb.sheet_by_index(0)
 
     # Headers en fila 2
