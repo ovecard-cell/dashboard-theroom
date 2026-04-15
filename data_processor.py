@@ -208,9 +208,6 @@ def load_dux_files(folder: str = "data/ventas") -> pd.DataFrame:
 
     df = df.reset_index(drop=True)
 
-    # ── Guardar cache para Streamlit Cloud ───────────────────────────────────
-    _guardar_cache_ventas(df)
-
     return df
 
 

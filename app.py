@@ -800,6 +800,9 @@ with st.spinner("Cargando..."):
     df_dux    = get_ventas()
     df_manual = load_ventas_manuales()
     df        = merge_ventas(df_dux, df_manual)
+    # Actualizar cache con datos completos (dux + manual) para Streamlit Cloud
+    from data_processor import _guardar_cache_ventas
+    _guardar_cache_ventas(df)
 
 
 # ── Garantizar columnas clave (evita KeyError en Streamlit Cloud) ─────────
