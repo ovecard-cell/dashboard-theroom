@@ -273,14 +273,6 @@
   },
   {
     "fecha": "2026-04-01",
-    "concepto": "Echeq #212 cobrado (clearing 48hs)",
-    "monto": 1279705.1,
-    "categoria": "Cheque debitado",
-    "medio": "Santander",
-    "notas": "E-cheq anterior cobrado en Santander 01/04"
-  },
-  {
-    "fecha": "2026-04-01",
     "concepto": "Debito Debin (proveedor CUIT 30715123580)",
     "monto": 78166,
     "categoria": "Mercadería",
