@@ -4246,9 +4246,33 @@ if tab9:
             Path("data/ventas").mkdir(parents=True, exist_ok=True)
             guardados = []
             for f in uploaded:
-                dest = Path("data/ventas") / f.name
+                # Renombrar automáticamente con las fechas del reporte
+                nombre_final = f.name
+                try:
+                    import xlrd as _xlrd_rename
+                    _wb_r = _xlrd_rename.open_workbook(file_contents=f.getvalue())
+                    _ws_r = _wb_r.sheet_by_index(0)
+                    _fechas_r = []
+                    _col_fecha_r = None
+                    for j in range(_ws_r.ncols):
+                        if "Fecha Comp" in str(_ws_r.cell(2, j).value):
+                            _col_fecha_r = j
+                            break
+                    if _col_fecha_r is not None:
+                        for i in range(3, _ws_r.nrows):
+                            _fv = _ws_r.cell(i, _col_fecha_r).value
+                            if isinstance(_fv, float) and _fv > 0:
+                                _fechas_r.append(_xlrd_rename.xldate_as_datetime(_fv, _wb_r.datemode).date())
+                    if _fechas_r:
+                        _desde = min(_fechas_r)
+                        _hasta = max(_fechas_r)
+                        ext = Path(f.name).suffix
+                        nombre_final = f"ventas_{_desde.strftime('%d-%m')}_{_hasta.strftime('%d-%m')}{ext}"
+                except Exception:
+                    pass
+                dest = Path("data/ventas") / nombre_final
                 dest.write_bytes(f.getvalue())
-                guardados.append(f.name)
+                guardados.append(nombre_final)
             st.cache_data.clear()
             n = len(guardados)
             _notificar(f"✅ {'Archivo' if n==1 else str(n)+' archivos'} de ventas subido{'s' if n>1 else ''} correctamente: {', '.join(guardados)}")

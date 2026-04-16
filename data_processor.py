@@ -104,6 +104,7 @@ def load_dux_files(folder: str = "data/ventas") -> pd.DataFrame:
     # ── Normalizar columnas clave ─────────────────────────────────────────────
     col_map = {
         "Fecha Comp": "fecha_raw",
+        "Comprobante": "comprobante",
         "Producto": "producto",
         "Cantidad": "cantidad_raw",
         "Total Sin IVA": "neto_raw",
@@ -147,7 +148,7 @@ def load_dux_files(folder: str = "data/ventas") -> pd.DataFrame:
     # Quitar sin fecha
     df = df[df["fecha"].notna()]
     # Deduplicar filas idénticas (si se subió el mismo archivo dos veces o con rangos que se pisan)
-    df = df.drop_duplicates(subset=["fecha_raw", "producto", "cantidad_raw", "neto_raw", "forma_pago"])
+    df = df.drop_duplicates(subset=["fecha_raw", "comprobante", "producto", "cantidad_raw", "neto_raw", "forma_pago"])
 
     # ── Canal ─────────────────────────────────────────────────────────────────
     df["canal"] = df["personal"].astype(str).apply(
