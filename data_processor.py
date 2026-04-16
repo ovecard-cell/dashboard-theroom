@@ -452,18 +452,25 @@ def _parsear_importe(valor) -> float:
         s = str(valor).strip().replace("$", "").replace(" ", "")
         if not s or s in ("", "-", "None", "none"):
             return 0.0
+        # Santander usa paréntesis para negativos: (124,20) → -124.20
+        negativo = False
+        if s.startswith("(") and s.endswith(")"):
+            s = s[1:-1]
+            negativo = True
         # Si tiene coma → formato argentino (1.234.567,89)
         if "," in s:
             s = s.replace(".", "").replace(",", ".")
-            return float(s)
+            resultado = float(s)
+            return -resultado if negativo else resultado
         # Si tiene un solo punto → float estándar (1520000.0)
         # Si tiene múltiples puntos → separador de miles sin decimales (1.234.567)
         puntos = s.count(".")
         if puntos <= 1:
-            return float(s)
+            resultado = float(s)
         else:
             s = s.replace(".", "")
-            return float(s)
+            resultado = float(s)
+        return -resultado if negativo else resultado
     except Exception:
         return 0.0
 
@@ -539,29 +546,49 @@ def parsear_extracto_corrientes(file_bytes: bytes, nombre_archivo: str) -> dict:
             pass
 
     if wb is None:
-        # Muchos bancos argentinos (Santander, Galicia, MP) exportan archivos .xls
-        # que en realidad son HTML o CSV. Probar ambos formatos.
-        import pandas as pd
+        # Muchos bancos argentinos exportan archivos .xls que NO son Excel real:
+        # - Santander: texto plano con tabs (TSV)
+        # - Galicia: HTML con tablas
+        # - Mercado Pago: CSV con comas o puntos y coma
+        # Intentamos todos los formatos posibles.
 
-        # Intentar como CSV primero (Mercado Pago exporta CSV con extensión .xls)
-        for encoding in ("utf-8", "latin-1"):
+        # 1) Texto plano con tabs o CSV (Santander = TSV, MP = CSV)
+        for encoding in ("utf-8", "latin-1", "cp1252"):
             try:
                 contenido = file_bytes.decode(encoding, errors="replace")
-                if "," in contenido[:500] or ";" in contenido[:500]:
-                    sep = ";" if contenido.count(";") > contenido.count(",") else ","
-                    df_csv = pd.read_csv(io.StringIO(contenido), sep=sep)
-                    if len(df_csv.columns) >= 3 and len(df_csv) >= 1:
-                        rows_raw = []
-                        rows_raw.append([str(c) for c in df_csv.columns.tolist()])
-                        for _, fila in df_csv.iterrows():
-                            rows_raw.append([str(v) if str(v) != "nan" else "" for v in fila.tolist()])
-                        return _parsear_extracto_rows(rows_raw, nombre_archivo)
+                # Detectar separador: tabs, punto y coma, o coma
+                tab_count = contenido[:2000].count("\t")
+                semi_count = contenido[:2000].count(";")
+                comma_count = contenido[:2000].count(",")
+
+                if tab_count >= 3 or semi_count >= 3 or comma_count >= 3:
+                    if tab_count >= semi_count and tab_count >= comma_count:
+                        sep = "\t"
+                    elif semi_count >= comma_count:
+                        sep = ";"
+                    else:
+                        sep = ","
+
+                    # Parsear línea por línea (el archivo puede tener encabezados de texto antes de la tabla)
+                    rows_raw = []
+                    for linea in contenido.splitlines():
+                        linea = linea.strip()
+                        if not linea:
+                            continue
+                        celdas = linea.split(sep)
+                        rows_raw.append([c.strip() for c in celdas])
+
+                    if len(rows_raw) >= 2:
+                        resultado = _parsear_extracto_rows(rows_raw, nombre_archivo)
+                        if "error" not in resultado:
+                            return resultado
             except Exception:
                 pass
 
-        # Intentar como HTML (Santander, Galicia exportan HTML disfrazado de .xls)
+        # 2) HTML con tablas (Galicia y otros)
         for encoding in ("utf-8", "latin-1"):
             try:
+                import pandas as pd
                 contenido = file_bytes.decode(encoding, errors="replace")
                 tablas = pd.read_html(io.StringIO(contenido))
                 if not tablas:
@@ -571,7 +598,9 @@ def parsear_extracto_corrientes(file_bytes: bytes, nombre_archivo: str) -> dict:
                     rows_raw.append([str(c) for c in tbl.columns.tolist()])
                     for _, fila in tbl.iterrows():
                         rows_raw.append([str(v) if str(v) != "nan" else "" for v in fila.tolist()])
-                return _parsear_extracto_rows(rows_raw, nombre_archivo)
+                resultado = _parsear_extracto_rows(rows_raw, nombre_archivo)
+                if "error" not in resultado:
+                    return resultado
             except Exception:
                 pass
 
@@ -691,16 +720,18 @@ def _parsear_extracto_rows(rows_raw: list, nombre_archivo: str) -> dict:
             else:
                 continue
         else:
-            # Corrientes: importe unico + columna D/C
+            # Importe unico: Corrientes, Santander, MP
             imp_str = str(row[col_imp]) if col_imp < len(row) else "0"
-            importe = abs(_parsear_importe(imp_str))
+            imp_raw = _parsear_importe(imp_str)
+            importe = abs(imp_raw)
             if importe == 0:
                 continue
             if col_dc is not None and col_dc < len(row):
                 dc_str = str(row[col_dc]).upper().strip()
                 es_debito = "DEB" in dc_str or dc_str == "D"
             else:
-                es_debito = True  # por defecto
+                # Usar el signo: negativo o entre paréntesis = débito
+                es_debito = imp_raw < 0 or "(" in imp_str
 
         # Parsear fecha
         fecha_parsed = None
