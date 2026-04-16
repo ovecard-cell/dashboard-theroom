@@ -1916,13 +1916,17 @@ if tab3:
     seccion("Todos los movimientos — ventas y gastos")
 
     # ── Filtros ───────────────────────────────────────────────────────────────
-    f1, f2, f3 = st.columns(3)
+    f1, f2, f3, f4 = st.columns([1, 1, 1, 1])
     filtro_tipo = f1.selectbox("Tipo", ["Todos", "Ventas", "Gastos"], key="mov_tipo")
     filtro_periodo = f2.selectbox("Período", [
         "Hoy", "Ayer", "Últimos 7 días", "Últimos 15 días", "Últimos 30 días",
-        "Este mes", "Mes anterior", "Todo"
+        "Este mes", "Mes anterior", "Elegir día", "Todo"
     ], index=5, key="mov_periodo")
     filtro_medio = f3.selectbox("Medio / Banco", ["Todos", "Efectivo", "Mercado Pago", "Santander", "BBVA Frances", "Banco Corrientes", "Online"], key="mov_medio")
+    if filtro_periodo == "Elegir día":
+        filtro_dia = f4.date_input("Día", value=hoy, key="mov_dia_especifico")
+    else:
+        f4.markdown("<div style='height:52px'></div>", unsafe_allow_html=True)
 
     # ── Construir lista unificada ─────────────────────────────────────────────
     movimientos_all = []
@@ -1994,6 +1998,8 @@ if tab3:
             _mes_ant = hoy.month - 1 if hoy.month > 1 else 12
             _anio_ant = hoy.year if hoy.month > 1 else hoy.year - 1
             df_mov = df_mov[(df_mov["mes"] == _mes_ant) & (df_mov["anio"] == _anio_ant)]
+        elif filtro_periodo == "Elegir día":
+            df_mov = df_mov[df_mov["fecha"].dt.date == filtro_dia]
         # "Todo" no filtra nada
 
         if filtro_medio != "Todos":
