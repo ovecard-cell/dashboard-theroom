@@ -8,5 +8,15 @@
     "Mercado Pago": 96556,
     "Efectivo Caja": 282400,
     "notas": "Todos los bancos actualizados segun extractos abril 2026. Santander tiene cheques cobrados y transferencias de clientes."
+  },
+  {
+    "fecha": "2026-04-16",
+    "BBVA Frances": -5193481,
+    "Banco Corrientes": -10210318,
+    "Galicia": -74602,
+    "Santander": 2093429,
+    "Mercado Pago": 167097,
+    "Efectivo Caja": 282400,
+    "notas": "Santander al 15/04 (extracto), MP $167.097 dato Gustavo 16/04"
   }
 ]
