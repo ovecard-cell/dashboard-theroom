@@ -1,15 +1,32 @@
 [
-  {"fecha": "2026-03-26", "neto": 227057, "cantidad": 11, "canal": "Físico"},
-  {"fecha": "2026-03-27", "neto": 161991, "cantidad": 8,  "canal": "Físico"},
-  {"fecha": "2026-03-28", "neto": 490623, "cantidad": 19, "canal": "Físico"},
-  {"fecha": "2026-03-30", "neto": 14876,  "cantidad": 1,  "canal": "Físico"},
-  {"fecha": "2026-03-31", "neto": 106673, "cantidad": 7,  "canal": "Físico"},
-  {"fecha": "2026-04-01", "neto": 83454,  "cantidad": 4,  "canal": "Físico"},
-  {"fecha": "2026-04-04", "neto": 320087, "cantidad": 15, "canal": "Físico"},
-  {"fecha": "2026-04-06", "neto": 26449,  "cantidad": 1,  "canal": "Físico"},
-  {"fecha": "2026-04-07", "neto": 140233, "cantidad": 5,  "canal": "Físico"},
-  {"fecha": "2026-04-08", "neto": 139428, "cantidad": 7,  "canal": "Físico"},
-  {"fecha": "2026-04-09", "neto": 324899, "cantidad": 12, "canal": "Físico"},
-  {"fecha": "2026-04-10", "neto": 16966,  "cantidad": 1,  "canal": "Físico"},
-  {"fecha": "2026-04-11", "neto": 339273, "cantidad": 15, "canal": "Físico"}
+  {
+    "fecha": "2026-03-26",
+    "neto": 227057,
+    "cantidad": 11,
+    "canal": "Físico"
+  },
+  {
+    "fecha": "2026-03-27",
+    "neto": 161991,
+    "cantidad": 8,
+    "canal": "Físico"
+  },
+  {
+    "fecha": "2026-03-28",
+    "neto": 490623,
+    "cantidad": 19,
+    "canal": "Físico"
+  },
+  {
+    "fecha": "2026-03-30",
+    "neto": 14876,
+    "cantidad": 1,
+    "canal": "Físico"
+  },
+  {
+    "fecha": "2026-03-31",
+    "neto": 106673,
+    "cantidad": 7,
+    "canal": "Físico"
+  }
 ]
