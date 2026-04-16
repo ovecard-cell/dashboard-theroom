@@ -1918,7 +1918,10 @@ if tab3:
     # ── Filtros ───────────────────────────────────────────────────────────────
     f1, f2, f3 = st.columns(3)
     filtro_tipo = f1.selectbox("Tipo", ["Todos", "Ventas", "Gastos"], key="mov_tipo")
-    filtro_mes  = f2.selectbox("Mes", ["Abril 2026", "Marzo 2026", "Todos"], key="mov_mes")
+    filtro_periodo = f2.selectbox("Período", [
+        "Hoy", "Ayer", "Últimos 7 días", "Últimos 15 días", "Últimos 30 días",
+        "Este mes", "Mes anterior", "Todo"
+    ], index=5, key="mov_periodo")
     filtro_medio = f3.selectbox("Medio / Banco", ["Todos", "Efectivo", "Mercado Pago", "Santander", "BBVA Frances", "Banco Corrientes", "Online"], key="mov_medio")
 
     # ── Construir lista unificada ─────────────────────────────────────────────
@@ -1973,10 +1976,25 @@ if tab3:
         elif filtro_tipo == "Gastos":
             df_mov = df_mov[df_mov["tipo"] == "GASTO"]
 
-        if filtro_mes == "Abril 2026":
-            df_mov = df_mov[(df_mov["mes"] == 4) & (df_mov["anio"] == 2026)]
-        elif filtro_mes == "Marzo 2026":
-            df_mov = df_mov[(df_mov["mes"] == 3) & (df_mov["anio"] == 2026)]
+        # Filtro de período
+        _hoy_ts = pd.Timestamp(hoy)
+        if filtro_periodo == "Hoy":
+            df_mov = df_mov[df_mov["fecha"].dt.date == hoy]
+        elif filtro_periodo == "Ayer":
+            df_mov = df_mov[df_mov["fecha"].dt.date == (hoy - timedelta(days=1))]
+        elif filtro_periodo == "Últimos 7 días":
+            df_mov = df_mov[df_mov["fecha"] >= _hoy_ts - pd.Timedelta(days=7)]
+        elif filtro_periodo == "Últimos 15 días":
+            df_mov = df_mov[df_mov["fecha"] >= _hoy_ts - pd.Timedelta(days=15)]
+        elif filtro_periodo == "Últimos 30 días":
+            df_mov = df_mov[df_mov["fecha"] >= _hoy_ts - pd.Timedelta(days=30)]
+        elif filtro_periodo == "Este mes":
+            df_mov = df_mov[(df_mov["mes"] == hoy.month) & (df_mov["anio"] == hoy.year)]
+        elif filtro_periodo == "Mes anterior":
+            _mes_ant = hoy.month - 1 if hoy.month > 1 else 12
+            _anio_ant = hoy.year if hoy.month > 1 else hoy.year - 1
+            df_mov = df_mov[(df_mov["mes"] == _mes_ant) & (df_mov["anio"] == _anio_ant)]
+        # "Todo" no filtra nada
 
         if filtro_medio != "Todos":
             df_mov = df_mov[df_mov["medio"].str.contains(filtro_medio, case=False, na=False)]
