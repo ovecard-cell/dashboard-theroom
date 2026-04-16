@@ -26,6 +26,27 @@ st.set_page_config(
     initial_sidebar_state="collapsed",
 )
 
+# ── Sistema de notificaciones persistentes (sobrevive st.rerun) ───────────────
+def _mostrar_notificaciones():
+    """Muestra y limpia notificaciones guardadas en session_state."""
+    for msg in st.session_state.pop("_notifs", []):
+        tipo = msg.get("tipo", "success")
+        texto = msg.get("texto", "")
+        if tipo == "success":
+            st.success(texto)
+        elif tipo == "warning":
+            st.warning(texto)
+        elif tipo == "error":
+            st.error(texto)
+        elif tipo == "info":
+            st.info(texto)
+
+def _notificar(texto, tipo="success"):
+    """Encola una notificación que se mostrará después del próximo rerun."""
+    if "_notifs" not in st.session_state:
+        st.session_state["_notifs"] = []
+    st.session_state["_notifs"].append({"texto": texto, "tipo": tipo})
+
 # ── CSS completo ───────────────────────────────────────────────────────────────
 st.markdown("""
 <style>
@@ -975,6 +996,9 @@ _ALL_TABS = [
 _tabs_visibles = [(label, key) for label, key in _ALL_TABS if key in _permisos]
 _tab_labels = [label for label, _ in _tabs_visibles]
 _tab_keys   = [key for _, key in _tabs_visibles]
+
+# Mostrar notificaciones persistentes (arriba de todo, visible en cualquier pestaña)
+_mostrar_notificaciones()
 
 _tabs_obj = st.tabs(_tab_labels)
 _tab_map = dict(zip(_tab_keys, _tabs_obj))
@@ -2136,7 +2160,7 @@ if tab3:
                             "descripcion": f_desc,
                         })
                         _p_fact.write_text(json.dumps(facturas, ensure_ascii=False, indent=2), encoding="utf-8")
-                        st.success(f"Factura cargada: {f_prov} — Neto {fmt(f_neto)} — IVA credito {fmt(f_iva)}")
+                        _notificar(f"✅ Factura cargada: {f_prov} — Neto {fmt(f_neto)} — IVA crédito {fmt(f_iva)}")
                         st.rerun()
 
         if facturas:
@@ -2175,7 +2199,7 @@ if tab3:
                         "notas": "Cargado manualmente",
                     })
                     save_gastos(gastos_act)
-                    st.success(f"Gasto cargado: {gr_concepto} — {fmt(gr_monto)}")
+                    _notificar(f"✅ Gasto cargado: {gr_concepto} — {fmt(gr_monto)}")
                     st.rerun()
                 else:
                     st.warning("Completa concepto y monto")
@@ -3783,7 +3807,7 @@ if tab6:
                     "estado": "pendiente",
                 })
                 save_cheques(cheques)
-                st.success("Cheque agregado")
+                _notificar("✅ Cheque agregado correctamente")
                 st.rerun()
 
 
@@ -3915,7 +3939,7 @@ if tab7:
                     "estado": "pendiente",
                 })
                 save_deuda(deuda_list)
-                st.success(f"Registrado — {concepto_d} {fmt(monto_d)}")
+                _notificar(f"✅ Registrado — {concepto_d} {fmt(monto_d)}")
                 st.rerun()
 
 
@@ -4139,8 +4163,10 @@ if tab9:
                 "markup": _costos_cfg.get("markup", {"remeras": 2.5, "default": 2.3}),
             }
             _p_costos_cfg.write_text(json.dumps(_nuevo_costos, ensure_ascii=False, indent=2), encoding="utf-8")
-            st.success("Tasas actualizadas")
+            _notificar("✅ Tasas actualizadas correctamente")
             st.rerun()
+
+
 
     # ── SUBIR GASTOS Y COMPRAS DE DUX ───────────────────────────────────────
     seccion("Subir gastos y compras de Dux")
@@ -4163,7 +4189,7 @@ if tab9:
             gastos_nuevos_dux = load_compras_dux(compras_file.getvalue())
 
         if not gastos_nuevos_dux:
-            st.warning("No se encontraron gastos en el archivo. Verificá que sea Consulta de Compras Detallada.")
+            st.warning(f"✅ Archivo '{compras_file.name}' leído correctamente, pero no se encontraron gastos nuevos. Verificá que sea Consulta de Compras Detallada.")
         else:
             # Deduplicar contra gastos existentes
             gastos_existentes = get_gastos()
@@ -4184,7 +4210,7 @@ if tab9:
 
             if agregados > 0:
                 save_gastos(gastos_existentes)
-                st.success(f"{agregados} gastos nuevos cargados, {duplicados} duplicados omitidos")
+                st.success(f"✅ Archivo '{compras_file.name}' procesado — {agregados} gastos nuevos cargados, {duplicados} duplicados omitidos")
 
                 with st.expander(f"Ver {agregados} gastos nuevos"):
                     rows_cn = ""
@@ -4197,7 +4223,7 @@ if tab9:
                         unsafe_allow_html=True,
                     )
             else:
-                st.info(f"Todos los gastos ya estaban cargados ({duplicados} duplicados)")
+                st.info(f"✅ Archivo '{compras_file.name}' leído — todos los gastos ya estaban cargados ({duplicados} duplicados)")
 
     # ── SUBIR ARCHIVO DUX ────────────────────────────────────────────────────
     seccion("Subir archivo de ventas (Dux)")
@@ -4225,7 +4251,8 @@ if tab9:
                 dest.write_bytes(f.getvalue())
                 guardados.append(f.name)
             st.cache_data.clear()
-            st.success(f"Guardado: {', '.join(guardados)}")
+            n = len(guardados)
+            _notificar(f"✅ {'Archivo' if n==1 else str(n)+' archivos'} de ventas subido{'s' if n>1 else ''} correctamente: {', '.join(guardados)}")
             st.rerun()
 
     # Info de archivos en servidor
@@ -4292,8 +4319,8 @@ if tab9:
     banco_sel = st.selectbox("Banco del extracto", BANCOS_OPCIONES)
 
     extracto_file = st.file_uploader(
-        f"Extracto de {banco_sel} (.xls / .xlsx / .pdf)",
-        type=["xls", "xlsx", "pdf"],
+        f"Extracto de {banco_sel} (.xls / .xlsx / .csv / .pdf)",
+        type=["xls", "xlsx", "csv", "pdf"],
         key="extracto_banco",
     )
 
@@ -4338,34 +4365,14 @@ if tab9:
                             nuevos_agregados += 1
                     save_gastos(gastos_existentes)
 
-                    # Mostrar resumen
-                    st.success(f"Extracto de {banco_sel} procesado")
-                    c1, c2, c3, c4 = st.columns(4)
-                    c1.metric(f"Saldo {banco_sel}", fmt(saldo_nuevo))
-                    c2.metric("Movimientos", resumen["cant_movimientos"])
-                    c3.metric("Gastos cargados", nuevos_agregados)
-                    c4.metric("Total debitos", fmt(resumen["total_debitos"]))
-
-                    if movs:
-                        with st.expander("Ver todos los movimientos detectados"):
-                            rows_ext = ""
-                            for m in movs:
-                                color_dc = "#e94560" if m["es_debito"] else "#00c96b"
-                                signo    = "-" if m["es_debito"] else "+"
-                                rows_ext += (
-                                    f'<tr>'
-                                    f'<td>{m["fecha"]}</td>'
-                                    f'<td style="font-size:0.8rem">{m["descripcion"]}</td>'
-                                    f'<td><span class="badge badge-gris">{m["categoria"]}</span></td>'
-                                    f'<td style="color:{color_dc};font-weight:700">{signo}{fmt(m["importe"])}</td>'
-                                    f'</tr>'
-                                )
-                            st.markdown(
-                                f'<div class="tabla-wrapper"><table class="tabla-custom">'
-                                f'<thead><tr><th>Fecha</th><th>Concepto</th><th>Categoria</th><th>Importe</th></tr></thead>'
-                                f'<tbody>{rows_ext}</tbody></table></div>',
-                                unsafe_allow_html=True
-                            )
+                    # Notificación persistente
+                    _notificar(
+                        f"✅ Extracto de {banco_sel} procesado correctamente — "
+                        f"Saldo: {fmt(saldo_nuevo)} | "
+                        f"{resumen['cant_movimientos']} movimientos | "
+                        f"{nuevos_agregados} gastos cargados | "
+                        f"Total débitos: {fmt(resumen['total_debitos'])}"
+                    )
                     st.rerun()
 
     # ── SALDOS BANCARIOS ─────────────────────────────────────────────────────
@@ -4399,7 +4406,7 @@ if tab9:
                 "notas": nota_b,
             })
             save_bancos(bancos_data)
-            st.success("Saldos guardados")
+            _notificar("✅ Saldos bancarios guardados correctamente")
             st.rerun()
 
     if len(bancos_data) > 1:
@@ -4444,7 +4451,7 @@ if tab9:
                 vm_data.sort(key=lambda x: x["fecha"])
                 p_vm.write_text(json.dumps(vm_data, ensure_ascii=False, indent=2), encoding="utf-8")
                 st.cache_data.clear()
-                st.success(f"Venta del {fecha_vm.strftime('%d/%m')} guardada — {fmt(neto_vm)}")
+                _notificar(f"✅ Venta del {fecha_vm.strftime('%d/%m')} guardada — {fmt(neto_vm)}")
                 st.rerun()
 
     # ── GASTOS ───────────────────────────────────────────────────────────────
@@ -4460,7 +4467,7 @@ if tab9:
                 gastos_data.append({"fecha": fecha_g.isoformat(),
                                     "concepto": concepto_g, "monto": int(monto_g)})
                 save_gastos(gastos_data)
-                st.success(f"{concepto_g} — {fmt(monto_g)} guardado")
+                _notificar(f"✅ {concepto_g} — {fmt(monto_g)} guardado")
                 st.rerun()
 
     gastos_data = get_gastos()
@@ -4494,6 +4501,5 @@ if tab9:
     with col_ref:
         if st.button("Actualizar todo", use_container_width=True):
             st.cache_data.clear()
-            st.rerun()
-            st.success("Saldos guardados")
+            _notificar("✅ Datos actualizados")
             st.rerun()

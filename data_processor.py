@@ -521,7 +521,7 @@ def parsear_extracto_corrientes(file_bytes: bytes, nombre_archivo: str) -> dict:
     """
     import xlrd, io
 
-    # Intentar primero con xlrd (.xls), luego openpyxl (.xlsx)
+    # Intentar primero con xlrd (.xls), luego openpyxl (.xlsx), luego HTML (bancos que exportan HTML como .xls)
     wb = None
     try:
         wb = xlrd.open_workbook(file_contents=file_bytes)
@@ -535,8 +535,47 @@ def parsear_extracto_corrientes(file_bytes: bytes, nombre_archivo: str) -> dict:
             ws_xl = wb_xl.active
             rows_raw = [[str(c.value or "") for c in row] for row in ws_xl.iter_rows()]
             return _parsear_extracto_rows(rows_raw, nombre_archivo)
-        except Exception as e:
-            return {"error": f"No se pudo leer el archivo: {e}. Probá exportarlo como .xls desde el banco."}
+        except Exception:
+            pass
+
+    if wb is None:
+        # Muchos bancos argentinos (Santander, Galicia, MP) exportan archivos .xls
+        # que en realidad son HTML o CSV. Probar ambos formatos.
+        import pandas as pd
+
+        # Intentar como CSV primero (Mercado Pago exporta CSV con extensión .xls)
+        for encoding in ("utf-8", "latin-1"):
+            try:
+                contenido = file_bytes.decode(encoding, errors="replace")
+                if "," in contenido[:500] or ";" in contenido[:500]:
+                    sep = ";" if contenido.count(";") > contenido.count(",") else ","
+                    df_csv = pd.read_csv(io.StringIO(contenido), sep=sep)
+                    if len(df_csv.columns) >= 3 and len(df_csv) >= 1:
+                        rows_raw = []
+                        rows_raw.append([str(c) for c in df_csv.columns.tolist()])
+                        for _, fila in df_csv.iterrows():
+                            rows_raw.append([str(v) if str(v) != "nan" else "" for v in fila.tolist()])
+                        return _parsear_extracto_rows(rows_raw, nombre_archivo)
+            except Exception:
+                pass
+
+        # Intentar como HTML (Santander, Galicia exportan HTML disfrazado de .xls)
+        for encoding in ("utf-8", "latin-1"):
+            try:
+                contenido = file_bytes.decode(encoding, errors="replace")
+                tablas = pd.read_html(io.StringIO(contenido))
+                if not tablas:
+                    continue
+                rows_raw = []
+                for tbl in tablas:
+                    rows_raw.append([str(c) for c in tbl.columns.tolist()])
+                    for _, fila in tbl.iterrows():
+                        rows_raw.append([str(v) if str(v) != "nan" else "" for v in fila.tolist()])
+                return _parsear_extracto_rows(rows_raw, nombre_archivo)
+            except Exception:
+                pass
+
+        return {"error": "No se pudo leer el archivo. Probá exportarlo de nuevo desde el banco como Excel o CSV."}
 
     ws = wb.sheet_by_index(0)
     rows_raw = []
