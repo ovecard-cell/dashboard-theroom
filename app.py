@@ -2033,6 +2033,56 @@ if tab3:
             st.markdown(metric_card("📋", "Movimientos", str(len(df_mov)),
                 "en el periodo", "azul"), unsafe_allow_html=True)
 
+        # ── Datos cargados por banco ──────────────────────────────────────────
+        seccion("Datos cargados por banco")
+        _gastos_todos = get_gastos()
+        _bancos_con_datos = {}
+        for _g in _gastos_todos:
+            _medio = _g.get("medio", "?")
+            _fecha_g = _g["fecha"]
+            if _medio not in _bancos_con_datos:
+                _bancos_con_datos[_medio] = {"desde": _fecha_g, "hasta": _fecha_g, "cant": 0, "total": 0}
+            _bancos_con_datos[_medio]["cant"] += 1
+            _bancos_con_datos[_medio]["total"] += _g["monto"]
+            if _fecha_g < _bancos_con_datos[_medio]["desde"]:
+                _bancos_con_datos[_medio]["desde"] = _fecha_g
+            if _fecha_g > _bancos_con_datos[_medio]["hasta"]:
+                _bancos_con_datos[_medio]["hasta"] = _fecha_g
+
+        if _bancos_con_datos:
+            _rows_banco = ""
+            for _medio_b in sorted(_bancos_con_datos.keys()):
+                _info = _bancos_con_datos[_medio_b]
+                _color = "#00c96b" if _info["hasta"] >= (hoy - timedelta(days=3)).isoformat() else "#f7b731"
+                _estado = "Al día" if _info["hasta"] >= (hoy - timedelta(days=3)).isoformat() else "Desactualizado"
+                _rows_banco += (
+                    f'<tr>'
+                    f'<td style="font-weight:700">{_medio_b}</td>'
+                    f'<td>{_info["desde"][5:]}</td>'
+                    f'<td>{_info["hasta"][5:]}</td>'
+                    f'<td style="text-align:center">{_info["cant"]}</td>'
+                    f'<td style="text-align:right;color:#e94560;font-weight:700">{fmt(_info["total"])}</td>'
+                    f'<td style="text-align:center"><span style="color:{_color};font-weight:700">{_estado}</span></td>'
+                    f'</tr>'
+                )
+            st.markdown(
+                f'<div class="tabla-wrapper"><table class="tabla-custom">'
+                f'<thead><tr><th>Banco / Medio</th><th>Desde</th><th>Hasta</th><th style="text-align:center">Movs</th><th style="text-align:right">Total gastos</th><th style="text-align:center">Estado</th></tr></thead>'
+                f'<tbody>{_rows_banco}</tbody></table></div>',
+                unsafe_allow_html=True
+            )
+            # Saldos actuales
+            _ult_bancos = get_bancos()[-1] if get_bancos() else {}
+            _fecha_saldo = _ult_bancos.get("fecha", "?")
+            st.markdown(
+                f'<div style="color:#8888aa;font-size:0.8rem;margin-top:8px">'
+                f'Saldos bancarios actualizados al {_fecha_saldo} — '
+                f'Si un banco dice "Desactualizado", subí el extracto nuevo en Config</div>',
+                unsafe_allow_html=True
+            )
+        else:
+            alerta_html("No hay gastos cargados de ningún banco", "amarillo")
+
         # ── Gastos del mes por categoría ──────────────────────────────────────
         seccion("Gastos del mes — a donde se va la plata")
 
