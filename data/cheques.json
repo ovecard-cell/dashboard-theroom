@@ -45,6 +45,60 @@
     "estado": "pendiente"
   },
   {
+    "id": "#218",
+    "proveedor": "ICOMP SRL",
+    "concepto": "Echeq 1/6 — compra nueva",
+    "vencimiento": "2026-05-16",
+    "monto": 595343,
+    "tipo": "emitido",
+    "estado": "pendiente"
+  },
+  {
+    "id": "#219",
+    "proveedor": "ICOMP SRL",
+    "concepto": "Echeq 2/6 — compra nueva",
+    "vencimiento": "2026-05-31",
+    "monto": 595343,
+    "tipo": "emitido",
+    "estado": "pendiente"
+  },
+  {
+    "id": "#220",
+    "proveedor": "ICOMP SRL",
+    "concepto": "Echeq 3/6 — compra nueva",
+    "vencimiento": "2026-06-15",
+    "monto": 595343,
+    "tipo": "emitido",
+    "estado": "pendiente"
+  },
+  {
+    "id": "#221",
+    "proveedor": "ICOMP SRL",
+    "concepto": "Echeq 4/6 — compra nueva",
+    "vencimiento": "2026-06-30",
+    "monto": 595343,
+    "tipo": "emitido",
+    "estado": "pendiente"
+  },
+  {
+    "id": "#222",
+    "proveedor": "ICOMP SRL",
+    "concepto": "Echeq 5/6 — compra nueva",
+    "vencimiento": "2026-07-15",
+    "monto": 595343,
+    "tipo": "emitido",
+    "estado": "pendiente"
+  },
+  {
+    "id": "#223",
+    "proveedor": "ICOMP SRL",
+    "concepto": "Echeq 6/6 — compra nueva",
+    "vencimiento": "2026-07-30",
+    "monto": 595343,
+    "tipo": "emitido",
+    "estado": "pendiente"
+  },
+  {
     "id": "-",
     "proveedor": "Lisbon (Dandy)",
     "concepto": "Compra marzo — dilatar hasta mayo",
