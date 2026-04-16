@@ -997,9 +997,6 @@ _tabs_visibles = [(label, key) for label, key in _ALL_TABS if key in _permisos]
 _tab_labels = [label for label, _ in _tabs_visibles]
 _tab_keys   = [key for _, key in _tabs_visibles]
 
-# Mostrar notificaciones persistentes (arriba de todo, visible en cualquier pestaña)
-_mostrar_notificaciones()
-
 _tabs_obj = st.tabs(_tab_labels)
 _tab_map = dict(zip(_tab_keys, _tabs_obj))
 
@@ -4091,6 +4088,8 @@ if tab8:
 # ══════════════════════════════════════════════════════════════════════════════
 if tab9:
   with tab9:
+    # Mostrar notificaciones persistentes (dentro de Config para que se vean)
+    _mostrar_notificaciones()
 
     # ── EXPORTAR REPORTE ──────────────────────────────────────────────────────
     seccion("Exportar reporte para analizar")
@@ -4331,49 +4330,53 @@ if tab9:
             if extracto_file.name.endswith(".pdf"):
                 st.warning("Los PDF no se procesan automaticamente todavia. Mandamelo por chat y lo cargo yo.")
             else:
-                resultado = parsear_extracto_corrientes(extracto_file.getvalue(), extracto_file.name)
+                try:
+                    with st.spinner(f"Procesando extracto de {banco_sel}..."):
+                        resultado = parsear_extracto_corrientes(extracto_file.getvalue(), extracto_file.name)
 
-                if "error" in resultado:
-                    st.error(f"No se pudo leer el extracto: {resultado['error']}")
-                else:
-                    saldo_nuevo   = resultado["saldo_actual"]
-                    movs          = resultado["movimientos"]
-                    gastos_nuevos = resultado["gastos_nuevos"]
-                    resumen       = resultado["resumen"]
+                    if "error" in resultado:
+                        st.error(f"No se pudo leer el extracto: {resultado['error']}")
+                    else:
+                        saldo_nuevo   = resultado["saldo_actual"]
+                        movs          = resultado["movimientos"]
+                        gastos_nuevos = resultado["gastos_nuevos"]
+                        resumen       = resultado["resumen"]
 
-                    # Actualizar saldo del banco seleccionado en bancos.json
-                    bancos_data = get_bancos()
-                    ult_banco   = bancos_data[-1].copy() if bancos_data else {}
-                    ult_banco["fecha"]     = hoy.isoformat()
-                    ult_banco[banco_sel]   = int(saldo_nuevo)
-                    ult_banco["notas"]     = f"Saldo {banco_sel} importado de {extracto_file.name}"
-                    bancos_data.append(ult_banco)
-                    save_bancos(bancos_data)
+                        # Actualizar saldo del banco seleccionado en bancos.json
+                        bancos_data = get_bancos()
+                        ult_banco   = bancos_data[-1].copy() if bancos_data else {}
+                        ult_banco["fecha"]     = hoy.isoformat()
+                        ult_banco[banco_sel]   = int(saldo_nuevo)
+                        ult_banco["notas"]     = f"Saldo {banco_sel} importado de {extracto_file.name}"
+                        bancos_data.append(ult_banco)
+                        save_bancos(bancos_data)
 
-                    # Agregar gastos nuevos a gastos.json (sin duplicar)
-                    gastos_existentes = get_gastos()
-                    claves_existentes = {
-                        (g["fecha"], g["concepto"], g["monto"]) for g in gastos_existentes
-                    }
-                    nuevos_agregados = 0
-                    for g in gastos_nuevos:
-                        g["medio"] = banco_sel
-                        clave = (g["fecha"], g["concepto"], g["monto"])
-                        if clave not in claves_existentes:
-                            gastos_existentes.append(g)
-                            claves_existentes.add(clave)
-                            nuevos_agregados += 1
-                    save_gastos(gastos_existentes)
+                        # Agregar gastos nuevos a gastos.json (sin duplicar)
+                        gastos_existentes = get_gastos()
+                        claves_existentes = {
+                            (g["fecha"], g["concepto"], g["monto"]) for g in gastos_existentes
+                        }
+                        nuevos_agregados = 0
+                        for g in gastos_nuevos:
+                            g["medio"] = banco_sel
+                            clave = (g["fecha"], g["concepto"], g["monto"])
+                            if clave not in claves_existentes:
+                                gastos_existentes.append(g)
+                                claves_existentes.add(clave)
+                                nuevos_agregados += 1
+                        save_gastos(gastos_existentes)
 
-                    # Notificación persistente
-                    _notificar(
-                        f"✅ Extracto de {banco_sel} procesado correctamente — "
-                        f"Saldo: {fmt(saldo_nuevo)} | "
-                        f"{resumen['cant_movimientos']} movimientos | "
-                        f"{nuevos_agregados} gastos cargados | "
-                        f"Total débitos: {fmt(resumen['total_debitos'])}"
-                    )
-                    st.rerun()
+                        # Notificación persistente
+                        _notificar(
+                            f"✅ Extracto de {banco_sel} procesado correctamente — "
+                            f"Saldo: {fmt(saldo_nuevo)} | "
+                            f"{resumen['cant_movimientos']} movimientos | "
+                            f"{nuevos_agregados} gastos cargados | "
+                            f"Total débitos: {fmt(resumen['total_debitos'])}"
+                        )
+                        st.rerun()
+                except Exception as e:
+                    st.error(f"Error procesando extracto: {e}")
 
     # ── SALDOS BANCARIOS ─────────────────────────────────────────────────────
     seccion("Actualizar saldos bancarios")
