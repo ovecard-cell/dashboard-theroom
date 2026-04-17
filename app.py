@@ -26,6 +26,13 @@ st.set_page_config(
     initial_sidebar_state="collapsed",
 )
 
+# ── Auto-refresh cada 5 minutos (no pierde sesión) ───────────────────────────
+try:
+    from streamlit_autorefresh import st_autorefresh
+    st_autorefresh(interval=300000, limit=None, key="auto_refresh")  # 300000ms = 5 min
+except ImportError:
+    pass  # Si no está instalado, no pasa nada
+
 # ── Sistema de notificaciones persistentes (sobrevive st.rerun) ───────────────
 def _mostrar_notificaciones():
     """Muestra y limpia notificaciones guardadas en session_state."""

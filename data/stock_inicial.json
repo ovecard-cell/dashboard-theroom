@@ -33,13 +33,13 @@
     "proveedor": "LISBON", "tipo": "Pantalón Ringo",
     "stock_inicial": 16, "vendidos_manual": 1,
     "costo_unit": 25000, "fecha_ingreso": "2026-03-28",
-    "prefijos": ["PANTALON RINGO"]
+    "prefijos": ["PANTALON RINGO","PANTALON SASTRERO RINGO","JOGGIN RINGO"]
   },
   {
     "proveedor": "LISBON", "tipo": "Jeans (Seven/Falcon)",
     "stock_inicial": 22, "vendidos_manual": 0,
     "costo_unit": 22000, "fecha_ingreso": "2026-03-28",
-    "prefijos": ["JEAN SEVEN STRAIGHT","JEAN FALCON REGULAR"]
+    "prefijos": ["JEAN SEVEN STRAIGHT","JEANS SEVEN STRAIGHT","JEAN FALCON REGULAR","JEANS FALCON REGULAR"]
   },
   {
     "proveedor": "LISBON", "tipo": "Chomba Tejida",
@@ -81,7 +81,7 @@
     "proveedor": "DISTRICT", "tipo": "Jean Centinela",
     "stock_inicial": 7, "vendidos_manual": 0,
     "costo_unit": 21000, "fecha_ingreso": "2026-03-30",
-    "prefijos": ["JEAN CENTINELA"]
+    "prefijos": ["JEAN CENTINELA","JEANS CENTINELA"]
   },
   {
     "proveedor": "DISTRICT", "tipo": "Billetera",

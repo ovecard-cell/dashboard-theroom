@@ -5,3 +5,4 @@ plotly>=5.18.0
 xlrd==1.2.0
 openpyxl>=3.1.0
 lxml>=5.0.0
+streamlit-autorefresh>=1.0.0
