@@ -582,14 +582,9 @@ label { color: #8888aa !important; font-size: 0.8rem !important; }
 
 # ── Helpers ────────────────────────────────────────────────────────────────────
 def fmt(v: float) -> str:
-    if abs(v) >= 1_000_000:
-        return f"${v/1_000_000:.2f}M"
-    if abs(v) >= 1_000:
-        return f"${v/1_000:.0f}K"
     return f"${v:,.0f}"
 
 def fmt_tabla(v: float) -> str:
-    """Formato completo para tablas — sin abreviar K/M"""
     return f"${v:,.0f}"
 
 MESES_ES = {1:"Enero",2:"Febrero",3:"Marzo",4:"Abril",5:"Mayo",6:"Junio",
