@@ -696,5 +696,15 @@
     "categoria": "Gastos bancarios",
     "medio": "Santander",
     "notas": "Importado de descargaUltimosMovimientos.xls"
+  },
+  {
+    "fecha": "2026-04-15",
+    "concepto": "GASTO RAPIDO — GASTOS VARIOS (SUPER, PAPEL HIGIENICO, LLAVANDINA, DESO)",
+    "monto": 19300.0,
+    "neto": 19300.0,
+    "iva": 0,
+    "categoria": "Servicios (luz/gas/tel)",
+    "medio": "Efectivo",
+    "notas": "Importado de Dux compras"
   }
 ]

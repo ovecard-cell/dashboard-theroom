@@ -18,5 +18,15 @@
     "Mercado Pago": 167097,
     "Efectivo Caja": 416000,
     "notas": "Santander al 15/04 (extracto), MP $167.097, Caja $416K dato Gustavo 16/04"
+  },
+  {
+    "fecha": "2026-04-17",
+    "BBVA Frances": -6193482,
+    "Banco Corrientes": -10210318,
+    "Galicia": -74602,
+    "Santander": 2093429,
+    "Mercado Pago": 167097,
+    "Efectivo Caja": 416000,
+    "notas": "BBVA actualizado al 16/04 (extracto -$6.193.481), resto igual"
   }
 ]
