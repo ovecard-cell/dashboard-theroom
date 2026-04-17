@@ -706,5 +706,133 @@
     "categoria": "Servicios (luz/gas/tel)",
     "medio": "Efectivo",
     "notas": "Importado de Dux compras"
+  },
+  {
+    "fecha": "2026-04-16",
+    "concepto": "Regimen Recaudacion Iibbcorrientes  - Resp:30717936279 / 0,50% Sobre $140.910,00",
+    "monto": 704.55,
+    "categoria": "Gastos bancarios",
+    "medio": "Santander",
+    "notas": "Importado de C:\\Users\\Gusta\\Downloads\\santander (1).xls"
+  },
+  {
+    "fecha": "2026-04-16",
+    "concepto": "Impuesto al cheque (Ley 25413)",
+    "monto": 845.46,
+    "categoria": "AFIP / Impuestos",
+    "medio": "Santander",
+    "notas": "Importado de C:\\Users\\Gusta\\Downloads\\santander (1).xls"
+  },
+  {
+    "fecha": "2026-04-16",
+    "concepto": "Impuesto al cheque (Ley 25413)",
+    "monto": 1985.01,
+    "categoria": "AFIP / Impuestos",
+    "medio": "Santander",
+    "notas": "Importado de C:\\Users\\Gusta\\Downloads\\santander (1).xls"
+  },
+  {
+    "fecha": "2026-04-16",
+    "concepto": "Debito Automatico  - Afip -30717936279",
+    "monto": 222690.9,
+    "categoria": "Gastos bancarios",
+    "medio": "Santander",
+    "notas": "Importado de C:\\Users\\Gusta\\Downloads\\santander (1).xls"
+  },
+  {
+    "fecha": "2026-04-16",
+    "concepto": "Debito Automatico  - Afip -30717936279",
+    "monto": 54809.59,
+    "categoria": "Gastos bancarios",
+    "medio": "Santander",
+    "notas": "Importado de C:\\Users\\Gusta\\Downloads\\santander (1).xls"
+  },
+  {
+    "fecha": "2026-04-16",
+    "concepto": "Debito Automatico  - Afip -30717936279",
+    "monto": 53043.83,
+    "categoria": "Gastos bancarios",
+    "medio": "Santander",
+    "notas": "Importado de C:\\Users\\Gusta\\Downloads\\santander (1).xls"
+  },
+  {
+    "fecha": "2026-04-16",
+    "concepto": "Impuesto sobre los Créditos y Débitos en cobros",
+    "monto": 192.0,
+    "categoria": "Gastos bancarios",
+    "medio": "Mercado Pago",
+    "notas": "Importado de C:\\Users\\Gusta\\Downloads\\mp.xlsx"
+  },
+  {
+    "fecha": "2026-04-16",
+    "concepto": "Retención Impuesto a los IIBB de Corrientes",
+    "monto": 640.0,
+    "categoria": "Gastos bancarios",
+    "medio": "Mercado Pago",
+    "notas": "Importado de C:\\Users\\Gusta\\Downloads\\mp.xlsx"
+  },
+  {
+    "fecha": "2026-04-16",
+    "concepto": "Costo de Mercado Pago",
+    "monto": 2435.2,
+    "categoria": "Gastos bancarios",
+    "medio": "Mercado Pago",
+    "notas": "Importado de C:\\Users\\Gusta\\Downloads\\mp.xlsx"
+  },
+  {
+    "fecha": "2026-04-16",
+    "concepto": "Costo por intereses absorbidos",
+    "monto": 2518.4,
+    "categoria": "Gastos bancarios",
+    "medio": "Mercado Pago",
+    "notas": "Importado de C:\\Users\\Gusta\\Downloads\\mp.xlsx"
+  },
+  {
+    "fecha": "2026-04-16",
+    "concepto": "Impuesto sobre los Créditos y Débitos en pagos",
+    "monto": 62.96,
+    "categoria": "Gastos bancarios",
+    "medio": "Mercado Pago",
+    "notas": "Importado de C:\\Users\\Gusta\\Downloads\\mp.xlsx"
+  },
+  {
+    "fecha": "2026-04-16",
+    "concepto": "Pago",
+    "monto": 10493.88,
+    "categoria": "Gastos bancarios",
+    "medio": "Mercado Pago",
+    "notas": "Importado de C:\\Users\\Gusta\\Downloads\\mp.xlsx"
+  },
+  {
+    "fecha": "2026-04-16",
+    "concepto": "Impuesto sobre los Créditos y Débitos en cobros",
+    "monto": 430.8,
+    "categoria": "Gastos bancarios",
+    "medio": "Mercado Pago",
+    "notas": "Importado de C:\\Users\\Gusta\\Downloads\\mp.xlsx"
+  },
+  {
+    "fecha": "2026-04-16",
+    "concepto": "Retención Impuesto a los IIBB de Corrientes",
+    "monto": 1436.0,
+    "categoria": "Gastos bancarios",
+    "medio": "Mercado Pago",
+    "notas": "Importado de C:\\Users\\Gusta\\Downloads\\mp.xlsx"
+  },
+  {
+    "fecha": "2026-04-16",
+    "concepto": "Costo de Mercado Pago",
+    "monto": 5463.98,
+    "categoria": "Gastos bancarios",
+    "medio": "Mercado Pago",
+    "notas": "Importado de C:\\Users\\Gusta\\Downloads\\mp.xlsx"
+  },
+  {
+    "fecha": "2026-04-16",
+    "concepto": "Costo por intereses absorbidos",
+    "monto": 5650.66,
+    "categoria": "Gastos bancarios",
+    "medio": "Mercado Pago",
+    "notas": "Importado de C:\\Users\\Gusta\\Downloads\\mp.xlsx"
   }
 ]
