@@ -834,5 +834,13 @@
     "categoria": "Gastos bancarios",
     "medio": "Mercado Pago",
     "notas": "Importado de C:\\Users\\Gusta\\Downloads\\mp.xlsx"
+  },
+  {
+    "fecha": "2026-04-16",
+    "concepto": "Pago tarjeta — Cobro T.Credito",
+    "monto": 989682.37,
+    "categoria": "Gastos bancarios",
+    "medio": "Banco Corrientes",
+    "notas": "Importado de ctes.xlsx"
   }
 ]

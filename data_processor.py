@@ -685,10 +685,18 @@ def _parsear_extracto_rows(rows_raw: list, nombre_archivo: str) -> dict:
     col_fecha  = _col(["FECHA"])
     col_tipo   = _col(["CONCEPTO", "TIPO", "TRANSACCION", "DESCRIPCION", "DETALLE"])
     col_ref    = _col(["REFERENCIA", "REF", "NUMERO DOC", "DOCUMENTO"])
-    col_dc     = _col(["D/C", "DC"])
+    col_dc     = _col(["D/C", "DC", "DEBITO/CREDITO"])
     col_imp    = _col(["IMPORTE", "MONTO", "VALOR"])
-    col_cred   = _col(["CREDITO", "CRED"])
-    col_deb    = _col(["DEBITO", "DEB"])
+
+    # Buscar columnas separadas de crédito/débito (BBVA), pero NO confundir
+    # con "DEBITO/CREDITO" que es una columna de texto (Corrientes)
+    col_cred   = None
+    col_deb    = None
+    for j, h in enumerate(headers):
+        if h == "CREDITO" or h == "CRED":
+            col_cred = j
+        elif h == "DEBITO" or h == "DEB":
+            col_deb = j
 
     # Formato BBVA: columnas separadas Crédito/Débito (no hay col "Importe" unica)
     tiene_cols_separadas = col_cred is not None or col_deb is not None
@@ -731,7 +739,7 @@ def _parsear_extracto_rows(rows_raw: list, nombre_archivo: str) -> dict:
             if importe == 0:
                 continue
             if col_dc is not None and col_dc < len(row):
-                dc_str = str(row[col_dc]).upper().strip()
+                dc_str = _limpiar(str(row[col_dc]))
                 es_debito = "DEB" in dc_str or dc_str == "D"
             else:
                 # Usar el signo: negativo o entre paréntesis = débito
