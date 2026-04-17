@@ -588,6 +588,10 @@ def fmt(v: float) -> str:
         return f"${v/1_000:.0f}K"
     return f"${v:,.0f}"
 
+def fmt_tabla(v: float) -> str:
+    """Formato completo para tablas — sin abreviar K/M"""
+    return f"${v:,.0f}"
+
 MESES_ES = {1:"Enero",2:"Febrero",3:"Marzo",4:"Abril",5:"Mayo",6:"Junio",
             7:"Julio",8:"Agosto",9:"Septiembre",10:"Octubre",11:"Noviembre",12:"Diciembre"}
 
@@ -1511,8 +1515,8 @@ if tab1:
                     if date.fromisoformat(g["fecha"]) >= fecha_desde
                     and date.fromisoformat(g["fecha"]) <= fecha_hasta]
                 if gastos_periodo:
-                    for g in sorted(gastos_periodo, key=lambda x: x["monto"], reverse=True)[:15]:
-                        st.markdown(f'<div style="display:flex;justify-content:space-between;padding:3px 0;font-size:0.82rem"><span style="color:#ccc">{g["concepto"][:40]}</span><span style="color:#e94560;font-weight:700">{fmt(g["monto"])}</span></div>', unsafe_allow_html=True)
+                    for g in sorted(gastos_periodo, key=lambda x: x["fecha"])[:15]:
+                        st.markdown(f'<div style="display:flex;justify-content:space-between;padding:3px 0;font-size:0.82rem"><span style="color:#ccc">{g["concepto"][:40]}</span><span style="color:#e94560;font-weight:700">{fmt_tabla(g["monto"])}</span></div>', unsafe_allow_html=True)
                 st.markdown(f'<div style="margin-top:6px;font-size:0.75rem;color:#666688">+ Gastos fijos proporcionales: {fmt(gf_proporcional)}</div>', unsafe_allow_html=True)
         with dc4:
             falta = max(total_gastos_per - neto_per, 0)
@@ -2132,7 +2136,7 @@ if tab3:
                     f'<td>{_info["desde"][5:]}</td>'
                     f'<td>{_info["hasta"][5:]}</td>'
                     f'<td style="text-align:center">{_info["cant"]}</td>'
-                    f'<td style="text-align:right;color:#e94560;font-weight:700">{fmt(_info["total"])}</td>'
+                    f'<td style="text-align:right;color:#e94560;font-weight:700">{fmt_tabla(_info["total"])}</td>'
                     f'<td style="text-align:center"><span style="color:{_color};font-weight:700">{_estado}</span></td>'
                     f'</tr>'
                 )
@@ -2188,7 +2192,7 @@ if tab3:
                     f'<tr>'
                     f'<td style="font-weight:600">{cat}</td>'
                     f'<td style="text-align:center">{len(data["items"])}</td>'
-                    f'<td style="text-align:right;color:{col};font-weight:700">{fmt(data["monto"])}</td>'
+                    f'<td style="text-align:right;color:{col};font-weight:700">{fmt_tabla(data["monto"])}</td>'
                     f'<td style="text-align:right;color:#8888aa">{pct:.0f}%</td>'
                     f'</tr>'
                 )
@@ -2196,7 +2200,7 @@ if tab3:
                 f'<tr style="border-top:2px solid #ffffff15">'
                 f'<td style="font-weight:800;color:#eee">TOTAL GASTOS CARGADOS</td>'
                 f'<td style="text-align:center">{len(gastos_mes)}</td>'
-                f'<td style="text-align:right;color:#e94560;font-weight:800;font-size:1.05rem">{fmt(total_gastos_mes)}</td>'
+                f'<td style="text-align:right;color:#e94560;font-weight:800;font-size:1.05rem">{fmt_tabla(total_gastos_mes)}</td>'
                 f'<td></td></tr>'
             )
             st.markdown(
@@ -2211,12 +2215,12 @@ if tab3:
             for cat, data in sorted(_por_cat_g.items(), key=lambda x: -x[1]["monto"]):
                 with st.expander(f"{cat} — {fmt(data['monto'])} ({len(data['items'])} movimientos)"):
                     rows_det_g = ""
-                    for g in sorted(data["items"], key=lambda x: -x["monto"]):
+                    for g in sorted(data["items"], key=lambda x: x["fecha"]):
                         rows_det_g += (
                             f'<tr><td style="white-space:nowrap">{g["fecha"]}</td>'
                             f'<td style="font-size:0.82rem">{g["concepto"][:50]}</td>'
                             f'<td style="font-size:0.78rem;color:#8888aa">{g.get("medio","—")}</td>'
-                            f'<td style="text-align:right;color:#e94560;font-weight:700">{fmt(g["monto"])}</td></tr>'
+                            f'<td style="text-align:right;color:#e94560;font-weight:700">{fmt_tabla(g["monto"])}</td></tr>'
                         )
                     st.markdown(
                         f'<div class="tabla-wrapper"><table class="tabla-custom">'
@@ -2309,7 +2313,7 @@ if tab3:
             with st.expander("Facturas cargadas"):
                 rows_f = ""
                 for f in facturas:
-                    rows_f += f'<tr><td>{f["fecha"]}</td><td>{f["proveedor"]}</td><td>{fmt(f["neto"])}</td><td style="color:#00c96b;font-weight:700">{fmt(f["iva"])}</td><td>{f.get("descripcion","")}</td></tr>'
+                    rows_f += f'<tr><td>{f["fecha"]}</td><td>{f["proveedor"]}</td><td>{fmt_tabla(f["neto"])}</td><td style="color:#00c96b;font-weight:700">{fmt_tabla(f["iva"])}</td><td>{f.get("descripcion","")}</td></tr>'
                 st.markdown(
                     f'<div class="tabla-wrapper"><table class="tabla-custom">'
                     f'<thead><tr><th>Fecha</th><th>Proveedor</th><th>Neto</th><th>IVA Credito</th><th>Desc</th></tr></thead>'
@@ -2367,7 +2371,7 @@ if tab3:
                 f'<td style="font-size:0.82rem">{concepto_txt}{cant_txt}</td>'
                 f'<td style="font-size:0.78rem;color:#8888aa">{rm["medio"]}</td>'
                 f'<td style="font-size:0.78rem;color:#8888aa">{rm["categoria"]}</td>'
-                f'<td style="color:{color_m};font-weight:700;text-align:right">{signo}{fmt(rm["monto"])}</td>'
+                f'<td style="color:{color_m};font-weight:700;text-align:right">{signo}{fmt_tabla(rm["monto"])}</td>'
                 f'</tr>'
             )
 
@@ -4359,7 +4363,7 @@ if tab9:
                 with st.expander(f"Ver {agregados} gastos nuevos"):
                     rows_cn = ""
                     for g in gastos_nuevos_dux:
-                        rows_cn += f'<tr><td>{g["fecha"]}</td><td style="font-size:0.82rem">{g["concepto"][:50]}</td><td>{g["categoria"]}</td><td>{g["medio"]}</td><td style="text-align:right;color:#e94560;font-weight:700">{fmt(g["monto"])}</td></tr>'
+                        rows_cn += f'<tr><td>{g["fecha"]}</td><td style="font-size:0.82rem">{g["concepto"][:50]}</td><td>{g["categoria"]}</td><td>{g["medio"]}</td><td style="text-align:right;color:#e94560;font-weight:700">{fmt_tabla(g["monto"])}</td></tr>'
                     st.markdown(
                         f'<div class="tabla-wrapper"><table class="tabla-custom">'
                         f'<thead><tr><th>Fecha</th><th>Concepto</th><th>Categoria</th><th>Medio</th><th style="text-align:right">Monto</th></tr></thead>'
@@ -4650,7 +4654,7 @@ if tab9:
                 rows_g2 += f"""<tr>
                     <td>{g['fecha']}</td>
                     <td>{g['concepto']}</td>
-                    <td style="color:#e94560;font-weight:700">{fmt(g['monto'])}</td>
+                    <td style="color:#e94560;font-weight:700">{fmt_tabla(g['monto'])}</td>
                 </tr>"""
             st.markdown(f"""
             <div class="tabla-wrapper">
