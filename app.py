@@ -859,7 +859,7 @@ if st.session_state.get("mostrar_reporte"):
 
     # Calcular datos
     _venta_neta = df["neto"].sum() if not df.empty else 0
-    _venta_iva = _venta_neta * 1.21
+    _venta_iva = df["total_con_iva"].sum() if not df.empty and "total_con_iva" in df.columns else _venta_neta * 1.21
     _dias_venta = df["fecha_dia"].nunique() if not df.empty else 0
     _prom_dia = _venta_neta / max(_dias_venta, 1)
 
@@ -2018,6 +2018,7 @@ if tab3:
                 "tipo": "VENTA",
                 "concepto": str(rv.get("producto", "")),
                 "monto": float(rv.get("neto", 0)),
+                "con_iva": float(rv.get("total_con_iva", 0)),
                 "medio": medio_v,
                 "categoria": str(rv.get("rubro", "")),
                 "cantidad": int(rv.get("cantidad", 0)),
@@ -2081,9 +2082,9 @@ if tab3:
         total_ventas = df_mov[df_mov["tipo"] == "VENTA"]["monto"].sum()
         total_gastos = abs(df_mov[df_mov["tipo"] == "GASTO"]["monto"].sum())
         resultado_mov = total_ventas - total_gastos
-        ventas_iva  = total_ventas * 1.21
+        ventas_iva  = df_mov[df_mov["tipo"] == "VENTA"]["con_iva"].sum() if "con_iva" in df_mov.columns else total_ventas * 1.21
         resultado_iva = ventas_iva - total_gastos
-        iva_a_pagar = total_ventas * 0.21
+        iva_a_pagar = ventas_iva - total_ventas
 
         k1, k2, k3, k4, k5 = st.columns(5)
         with k1:
