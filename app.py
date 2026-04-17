@@ -902,6 +902,69 @@ if st.session_state.get("mostrar_reporte"):
     _deuda_pend = [d for d in _deuda_r if d["estado"] == "pendiente" and d["monto"] > 0]
     _deuda_total = sum(d["monto"] for d in _deuda_pend)
 
+    # ── Ventas diarias últimos 30 días ──────────────────────────────────────
+    _ventas_dia_txt = ""
+    if not df.empty:
+        _df30 = df[df["fecha_dia"] >= (hoy - timedelta(days=30))]
+        _por_dia_r = _df30.groupby("fecha_dia").agg(
+            uds=("cantidad","sum"), neto=("neto","sum"), con_iva=("total_con_iva","sum")
+        ).reset_index().sort_values("fecha_dia")
+        for _, _rd in _por_dia_r.iterrows():
+            _dia_sem = ["Lun","Mar","Mie","Jue","Vie","Sab","Dom"][_rd["fecha_dia"].weekday()]
+            _ventas_dia_txt += f"  {_rd['fecha_dia']} ({_dia_sem}): {int(_rd['uds'])} uds — ${_rd['neto']:,.0f} sin IVA — ${_rd['con_iva']:,.0f} con IVA\n"
+
+    # ── Top 10 productos ─────────────────────────────────────────────────────
+    _top10_txt = ""
+    if not df.empty:
+        _df30t = df[df["fecha_dia"] >= (hoy - timedelta(days=30))]
+        _top = _df30t.groupby("producto").agg(uds=("cantidad","sum"), neto=("neto","sum")).sort_values("uds", ascending=False).head(10)
+        for _prod, _rt in _top.iterrows():
+            _top10_txt += f"  {int(_rt['uds']):>3} uds — ${_rt['neto']:>10,.0f} — {_prod}\n"
+
+    # ── Stock por producto con talle ──────────────────────────────────────────
+    _stock_detalle_txt = ""
+    _muertos_txt = ""
+    if not _stk_r.empty:
+        _stk_con = _stk_r[_stk_r["cantidad"] > 0].sort_values(["proveedor_dux", "producto"])
+        MARCA_MAP_R2 = {"DANDY IND S.R.L.":"Lisbon","TARKUS TREND S.R.L.":"District","DACOB S.A":"Kazuma","VISTE VILO SRL, VISTE VILO":"Vilo","VINTAGE S A S. A.":"Vintage","GRUPO VEGAS":"Grupo Vegas"}
+        _prov_actual = ""
+        for _, _rs2 in _stk_con.iterrows():
+            _marca = MARCA_MAP_R2.get(_rs2["proveedor_dux"], _rs2["proveedor_dux"])
+            if _marca != _prov_actual:
+                _stock_detalle_txt += f"\n  [{_marca}]\n"
+                _prov_actual = _marca
+            _stock_detalle_txt += f"  {int(_rs2['cantidad']):>3} uds — ${_rs2['costo_unit']:>8,.0f} costo — {_rs2['producto']}\n"
+
+        # Productos muertos: en stock pero 0 ventas en 15+ días
+        if not df.empty:
+            _df15 = df[df["fecha_dia"] >= (hoy - timedelta(days=15))]
+            _vendidos_15 = set(_df15["producto"].str.upper().unique()) if not _df15.empty else set()
+            _muertos = _stk_con[~_stk_con["producto"].str.upper().isin(_vendidos_15)]
+            if not _muertos.empty:
+                for _, _rm in _muertos.iterrows():
+                    _muertos_txt += f"  {int(_rm['cantidad']):>3} uds — {_rm['producto']} [{MARCA_MAP_R2.get(_rm['proveedor_dux'], _rm['proveedor_dux'])}]\n"
+
+    # ── Velocidad de stock por marca ──────────────────────────────────────────
+    _velocidad_txt = ""
+    if not df.empty and not _stk_r.empty:
+        _df_vel = df[df["fecha_dia"] >= (hoy - timedelta(days=30))]
+        _stk_marca = _stk_r[_stk_r["cantidad"] > 0].copy()
+        _stk_marca["marca"] = _stk_marca["proveedor_dux"].map(MARCA_MAP_R2).fillna(_stk_marca["proveedor_dux"])
+        _stock_x_marca = _stk_marca.groupby("marca").agg(stock=("cantidad","sum")).reset_index()
+
+        _df_vel2 = _df_vel.copy()
+        if "marca" in _df_vel2.columns:
+            _venta_marca = _df_vel2.groupby("marca").agg(vendido=("cantidad","sum")).reset_index()
+        else:
+            _venta_marca = pd.DataFrame(columns=["marca","vendido"])
+
+        _vel = _stock_x_marca.merge(_venta_marca, on="marca", how="left").fillna(0)
+        _dias_periodo = max((hoy - (hoy - timedelta(days=30))).days, 1)
+        for _, _rv2 in _vel.iterrows():
+            _vel_dia = _rv2["vendido"] / _dias_periodo
+            _dias_rest = int(_rv2["stock"] / _vel_dia) if _vel_dia > 0 else 999
+            _velocidad_txt += f"  {_rv2['marca']}: {int(_rv2['stock'])} en stock, {int(_rv2['vendido'])} vendidos en 30d, {_vel_dia:.1f}/dia, quedan ~{_dias_rest} dias\n"
+
     reporte = f"""# REPORTE THE ROOM — {fmt_fecha(hoy, 'larga')}
 
 ## VENTAS ({fmt_fecha(hoy, 'mes')})
@@ -911,8 +974,14 @@ if st.session_state.get("mostrar_reporte"):
 - Promedio diario: ${_prom_dia:,.0f}
 - Objetivo diario: $300.000 → cumplimiento {_prom_dia/300000*100:.0f}%
 
+## VENTAS DIARIAS (ultimos 30 dias)
+{_ventas_dia_txt}
+## TOP 10 PRODUCTOS MAS VENDIDOS (ultimos 30 dias)
+{_top10_txt}
 ## RENTABILIDAD POR MARCA
 {_rent_txt}
+## VELOCIDAD DE STOCK POR MARCA (ultimos 30 dias)
+{_velocidad_txt}
 ## BANCOS (al {_ult_b.get('fecha','—')})
 - BBVA Frances: ${_ult_b.get('BBVA Frances',0):,.0f}
 - Banco Corrientes: ${_ult_b.get('Banco Corrientes',0):,.0f}
@@ -923,16 +992,18 @@ if st.session_state.get("mostrar_reporte"):
 - DEUDA BANCARIA TOTAL: ${abs(_ult_b.get('BBVA Frances',0)) + abs(_ult_b.get('Banco Corrientes',0)) + abs(_ult_b.get('Galicia',0)):,.0f}
 - DISPONIBLE: ${max(_ult_b.get('Santander',0),0) + max(_ult_b.get('Mercado Pago',0),0) + _ult_b.get('Efectivo Caja',0):,.0f}
 
-## GASTOS ABRIL (cargados)
+## GASTOS {fmt_fecha(hoy, 'mes').upper()} (cargados)
 {_gastos_txt}- TOTAL: ${sum(_gc.values()):,.0f}
 
 ## CHEQUES PENDIENTES
 {_chq_txt}
-## STOCK
+## STOCK ACTUAL POR PRODUCTO
 - Unidades en local: {_stock_uds}
 - Valor a costo: ${_stock_val:,.0f}
 - Valor estimado venta (x2.3): ${_stock_val * 2.3:,.0f}
-
+{_stock_detalle_txt}
+## PRODUCTOS SIN VENTA EN 15+ DIAS (muertos)
+{_muertos_txt if _muertos_txt else "  Ningun producto con stock lleva 15+ dias sin venderse\n"}
 ## DEUDA PERSONAL (negocio le debe a Gustavo)
 - Total: ${_deuda_total:,.0f}
 
@@ -948,14 +1019,6 @@ if st.session_state.get("mostrar_reporte"):
 - Break-even mensual: ~$15.900.000 neto
 - Ventas actuales proyectadas al mes: ${_prom_dia * 26:,.0f}
 - Deficit proyectado: ${max(7000000 - _prom_dia * 26, 0):,.0f}
-
-## PREGUNTAS PARA ANALIZAR
-1. Con que marcas conviene invertir mas? (ver rentabilidad arriba)
-2. Cuanto necesitamos vender por dia para empezar a bajar la deuda bancaria?
-3. Si compramos $X en mercaderia nueva, cuanto generamos y en cuanto tiempo?
-4. Que productos liquidar del stock viejo y a que precio?
-5. Como escalar el canal online (hoy es ~3% de ventas)?
-6. Cuando podemos empezar a devolver la plata que puso Gustavo?
 """
 
     st.markdown(f"""
