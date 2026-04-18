@@ -1288,18 +1288,23 @@ if tab1:
         _ajuste_base = _ctrl.get("ajuste_base", 0)
         _fecha_corte = _ctrl.get("fecha_corte", "2026-01-01")
 
-        # Calcular efectivo esperado: ajuste + ventas efectivo Dux totales
+        # Calcular efectivo esperado: ajuste + ventas efectivo Dux - gastos efectivo
         if not df.empty:
             _ef_dux = df[df["forma_pago"].astype(str).str.upper().str.contains("EFECT", na=False)]
             _efectivo_dux_total = _ef_dux["neto"].sum()
         else:
             _efectivo_dux_total = 0
-        _efectivo_esperado = _ajuste_base + _efectivo_dux_total
+        _gastos_efectivo = sum(
+            g["monto"] for g in get_gastos()
+            if g.get("medio", "").lower() in ("efectivo", "efectivo caja")
+            and g["fecha"] >= _fecha_corte
+        )
+        _efectivo_esperado = _ajuste_base + _efectivo_dux_total - _gastos_efectivo
 
         # Mostrar el efectivo esperado (no el manual de bancos.json)
         with row_b2[1]:
             st.markdown(metric_card("💵", "EFECTIVO / CAJA", fmt(_efectivo_esperado),
-                f"segun Dux + ajuste", "verde" if _efectivo_esperado > 0 else "gris"), unsafe_allow_html=True)
+                f"Ventas {fmt(_efectivo_dux_total)} - Gastos {fmt(_gastos_efectivo)}", "verde" if _efectivo_esperado > 0 else "gris"), unsafe_allow_html=True)
 
         # Recalcular disponible con el efectivo correcto
         disponible = max(santander, 0) + max(mp, 0) + _efectivo_esperado
