@@ -1,149 +1,5 @@
 [
   {
-    "fecha": "2026-03-26",
-    "concepto": "Regimen Recaudacion Iibbcorrientes  - Resp:30717936279 / 0,50% Sobre $340.626,50",
-    "monto": 1703.14,
-    "categoria": "Gastos bancarios",
-    "medio": "Santander",
-    "notas": "Importado de descargaUltimosMovimientos.xls"
-  },
-  {
-    "fecha": "2026-03-26",
-    "concepto": "Impuesto al cheque (Ley 25413)",
-    "monto": 302.76,
-    "categoria": "AFIP / Impuestos",
-    "medio": "Santander",
-    "notas": "Importado de descargaUltimosMovimientos.xls"
-  },
-  {
-    "fecha": "2026-03-26",
-    "concepto": "Impuesto al cheque (Ley 25413)",
-    "monto": 2043.76,
-    "categoria": "AFIP / Impuestos",
-    "medio": "Santander",
-    "notas": "Importado de descargaUltimosMovimientos.xls"
-  },
-  {
-    "fecha": "2026-03-26",
-    "concepto": "Debito Comercio Getnet",
-    "monto": 49247.0,
-    "categoria": "Gastos bancarios",
-    "medio": "Santander",
-    "notas": "Importado de descargaUltimosMovimientos.xls"
-  },
-  {
-    "fecha": "2026-03-27",
-    "concepto": "Regimen Recaudacion Iibbcorrientes  - Resp:30717936279 / 0,50% Sobre $249.440,00",
-    "monto": 1247.2,
-    "categoria": "Gastos bancarios",
-    "medio": "Santander",
-    "notas": "Importado de descargaUltimosMovimientos.xls"
-  },
-  {
-    "fecha": "2026-03-27",
-    "concepto": "Impuesto al cheque (Ley 25413)",
-    "monto": 10.22,
-    "categoria": "AFIP / Impuestos",
-    "medio": "Santander",
-    "notas": "Importado de descargaUltimosMovimientos.xls"
-  },
-  {
-    "fecha": "2026-03-27",
-    "concepto": "Impuesto al cheque (Ley 25413)",
-    "monto": 1496.64,
-    "categoria": "AFIP / Impuestos",
-    "medio": "Santander",
-    "notas": "Importado de descargaUltimosMovimientos.xls"
-  },
-  {
-    "fecha": "2026-03-30",
-    "concepto": "Regimen Recaudacion Iibbcorrientes  - Resp:30717936279 / 0,50% Sobre $1.126.783,00",
-    "monto": 5633.92,
-    "categoria": "Gastos bancarios",
-    "medio": "Santander",
-    "notas": "Importado de descargaUltimosMovimientos.xls"
-  },
-  {
-    "fecha": "2026-03-30",
-    "concepto": "Impuesto al cheque (Ley 25413)",
-    "monto": 4568.13,
-    "categoria": "AFIP / Impuestos",
-    "medio": "Santander",
-    "notas": "Importado de descargaUltimosMovimientos.xls"
-  },
-  {
-    "fecha": "2026-03-30",
-    "concepto": "Impuesto al cheque (Ley 25413)",
-    "monto": 6760.7,
-    "categoria": "AFIP / Impuestos",
-    "medio": "Santander",
-    "notas": "Importado de descargaUltimosMovimientos.xls"
-  },
-  {
-    "fecha": "2026-03-30",
-    "concepto": "Iva Percepcion Rg 2408",
-    "monto": 414.75,
-    "categoria": "Gastos bancarios",
-    "medio": "Santander",
-    "notas": "Importado de descargaUltimosMovimientos.xls"
-  },
-  {
-    "fecha": "2026-03-30",
-    "concepto": "Comision bancaria — Comision Servicio Cuenta Dolares",
-    "monto": 13825.0,
-    "categoria": "Gastos bancarios",
-    "medio": "Santander",
-    "notas": "Importado de descargaUltimosMovimientos.xls"
-  },
-  {
-    "fecha": "2026-03-30",
-    "concepto": "Iva Percepcion Rg 2408",
-    "monto": 1725.0,
-    "categoria": "Gastos bancarios",
-    "medio": "Santander",
-    "notas": "Importado de descargaUltimosMovimientos.xls"
-  },
-  {
-    "fecha": "2026-03-30",
-    "concepto": "Comision bancaria — Comision Por Servicio De Cuenta",
-    "monto": 57500.0,
-    "categoria": "Gastos bancarios",
-    "medio": "Santander",
-    "notas": "Importado de descargaUltimosMovimientos.xls"
-  },
-  {
-    "fecha": "2026-03-30",
-    "concepto": "Echeq Clearing Recibido 48hs",
-    "monto": 671665.09,
-    "categoria": "Gastos bancarios",
-    "medio": "Santander",
-    "notas": "Importado de descargaUltimosMovimientos.xls"
-  },
-  {
-    "fecha": "2026-03-31",
-    "concepto": "Regimen Recaudacion Iibbcorrientes  - Resp:30717936279 / 0,50% Sobre $61.597,00",
-    "monto": 307.99,
-    "categoria": "Gastos bancarios",
-    "medio": "Santander",
-    "notas": "Importado de descargaUltimosMovimientos.xls"
-  },
-  {
-    "fecha": "2026-03-31",
-    "concepto": "Impuesto al cheque (Ley 25413)",
-    "monto": 33.8,
-    "categoria": "AFIP / Impuestos",
-    "medio": "Santander",
-    "notas": "Importado de descargaUltimosMovimientos.xls"
-  },
-  {
-    "fecha": "2026-03-31",
-    "concepto": "Impuesto al cheque (Ley 25413)",
-    "monto": 369.58,
-    "categoria": "AFIP / Impuestos",
-    "medio": "Santander",
-    "notas": "Importado de descargaUltimosMovimientos.xls"
-  },
-  {
     "fecha": "2026-04-01",
     "concepto": "Impuesto al cheque (Ley 25413) — Banco Corrientes",
     "monto": 4691.54,
@@ -281,43 +137,51 @@
   },
   {
     "fecha": "2026-04-01",
-    "concepto": "Echeq #211 cobrado (clearing 48hs)",
-    "monto": 1279705.1,
-    "categoria": "Cheque debitado",
+    "concepto": "Regimen Recaudacion Iibbcorrientes  - Resp:30717936279 / 0,50% Sobre $64.000,00",
+    "monto": 320.0,
+    "categoria": "AFIP / Impuestos",
     "medio": "Santander",
-    "notas": "E-cheq anterior cobrado en Santander 01/04"
+    "notas": "Extracto Santander 01-17/04"
   },
   {
     "fecha": "2026-04-01",
-    "concepto": "Debito Debin (proveedor CUIT 30715123580)",
-    "monto": 78166,
-    "categoria": "Mercadería",
+    "concepto": "Impuesto Ley 25.413 Credito 0,6%",
+    "monto": 384.0,
+    "categoria": "AFIP / Impuestos",
     "medio": "Santander",
-    "notas": "Extracto Santander abril"
+    "notas": "Extracto Santander 01-17/04"
   },
   {
     "fecha": "2026-04-01",
-    "concepto": "Imp. Ley 25413 debito 0.6% — Santander",
+    "concepto": "Impuesto Ley 25.413 Debito 0,6%",
     "monto": 15827.31,
     "categoria": "AFIP / Impuestos",
     "medio": "Santander",
-    "notas": "Extracto Santander abril"
+    "notas": "Extracto Santander 01-17/04"
   },
   {
     "fecha": "2026-04-01",
-    "concepto": "Imp. Ley 25413 credito 0.6% — Santander",
-    "monto": 384,
-    "categoria": "AFIP / Impuestos",
+    "concepto": "Debito Debin  - Id Debin Z0kv87940411qr34npeydx Cuit 30715123580",
+    "monto": 78166.0,
+    "categoria": "Gastos bancarios",
     "medio": "Santander",
-    "notas": "Extracto Santander abril"
+    "notas": "Extracto Santander 01-17/04"
   },
   {
     "fecha": "2026-04-01",
-    "concepto": "IIBB Corrientes 0.5% — Santander",
-    "monto": 320,
-    "categoria": "AFIP / Impuestos",
+    "concepto": "Echeq Clearing Recibido 48hs",
+    "monto": 1279705.1,
+    "categoria": "Cheque debitado",
     "medio": "Santander",
-    "notas": "Extracto Santander abril"
+    "notas": "Extracto Santander 01-17/04"
+  },
+  {
+    "fecha": "2026-04-01",
+    "concepto": "Echeq Clearing Recibido 48hs",
+    "monto": 1279705.1,
+    "categoria": "Cheque debitado",
+    "medio": "Santander",
+    "notas": "Extracto Santander 01-17/04"
   },
   {
     "fecha": "2026-04-04",
@@ -425,46 +289,6 @@
   },
   {
     "fecha": "2026-04-06",
-    "concepto": "Pago tarjeta Visa (deb. automatico) — Santander",
-    "monto": 425348.37,
-    "categoria": "Gastos bancarios",
-    "medio": "Santander",
-    "notas": "Extracto Santander 06/04"
-  },
-  {
-    "fecha": "2026-04-06",
-    "concepto": "Imp. Ley 25413 credito + debito — Santander",
-    "monto": 4524.93,
-    "categoria": "AFIP / Impuestos",
-    "medio": "Santander",
-    "notas": "Extracto Santander 06/04"
-  },
-  {
-    "fecha": "2026-04-06",
-    "concepto": "IIBB Corrientes 0.5% — Santander",
-    "monto": 1642.44,
-    "categoria": "AFIP / Impuestos",
-    "medio": "Santander",
-    "notas": "Extracto Santander 06/04"
-  },
-  {
-    "fecha": "2026-04-06",
-    "concepto": "Impuesto al cheque (Ley 25413)",
-    "monto": 2554.01,
-    "categoria": "AFIP / Impuestos",
-    "medio": "Santander",
-    "notas": "Importado de descargaUltimosMovimientos.xls"
-  },
-  {
-    "fecha": "2026-04-06",
-    "concepto": "Impuesto al cheque (Ley 25413)",
-    "monto": 1970.92,
-    "categoria": "AFIP / Impuestos",
-    "medio": "Santander",
-    "notas": "Importado de descargaUltimosMovimientos.xls"
-  },
-  {
-    "fecha": "2026-04-06",
     "concepto": "Impuesto sobre los Créditos y Débitos en pagos",
     "monto": 127.86,
     "categoria": "AFIP / Impuestos",
@@ -480,52 +304,44 @@
     "notas": "Extracto MP mov #2254787579542"
   },
   {
+    "fecha": "2026-04-06",
+    "concepto": "Regimen Recaudacion Iibbcorrientes  - Resp:30717936279 / 0,50% Sobre $328.486,00",
+    "monto": 1642.44,
+    "categoria": "AFIP / Impuestos",
+    "medio": "Santander",
+    "notas": "Extracto Santander 01-17/04"
+  },
+  {
+    "fecha": "2026-04-06",
+    "concepto": "Impuesto Ley 25.413 Debito 0,6%",
+    "monto": 2554.01,
+    "categoria": "AFIP / Impuestos",
+    "medio": "Santander",
+    "notas": "Extracto Santander 01-17/04"
+  },
+  {
+    "fecha": "2026-04-06",
+    "concepto": "Impuesto Ley 25.413 Credito 0,6%",
+    "monto": 1970.92,
+    "categoria": "AFIP / Impuestos",
+    "medio": "Santander",
+    "notas": "Extracto Santander 01-17/04"
+  },
+  {
+    "fecha": "2026-04-06",
+    "concepto": "Pago Tarjeta De Credito Visa  - Por Deb:06/04/2026 Part 000000001237522592",
+    "monto": 425348.37,
+    "categoria": "Gastos bancarios",
+    "medio": "Santander",
+    "notas": "Extracto Santander 01-17/04"
+  },
+  {
     "fecha": "2026-04-07",
     "concepto": "Impuesto Ley — IMPUESTO LEY 06/04/26 00006",
     "monto": 445.58,
     "categoria": "AFIP / Impuestos",
     "medio": "BBVA Frances",
     "notas": "Importado de bbva.xls"
-  },
-  {
-    "fecha": "2026-04-07",
-    "concepto": "Pago tarjeta Visa (deb. automatico) — Santander",
-    "monto": 865764.38,
-    "categoria": "Gastos bancarios",
-    "medio": "Santander",
-    "notas": "Extracto Santander 07/04"
-  },
-  {
-    "fecha": "2026-04-07",
-    "concepto": "Imp. Ley 25413 credito + debito + IIBB — Santander",
-    "monto": 22430.44,
-    "categoria": "AFIP / Impuestos",
-    "medio": "Santander",
-    "notas": "Extracto Santander 07/04 (Ley 25413 + IIBB 0.5% sobre $1.566K)"
-  },
-  {
-    "fecha": "2026-04-07",
-    "concepto": "Regimen Recaudacion Iibbcorrientes  - Resp:30717936279 / 0,50% Sobre $1.566.000,00",
-    "monto": 7830.0,
-    "categoria": "Gastos bancarios",
-    "medio": "Santander",
-    "notas": "Importado de descargaUltimosMovimientos.xls"
-  },
-  {
-    "fecha": "2026-04-07",
-    "concepto": "Impuesto al cheque (Ley 25413)",
-    "monto": 5204.44,
-    "categoria": "AFIP / Impuestos",
-    "medio": "Santander",
-    "notas": "Importado de descargaUltimosMovimientos.xls"
-  },
-  {
-    "fecha": "2026-04-07",
-    "concepto": "Impuesto al cheque (Ley 25413)",
-    "monto": 9396.0,
-    "categoria": "AFIP / Impuestos",
-    "medio": "Santander",
-    "notas": "Importado de descargaUltimosMovimientos.xls"
   },
   {
     "fecha": "2026-04-07",
@@ -576,12 +392,36 @@
     "notas": "Extracto MP mov #2255785418831"
   },
   {
-    "fecha": "2026-04-08",
-    "concepto": "Imp. Ley 25413 + IIBB — Santander",
-    "monto": 1866.49,
+    "fecha": "2026-04-07",
+    "concepto": "Regimen Recaudacion Iibbcorrientes  - Resp:30717936279 / 0,50% Sobre $1.566.000,00",
+    "monto": 7830.0,
     "categoria": "AFIP / Impuestos",
     "medio": "Santander",
-    "notas": "Extracto Santander 08/04"
+    "notas": "Extracto Santander 01-17/04"
+  },
+  {
+    "fecha": "2026-04-07",
+    "concepto": "Impuesto Ley 25.413 Debito 0,6%",
+    "monto": 5204.44,
+    "categoria": "AFIP / Impuestos",
+    "medio": "Santander",
+    "notas": "Extracto Santander 01-17/04"
+  },
+  {
+    "fecha": "2026-04-07",
+    "concepto": "Impuesto Ley 25.413 Credito 0,6%",
+    "monto": 9396.0,
+    "categoria": "AFIP / Impuestos",
+    "medio": "Santander",
+    "notas": "Extracto Santander 01-17/04"
+  },
+  {
+    "fecha": "2026-04-07",
+    "concepto": "Pago Tarjeta De Credito Visa  - Deb. Automatico 06/04/2026 Part 01237522592",
+    "monto": 865764.38,
+    "categoria": "Gastos bancarios",
+    "medio": "Santander",
+    "notas": "Extracto Santander 01-17/04"
   },
   {
     "fecha": "2026-04-08",
@@ -592,6 +432,30 @@
     "categoria": "Servicios (luz/gas/tel)",
     "medio": "Efectivo",
     "notas": "Importado de Dux compras"
+  },
+  {
+    "fecha": "2026-04-08",
+    "concepto": "Regimen Recaudacion Iibbcorrientes  - Resp:30717936279 / 0,50% Sobre $165.410,00",
+    "monto": 827.05,
+    "categoria": "AFIP / Impuestos",
+    "medio": "Santander",
+    "notas": "Extracto Santander 01-17/04"
+  },
+  {
+    "fecha": "2026-04-08",
+    "concepto": "Impuesto Ley 25.413 Debito 0,6%",
+    "monto": 46.98,
+    "categoria": "AFIP / Impuestos",
+    "medio": "Santander",
+    "notas": "Extracto Santander 01-17/04"
+  },
+  {
+    "fecha": "2026-04-08",
+    "concepto": "Impuesto Ley 25.413 Credito 0,6%",
+    "monto": 992.46,
+    "categoria": "AFIP / Impuestos",
+    "medio": "Santander",
+    "notas": "Extracto Santander 01-17/04"
   },
   {
     "fecha": "2026-04-09",
@@ -608,14 +472,6 @@
     "categoria": "Gastos bancarios",
     "medio": "Banco Corrientes",
     "notas": "Débito automático extracto 09/04"
-  },
-  {
-    "fecha": "2026-04-09",
-    "concepto": "Imp. Ley 25413 + IIBB — Santander",
-    "monto": 1217.05,
-    "categoria": "AFIP / Impuestos",
-    "medio": "Santander",
-    "notas": "Extracto Santander 09/04"
   },
   {
     "fecha": "2026-04-09",
@@ -682,20 +538,36 @@
     "notas": "Extracto MP mov #2258536460920"
   },
   {
+    "fecha": "2026-04-09",
+    "concepto": "Regimen Recaudacion Iibbcorrientes  - Resp:30717936279 / 0,50% Sobre $110.190,00",
+    "monto": 550.95,
+    "categoria": "AFIP / Impuestos",
+    "medio": "Santander",
+    "notas": "Extracto Santander 01-17/04"
+  },
+  {
+    "fecha": "2026-04-09",
+    "concepto": "Impuesto Ley 25.413 Credito 0,6%",
+    "monto": 661.14,
+    "categoria": "AFIP / Impuestos",
+    "medio": "Santander",
+    "notas": "Extracto Santander 01-17/04"
+  },
+  {
+    "fecha": "2026-04-09",
+    "concepto": "Impuesto Ley 25.413 Debito 0,6%",
+    "monto": 4.96,
+    "categoria": "AFIP / Impuestos",
+    "medio": "Santander",
+    "notas": "Extracto Santander 01-17/04"
+  },
+  {
     "fecha": "2026-04-10",
     "concepto": "Impuesto al cheque (Ley 25413) — Banco Corrientes",
     "monto": 10317.63,
     "categoria": "AFIP / Impuestos",
     "medio": "Banco Corrientes",
     "notas": "Débito automático extracto 10/04"
-  },
-  {
-    "fecha": "2026-04-10",
-    "concepto": "Imp. Ley 25413 + IIBB — Santander",
-    "monto": 276.55,
-    "categoria": "AFIP / Impuestos",
-    "medio": "Santander",
-    "notas": "Extracto Santander 10/04 (debito $3.31 + credito $149.04 + IIBB $124.20)"
   },
   {
     "fecha": "2026-04-10",
@@ -716,6 +588,30 @@
     "categoria": "Sueldos",
     "medio": "Efectivo",
     "notas": "Importado de Dux compras"
+  },
+  {
+    "fecha": "2026-04-10",
+    "concepto": "Regimen Recaudacion Iibbcorrientes  - Resp:30717936279 / 0,50% Sobre $24.840,00",
+    "monto": 124.2,
+    "categoria": "AFIP / Impuestos",
+    "medio": "Santander",
+    "notas": "Extracto Santander 01-17/04"
+  },
+  {
+    "fecha": "2026-04-10",
+    "concepto": "Impuesto Ley 25.413 Debito 0,6%",
+    "monto": 3.31,
+    "categoria": "AFIP / Impuestos",
+    "medio": "Santander",
+    "notas": "Extracto Santander 01-17/04"
+  },
+  {
+    "fecha": "2026-04-10",
+    "concepto": "Impuesto Ley 25.413 Credito 0,6%",
+    "monto": 149.04,
+    "categoria": "AFIP / Impuestos",
+    "medio": "Santander",
+    "notas": "Extracto Santander 01-17/04"
   },
   {
     "fecha": "2026-04-11",
@@ -818,12 +714,28 @@
     "notas": "Extracto MP mov #2262317583284"
   },
   {
-    "fecha": "2026-04-14",
-    "concepto": "Impuesto al cheque (Ley 25413)",
-    "monto": 13.19,
+    "fecha": "2026-04-13",
+    "concepto": "Regimen Recaudacion Iibbcorrientes  - Resp:30717936279 / 0,50% Sobre $439.560,00",
+    "monto": 2197.8,
     "categoria": "AFIP / Impuestos",
     "medio": "Santander",
-    "notas": "Importado de Santader 14-4.xls"
+    "notas": "Extracto Santander 01-17/04"
+  },
+  {
+    "fecha": "2026-04-13",
+    "concepto": "Impuesto Ley 25.413 Debito 0,6%",
+    "monto": 0.75,
+    "categoria": "AFIP / Impuestos",
+    "medio": "Santander",
+    "notas": "Extracto Santander 01-17/04"
+  },
+  {
+    "fecha": "2026-04-13",
+    "concepto": "Impuesto Ley 25.413 Credito 0,6%",
+    "monto": 2637.36,
+    "categoria": "AFIP / Impuestos",
+    "medio": "Santander",
+    "notas": "Extracto Santander 01-17/04"
   },
   {
     "fecha": "2026-04-14",
@@ -914,6 +826,14 @@
     "notas": "Extracto MP mov #2263624624862"
   },
   {
+    "fecha": "2026-04-14",
+    "concepto": "Impuesto Ley 25.413 Debito 0,6%",
+    "monto": 13.19,
+    "categoria": "AFIP / Impuestos",
+    "medio": "Santander",
+    "notas": "Extracto Santander 01-17/04"
+  },
+  {
     "fecha": "2026-04-15",
     "concepto": "GASTO RAPIDO — GASTOS VARIOS (SUPER, PAPEL HIGIENICO, LLAVANDINA, DESO)",
     "monto": 19300.0,
@@ -964,52 +884,36 @@
     "notas": "Extracto MP mov #2264259073937"
   },
   {
-    "fecha": "2026-04-16",
-    "concepto": "Regimen Recaudacion Iibbcorrientes  - Resp:30717936279 / 0,50% Sobre $140.910,00",
-    "monto": 704.55,
-    "categoria": "Gastos bancarios",
-    "medio": "Santander",
-    "notas": "Importado de C:\\Users\\Gusta\\Downloads\\santander (1).xls"
-  },
-  {
-    "fecha": "2026-04-16",
-    "concepto": "Impuesto al cheque (Ley 25413)",
-    "monto": 845.46,
+    "fecha": "2026-04-15",
+    "concepto": "Regimen Recaudacion Iibbcorrientes  - Resp:30717936279 / 0,50% Sobre $58.050,00",
+    "monto": 290.25,
     "categoria": "AFIP / Impuestos",
     "medio": "Santander",
-    "notas": "Importado de C:\\Users\\Gusta\\Downloads\\santander (1).xls"
+    "notas": "Extracto Santander 01-17/04"
   },
   {
-    "fecha": "2026-04-16",
-    "concepto": "Impuesto al cheque (Ley 25413)",
-    "monto": 1985.01,
+    "fecha": "2026-04-15",
+    "concepto": "Impuesto Ley 25.413 Credito 0,6%",
+    "monto": 348.3,
     "categoria": "AFIP / Impuestos",
     "medio": "Santander",
-    "notas": "Importado de C:\\Users\\Gusta\\Downloads\\santander (1).xls"
+    "notas": "Extracto Santander 01-17/04"
   },
   {
-    "fecha": "2026-04-16",
-    "concepto": "Debito Automatico  - Afip -30717936279",
-    "monto": 222690.9,
-    "categoria": "Gastos bancarios",
+    "fecha": "2026-04-15",
+    "concepto": "Impuesto Ley 25.413 Debito 0,6%",
+    "monto": 75.6,
+    "categoria": "AFIP / Impuestos",
     "medio": "Santander",
-    "notas": "Importado de C:\\Users\\Gusta\\Downloads\\santander (1).xls"
+    "notas": "Extracto Santander 01-17/04"
   },
   {
-    "fecha": "2026-04-16",
-    "concepto": "Debito Automatico  - Afip -30717936279",
-    "monto": 54809.59,
+    "fecha": "2026-04-15",
+    "concepto": "Compra Con Tarjeta De Debito  - Merpago*estadnube - Tarj Nro. 4212",
+    "monto": 12600.0,
     "categoria": "Gastos bancarios",
     "medio": "Santander",
-    "notas": "Importado de C:\\Users\\Gusta\\Downloads\\santander (1).xls"
-  },
-  {
-    "fecha": "2026-04-16",
-    "concepto": "Debito Automatico  - Afip -30717936279",
-    "monto": 53043.83,
-    "categoria": "Gastos bancarios",
-    "medio": "Santander",
-    "notas": "Importado de C:\\Users\\Gusta\\Downloads\\santander (1).xls"
+    "notas": "Extracto Santander 01-17/04"
   },
   {
     "fecha": "2026-04-16",
@@ -1106,6 +1010,54 @@
     "categoria": "Gastos bancarios",
     "medio": "Mercado Pago",
     "notas": "Extracto MP mov #2265384484299"
+  },
+  {
+    "fecha": "2026-04-16",
+    "concepto": "Regimen Recaudacion Iibbcorrientes  - Resp:30717936279 / 0,50% Sobre $140.910,00",
+    "monto": 704.55,
+    "categoria": "AFIP / Impuestos",
+    "medio": "Santander",
+    "notas": "Extracto Santander 01-17/04"
+  },
+  {
+    "fecha": "2026-04-16",
+    "concepto": "Impuesto Ley 25.413 Credito 0,6%",
+    "monto": 845.46,
+    "categoria": "AFIP / Impuestos",
+    "medio": "Santander",
+    "notas": "Extracto Santander 01-17/04"
+  },
+  {
+    "fecha": "2026-04-16",
+    "concepto": "Impuesto Ley 25.413 Debito 0,6%",
+    "monto": 1985.01,
+    "categoria": "AFIP / Impuestos",
+    "medio": "Santander",
+    "notas": "Extracto Santander 01-17/04"
+  },
+  {
+    "fecha": "2026-04-16",
+    "concepto": "Debito Automatico  - Afip -30717936279",
+    "monto": 222690.9,
+    "categoria": "AFIP / Impuestos",
+    "medio": "Santander",
+    "notas": "Extracto Santander 01-17/04"
+  },
+  {
+    "fecha": "2026-04-16",
+    "concepto": "Debito Automatico  - Afip -30717936279",
+    "monto": 54809.59,
+    "categoria": "AFIP / Impuestos",
+    "medio": "Santander",
+    "notas": "Extracto Santander 01-17/04"
+  },
+  {
+    "fecha": "2026-04-16",
+    "concepto": "Debito Automatico  - Afip -30717936279",
+    "monto": 53043.83,
+    "categoria": "AFIP / Impuestos",
+    "medio": "Santander",
+    "notas": "Extracto Santander 01-17/04"
   },
   {
     "fecha": "2026-04-17",
@@ -1309,11 +1261,11 @@
   },
   {
     "fecha": "2026-04-17",
-    "concepto": "Regimen Recaudacion Iibbcorrientes - Resp:30717936279",
-    "monto": 726,
+    "concepto": "Regimen Recaudacion Iibbcorrientes  - Resp:30717936279 / 0,50% Sobre $145.200,00",
+    "monto": 726.0,
     "categoria": "AFIP / Impuestos",
     "medio": "Santander",
-    "notas": "Extracto Santander 17/04"
+    "notas": "Extracto Santander 01-17/04"
   },
   {
     "fecha": "2026-04-17",
@@ -1321,7 +1273,7 @@
     "monto": 871.2,
     "categoria": "AFIP / Impuestos",
     "medio": "Santander",
-    "notas": "Extracto Santander 17/04"
+    "notas": "Extracto Santander 01-17/04"
   },
   {
     "fecha": "2026-04-17",
@@ -1329,6 +1281,6 @@
     "monto": 4.23,
     "categoria": "AFIP / Impuestos",
     "medio": "Santander",
-    "notas": "Extracto Santander 17/04"
+    "notas": "Extracto Santander 01-17/04"
   }
 ]
