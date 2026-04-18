@@ -28,5 +28,15 @@
     "Mercado Pago": 241649,
     "Efectivo Caja": 416000,
     "notas": "Santander $1.945K, Corrientes -$10.2M, MP $241K — extractos 16-17/04"
+  },
+  {
+    "fecha": "2026-04-18",
+    "BBVA Frances": -6193482,
+    "Banco Corrientes": -10205938,
+    "Galicia": -74602,
+    "Santander": 1944995,
+    "Mercado Pago": 0,
+    "Efectivo Caja": 416000,
+    "notas": "Saldo Mercado Pago importado de settlement_v2-1135578332-manual-2026-04-18-090251.xlsx"
   }
 ]
