@@ -1,115 +1,155 @@
 [
   {
+    "fecha": "2026-03-26",
+    "concepto": "Regimen Recaudacion Iibbcorrientes  - Resp:30717936279 / 0,50% Sobre $340.626,50",
+    "monto": 1703.14,
+    "categoria": "Gastos bancarios",
+    "medio": "Santander",
+    "notas": "Importado de descargaUltimosMovimientos.xls"
+  },
+  {
+    "fecha": "2026-03-26",
+    "concepto": "Impuesto al cheque (Ley 25413)",
+    "monto": 302.76,
+    "categoria": "AFIP / Impuestos",
+    "medio": "Santander",
+    "notas": "Importado de descargaUltimosMovimientos.xls"
+  },
+  {
+    "fecha": "2026-03-26",
+    "concepto": "Impuesto al cheque (Ley 25413)",
+    "monto": 2043.76,
+    "categoria": "AFIP / Impuestos",
+    "medio": "Santander",
+    "notas": "Importado de descargaUltimosMovimientos.xls"
+  },
+  {
+    "fecha": "2026-03-26",
+    "concepto": "Debito Comercio Getnet",
+    "monto": 49247.0,
+    "categoria": "Gastos bancarios",
+    "medio": "Santander",
+    "notas": "Importado de descargaUltimosMovimientos.xls"
+  },
+  {
+    "fecha": "2026-03-27",
+    "concepto": "Regimen Recaudacion Iibbcorrientes  - Resp:30717936279 / 0,50% Sobre $249.440,00",
+    "monto": 1247.2,
+    "categoria": "Gastos bancarios",
+    "medio": "Santander",
+    "notas": "Importado de descargaUltimosMovimientos.xls"
+  },
+  {
+    "fecha": "2026-03-27",
+    "concepto": "Impuesto al cheque (Ley 25413)",
+    "monto": 10.22,
+    "categoria": "AFIP / Impuestos",
+    "medio": "Santander",
+    "notas": "Importado de descargaUltimosMovimientos.xls"
+  },
+  {
+    "fecha": "2026-03-27",
+    "concepto": "Impuesto al cheque (Ley 25413)",
+    "monto": 1496.64,
+    "categoria": "AFIP / Impuestos",
+    "medio": "Santander",
+    "notas": "Importado de descargaUltimosMovimientos.xls"
+  },
+  {
+    "fecha": "2026-03-30",
+    "concepto": "Regimen Recaudacion Iibbcorrientes  - Resp:30717936279 / 0,50% Sobre $1.126.783,00",
+    "monto": 5633.92,
+    "categoria": "Gastos bancarios",
+    "medio": "Santander",
+    "notas": "Importado de descargaUltimosMovimientos.xls"
+  },
+  {
+    "fecha": "2026-03-30",
+    "concepto": "Impuesto al cheque (Ley 25413)",
+    "monto": 4568.13,
+    "categoria": "AFIP / Impuestos",
+    "medio": "Santander",
+    "notas": "Importado de descargaUltimosMovimientos.xls"
+  },
+  {
+    "fecha": "2026-03-30",
+    "concepto": "Impuesto al cheque (Ley 25413)",
+    "monto": 6760.7,
+    "categoria": "AFIP / Impuestos",
+    "medio": "Santander",
+    "notas": "Importado de descargaUltimosMovimientos.xls"
+  },
+  {
+    "fecha": "2026-03-30",
+    "concepto": "Iva Percepcion Rg 2408",
+    "monto": 414.75,
+    "categoria": "Gastos bancarios",
+    "medio": "Santander",
+    "notas": "Importado de descargaUltimosMovimientos.xls"
+  },
+  {
+    "fecha": "2026-03-30",
+    "concepto": "Comision bancaria — Comision Servicio Cuenta Dolares",
+    "monto": 13825.0,
+    "categoria": "Gastos bancarios",
+    "medio": "Santander",
+    "notas": "Importado de descargaUltimosMovimientos.xls"
+  },
+  {
+    "fecha": "2026-03-30",
+    "concepto": "Iva Percepcion Rg 2408",
+    "monto": 1725.0,
+    "categoria": "Gastos bancarios",
+    "medio": "Santander",
+    "notas": "Importado de descargaUltimosMovimientos.xls"
+  },
+  {
+    "fecha": "2026-03-30",
+    "concepto": "Comision bancaria — Comision Por Servicio De Cuenta",
+    "monto": 57500.0,
+    "categoria": "Gastos bancarios",
+    "medio": "Santander",
+    "notas": "Importado de descargaUltimosMovimientos.xls"
+  },
+  {
+    "fecha": "2026-03-30",
+    "concepto": "Echeq Clearing Recibido 48hs",
+    "monto": 671665.09,
+    "categoria": "Gastos bancarios",
+    "medio": "Santander",
+    "notas": "Importado de descargaUltimosMovimientos.xls"
+  },
+  {
+    "fecha": "2026-03-31",
+    "concepto": "Regimen Recaudacion Iibbcorrientes  - Resp:30717936279 / 0,50% Sobre $61.597,00",
+    "monto": 307.99,
+    "categoria": "Gastos bancarios",
+    "medio": "Santander",
+    "notas": "Importado de descargaUltimosMovimientos.xls"
+  },
+  {
+    "fecha": "2026-03-31",
+    "concepto": "Impuesto al cheque (Ley 25413)",
+    "monto": 33.8,
+    "categoria": "AFIP / Impuestos",
+    "medio": "Santander",
+    "notas": "Importado de descargaUltimosMovimientos.xls"
+  },
+  {
+    "fecha": "2026-03-31",
+    "concepto": "Impuesto al cheque (Ley 25413)",
+    "monto": 369.58,
+    "categoria": "AFIP / Impuestos",
+    "medio": "Santander",
+    "notas": "Importado de descargaUltimosMovimientos.xls"
+  },
+  {
     "fecha": "2026-04-01",
     "concepto": "Impuesto al cheque (Ley 25413) — Banco Corrientes",
     "monto": 4691.54,
     "categoria": "AFIP / Impuestos",
     "medio": "Banco Corrientes",
     "notas": "Débito automático extracto 01/04"
-  },
-  {
-    "fecha": "2026-04-09",
-    "concepto": "Pago tarjeta de crédito — Cobro T.Credito ref 1254977483",
-    "monto": 1719442.16,
-    "categoria": "Gastos bancarios",
-    "medio": "Banco Corrientes",
-    "notas": "Débito automático extracto 09/04"
-  },
-  {
-    "fecha": "2026-04-09",
-    "concepto": "Pago tarjeta de crédito — Cobro T.Credito ref 1215585654",
-    "monto": 163.7,
-    "categoria": "Gastos bancarios",
-    "medio": "Banco Corrientes",
-    "notas": "Débito automático extracto 09/04"
-  },
-  {
-    "fecha": "2026-04-10",
-    "concepto": "Impuesto al cheque (Ley 25413) — Banco Corrientes",
-    "monto": 10317.63,
-    "categoria": "AFIP / Impuestos",
-    "medio": "Banco Corrientes",
-    "notas": "Débito automático extracto 10/04"
-  },
-  {
-    "fecha": "2026-04-07",
-    "concepto": "Impuesto Ley — IMPUESTO LEY 06/04/26 00006",
-    "monto": 445.58,
-    "categoria": "AFIP / Impuestos",
-    "medio": "BBVA Frances",
-    "notas": "Importado de bbva.xls"
-  },
-  {
-    "fecha": "2026-04-06",
-    "concepto": "Sellado — SELLADO",
-    "monto": 7.15,
-    "categoria": "AFIP / Impuestos",
-    "medio": "BBVA Frances",
-    "notas": "Importado de bbva.xls"
-  },
-  {
-    "fecha": "2026-04-06",
-    "concepto": "Intereses bancarios — AJUSTE DE IN 000000000000000",
-    "monto": 190.76,
-    "categoria": "Gastos bancarios",
-    "medio": "BBVA Frances",
-    "notas": "Importado de bbva.xls"
-  },
-  {
-    "fecha": "2026-04-06",
-    "concepto": "IVA — IVA TASA RED",
-    "monto": 20.02,
-    "categoria": "AFIP / Impuestos",
-    "medio": "BBVA Frances",
-    "notas": "Importado de bbva.xls"
-  },
-  {
-    "fecha": "2026-04-06",
-    "concepto": "Percepcion IIBB — PERCEPCION I",
-    "monto": 2.86,
-    "categoria": "AFIP / Impuestos",
-    "medio": "BBVA Frances",
-    "notas": "Importado de bbva.xls"
-  },
-  {
-    "fecha": "2026-04-06",
-    "concepto": "Impuesto Ley — IMPUESTO LEY 01/04/26 00007",
-    "monto": 1531.19,
-    "categoria": "AFIP / Impuestos",
-    "medio": "BBVA Frances",
-    "notas": "Importado de bbva.xls"
-  },
-  {
-    "fecha": "2026-04-06",
-    "concepto": "Comision bancaria — COM MANT FRA 03/26 120008885",
-    "monto": 59000.0,
-    "categoria": "Gastos bancarios",
-    "medio": "BBVA Frances",
-    "notas": "Importado de bbva.xls"
-  },
-  {
-    "fecha": "2026-04-06",
-    "concepto": "IVA — IVA TASA GRA",
-    "monto": 12390.0,
-    "categoria": "AFIP / Impuestos",
-    "medio": "BBVA Frances",
-    "notas": "Importado de bbva.xls"
-  },
-  {
-    "fecha": "2026-04-06",
-    "concepto": "Percepcion IIBB — PERCEPCION I",
-    "monto": 1770.0,
-    "categoria": "AFIP / Impuestos",
-    "medio": "BBVA Frances",
-    "notas": "Importado de bbva.xls"
-  },
-  {
-    "fecha": "2026-04-06",
-    "concepto": "Percepcion IIBB — PERCEPCION I",
-    "monto": 885.0,
-    "categoria": "AFIP / Impuestos",
-    "medio": "BBVA Frances",
-    "notas": "Importado de bbva.xls"
   },
   {
     "fecha": "2026-04-01",
@@ -174,30 +214,6 @@
     "categoria": "Gastos bancarios",
     "medio": "BBVA Frances",
     "notas": "Importado de bbva.xls"
-  },
-  {
-    "fecha": "2026-04-06",
-    "concepto": "Aguas de Corrientes — servicio de agua",
-    "monto": 21437.07,
-    "categoria": "Servicios (luz/gas/tel)",
-    "medio": "Mercado Pago",
-    "notas": "Extracto MP BRUDER SRL abril"
-  },
-  {
-    "fecha": "2026-04-07",
-    "concepto": "MiCorreo — envio / correo",
-    "monto": 7242.38,
-    "categoria": "Transporte",
-    "medio": "Mercado Pago",
-    "notas": "Extracto MP BRUDER SRL abril"
-  },
-  {
-    "fecha": "2026-04-11",
-    "concepto": "DPEC — servicio electrico",
-    "monto": 252502.73,
-    "categoria": "Servicios (luz/gas/tel)",
-    "medio": "Mercado Pago",
-    "notas": "Extracto MP BRUDER SRL abril"
   },
   {
     "fecha": "2026-04-01",
@@ -304,6 +320,110 @@
     "notas": "Extracto Santander abril"
   },
   {
+    "fecha": "2026-04-04",
+    "concepto": "Impuesto sobre los Créditos y Débitos en cobros",
+    "monto": 345.0,
+    "categoria": "AFIP / Impuestos",
+    "medio": "Mercado Pago",
+    "notas": "Extracto MP mov #2253028520431"
+  },
+  {
+    "fecha": "2026-04-04",
+    "concepto": "Retención Impuesto a los IIBB de Corrientes",
+    "monto": 1150.0,
+    "categoria": "AFIP / Impuestos",
+    "medio": "Mercado Pago",
+    "notas": "Extracto MP mov #2253028520433"
+  },
+  {
+    "fecha": "2026-04-04",
+    "concepto": "Costo de Mercado Pago",
+    "monto": 4375.75,
+    "categoria": "Gastos bancarios",
+    "medio": "Mercado Pago",
+    "notas": "Extracto MP mov #2253028520435"
+  },
+  {
+    "fecha": "2026-04-04",
+    "concepto": "Costo por intereses absorbidos",
+    "monto": 4732.25,
+    "categoria": "Gastos bancarios",
+    "medio": "Mercado Pago",
+    "notas": "Extracto MP mov #2253028520437"
+  },
+  {
+    "fecha": "2026-04-06",
+    "concepto": "Sellado — SELLADO",
+    "monto": 7.15,
+    "categoria": "AFIP / Impuestos",
+    "medio": "BBVA Frances",
+    "notas": "Importado de bbva.xls"
+  },
+  {
+    "fecha": "2026-04-06",
+    "concepto": "Intereses bancarios — AJUSTE DE IN 000000000000000",
+    "monto": 190.76,
+    "categoria": "Gastos bancarios",
+    "medio": "BBVA Frances",
+    "notas": "Importado de bbva.xls"
+  },
+  {
+    "fecha": "2026-04-06",
+    "concepto": "IVA — IVA TASA RED",
+    "monto": 20.02,
+    "categoria": "AFIP / Impuestos",
+    "medio": "BBVA Frances",
+    "notas": "Importado de bbva.xls"
+  },
+  {
+    "fecha": "2026-04-06",
+    "concepto": "Percepcion IIBB — PERCEPCION I",
+    "monto": 2.86,
+    "categoria": "AFIP / Impuestos",
+    "medio": "BBVA Frances",
+    "notas": "Importado de bbva.xls"
+  },
+  {
+    "fecha": "2026-04-06",
+    "concepto": "Impuesto Ley — IMPUESTO LEY 01/04/26 00007",
+    "monto": 1531.19,
+    "categoria": "AFIP / Impuestos",
+    "medio": "BBVA Frances",
+    "notas": "Importado de bbva.xls"
+  },
+  {
+    "fecha": "2026-04-06",
+    "concepto": "Comision bancaria — COM MANT FRA 03/26 120008885",
+    "monto": 59000.0,
+    "categoria": "Gastos bancarios",
+    "medio": "BBVA Frances",
+    "notas": "Importado de bbva.xls"
+  },
+  {
+    "fecha": "2026-04-06",
+    "concepto": "IVA — IVA TASA GRA",
+    "monto": 12390.0,
+    "categoria": "AFIP / Impuestos",
+    "medio": "BBVA Frances",
+    "notas": "Importado de bbva.xls"
+  },
+  {
+    "fecha": "2026-04-06",
+    "concepto": "Percepcion IIBB — PERCEPCION I",
+    "monto": 1770.0,
+    "categoria": "AFIP / Impuestos",
+    "medio": "BBVA Frances",
+    "notas": "Importado de bbva.xls"
+  },
+  {
+    "fecha": "2026-04-06",
+    "concepto": "Percepcion IIBB — PERCEPCION I",
+    "monto": 885.0,
+    "categoria": "AFIP / Impuestos",
+    "medio": "BBVA Frances",
+    "notas": "Importado de bbva.xls"
+  },
+  {
     "fecha": "2026-04-06",
     "concepto": "Pago tarjeta Visa (deb. automatico) — Santander",
     "monto": 425348.37,
@@ -328,6 +448,46 @@
     "notas": "Extracto Santander 06/04"
   },
   {
+    "fecha": "2026-04-06",
+    "concepto": "Impuesto al cheque (Ley 25413)",
+    "monto": 2554.01,
+    "categoria": "AFIP / Impuestos",
+    "medio": "Santander",
+    "notas": "Importado de descargaUltimosMovimientos.xls"
+  },
+  {
+    "fecha": "2026-04-06",
+    "concepto": "Impuesto al cheque (Ley 25413)",
+    "monto": 1970.92,
+    "categoria": "AFIP / Impuestos",
+    "medio": "Santander",
+    "notas": "Importado de descargaUltimosMovimientos.xls"
+  },
+  {
+    "fecha": "2026-04-06",
+    "concepto": "Impuesto sobre los Créditos y Débitos en pagos",
+    "monto": 127.86,
+    "categoria": "AFIP / Impuestos",
+    "medio": "Mercado Pago",
+    "notas": "Extracto MP mov #2254787579540"
+  },
+  {
+    "fecha": "2026-04-06",
+    "concepto": "Pago",
+    "monto": 21309.21,
+    "categoria": "Otros",
+    "medio": "Mercado Pago",
+    "notas": "Extracto MP mov #2254787579542"
+  },
+  {
+    "fecha": "2026-04-07",
+    "concepto": "Impuesto Ley — IMPUESTO LEY 06/04/26 00006",
+    "monto": 445.58,
+    "categoria": "AFIP / Impuestos",
+    "medio": "BBVA Frances",
+    "notas": "Importado de bbva.xls"
+  },
+  {
     "fecha": "2026-04-07",
     "concepto": "Pago tarjeta Visa (deb. automatico) — Santander",
     "monto": 865764.38,
@@ -342,176 +502,6 @@
     "categoria": "AFIP / Impuestos",
     "medio": "Santander",
     "notas": "Extracto Santander 07/04 (Ley 25413 + IIBB 0.5% sobre $1.566K)"
-  },
-  {
-    "fecha": "2026-04-08",
-    "concepto": "Imp. Ley 25413 + IIBB — Santander",
-    "monto": 1866.49,
-    "categoria": "AFIP / Impuestos",
-    "medio": "Santander",
-    "notas": "Extracto Santander 08/04"
-  },
-  {
-    "fecha": "2026-04-09",
-    "concepto": "Imp. Ley 25413 + IIBB — Santander",
-    "monto": 1217.05,
-    "categoria": "AFIP / Impuestos",
-    "medio": "Santander",
-    "notas": "Extracto Santander 09/04"
-  },
-  {
-    "fecha": "2026-04-10",
-    "concepto": "Imp. Ley 25413 + IIBB — Santander",
-    "monto": 276.55,
-    "categoria": "AFIP / Impuestos",
-    "medio": "Santander",
-    "notas": "Extracto Santander 10/04 (debito $3.31 + credito $149.04 + IIBB $124.20)"
-  },
-  {
-    "fecha": "2026-04-13",
-    "concepto": "CARDOZO, GABRIELA ANALIA — GABRIELA (FISIO DINO)",
-    "monto": 25000.0,
-    "neto": 25000.0,
-    "iva": 0,
-    "categoria": "Sueldos",
-    "medio": "Efectivo",
-    "notas": "Importado de Dux compras"
-  },
-  {
-    "fecha": "2026-04-13",
-    "concepto": "CORREO OFICIAL DE LA REPUBLICA ARGENTINA SOCIEDAD ANONIMA — TRANSPORTE (2 ENVIOS TIENDA NUBE)",
-    "monto": 21140.0,
-    "neto": 21140.0,
-    "iva": 0,
-    "categoria": "Transporte",
-    "medio": "Cuenta bancaria",
-    "notas": "Importado de Dux compras"
-  },
-  {
-    "fecha": "2026-04-10",
-    "concepto": "GASTO RAPIDO — GASTOS VARIOS (DIA DE FOTOS - COMPRAMOS CHIPA PARA COMP)",
-    "monto": 5000.0,
-    "neto": 5000.0,
-    "iva": 0,
-    "categoria": "Servicios (luz/gas/tel)",
-    "medio": "Efectivo",
-    "notas": "Importado de Dux compras"
-  },
-  {
-    "fecha": "2026-04-10",
-    "concepto": "CARDOZO, GABRIELA ANALIA — GABRIELA (VIANDA)",
-    "monto": 103000.0,
-    "neto": 103000.0,
-    "iva": 0,
-    "categoria": "Sueldos",
-    "medio": "Efectivo",
-    "notas": "Importado de Dux compras"
-  },
-  {
-    "fecha": "2026-04-08",
-    "concepto": "GASTO RAPIDO — GASTOS VARIOS (VIDRIERO)",
-    "monto": 4000.0,
-    "neto": 4000.0,
-    "iva": 0,
-    "categoria": "Servicios (luz/gas/tel)",
-    "medio": "Efectivo",
-    "notas": "Importado de Dux compras"
-  },
-  {
-    "fecha": "2026-04-14",
-    "concepto": "Impuesto al cheque (Ley 25413)",
-    "monto": 13.19,
-    "categoria": "AFIP / Impuestos",
-    "medio": "Santander",
-    "notas": "Importado de Santader 14-4.xls"
-  },
-  {
-    "fecha": "2026-04-14",
-    "concepto": "Impuesto sobre los Créditos y Débitos en pagos",
-    "monto": 5.77,
-    "categoria": "Gastos bancarios",
-    "medio": "Mercado Pago",
-    "notas": "Importado de mercado pago 14-4.xlsx"
-  },
-  {
-    "fecha": "2026-04-14",
-    "concepto": "Pago",
-    "monto": 962.35,
-    "categoria": "Gastos bancarios",
-    "medio": "Mercado Pago",
-    "notas": "Importado de mercado pago 14-4.xlsx"
-  },
-  {
-    "fecha": "2026-04-14",
-    "concepto": "Impuesto sobre los Créditos y Débitos en cobros",
-    "monto": 341.41,
-    "categoria": "Gastos bancarios",
-    "medio": "Mercado Pago",
-    "notas": "Importado de mercado pago 14-4.xlsx"
-  },
-  {
-    "fecha": "2026-04-14",
-    "concepto": "Tarifa por uso de plataforma de terceros",
-    "monto": 569.01,
-    "categoria": "Gastos bancarios",
-    "medio": "Mercado Pago",
-    "notas": "Importado de mercado pago 14-4.xlsx"
-  },
-  {
-    "fecha": "2026-04-14",
-    "concepto": "Retención Impuesto a los IIBB de Corrientes",
-    "monto": 1138.02,
-    "categoria": "Gastos bancarios",
-    "medio": "Mercado Pago",
-    "notas": "Importado de mercado pago 14-4.xlsx"
-  },
-  {
-    "fecha": "2026-04-14",
-    "concepto": "Costo de Mercado Pago",
-    "monto": 4330.17,
-    "categoria": "Gastos bancarios",
-    "medio": "Mercado Pago",
-    "notas": "Importado de mercado pago 14-4.xlsx"
-  },
-  {
-    "fecha": "2026-04-14",
-    "concepto": "Costo por intereses absorbidos",
-    "monto": 7505.24,
-    "categoria": "Gastos bancarios",
-    "medio": "Mercado Pago",
-    "notas": "Importado de mercado pago 14-4.xlsx"
-  },
-  {
-    "fecha": "2026-04-14",
-    "concepto": "Impuesto sobre los Créditos y Débitos en cobros",
-    "monto": 256.44,
-    "categoria": "Gastos bancarios",
-    "medio": "Mercado Pago",
-    "notas": "Importado de mercado pago 14-4.xlsx"
-  },
-  {
-    "fecha": "2026-04-14",
-    "concepto": "Tarifa por uso de plataforma de terceros",
-    "monto": 427.4,
-    "categoria": "Gastos bancarios",
-    "medio": "Mercado Pago",
-    "notas": "Importado de mercado pago 14-4.xlsx"
-  },
-  {
-    "fecha": "2026-04-14",
-    "concepto": "Costo de Mercado Pago",
-    "monto": 3252.51,
-    "categoria": "Gastos bancarios",
-    "medio": "Mercado Pago",
-    "notas": "Importado de mercado pago 14-4.xlsx"
-  },
-  {
-    "fecha": "2026-04-14",
-    "concepto": "Costo por intereses absorbidos",
-    "monto": 3363.64,
-    "categoria": "Gastos bancarios",
-    "medio": "Mercado Pago",
-    "notas": "Importado de mercado pago 14-4.xlsx"
   },
   {
     "fecha": "2026-04-07",
@@ -538,164 +528,390 @@
     "notas": "Importado de descargaUltimosMovimientos.xls"
   },
   {
-    "fecha": "2026-04-06",
-    "concepto": "Impuesto al cheque (Ley 25413)",
-    "monto": 2554.01,
+    "fecha": "2026-04-07",
+    "concepto": "Impuesto sobre los Créditos y Débitos en pagos",
+    "monto": 43.2,
+    "categoria": "AFIP / Impuestos",
+    "medio": "Mercado Pago",
+    "notas": "Extracto MP mov #2255723536698"
+  },
+  {
+    "fecha": "2026-04-07",
+    "concepto": "Pago",
+    "monto": 7199.18,
+    "categoria": "Otros",
+    "medio": "Mercado Pago",
+    "notas": "Extracto MP mov #2255723536700"
+  },
+  {
+    "fecha": "2026-04-07",
+    "concepto": "Impuesto sobre los Créditos y Débitos en cobros",
+    "monto": 414.0,
+    "categoria": "AFIP / Impuestos",
+    "medio": "Mercado Pago",
+    "notas": "Extracto MP mov #2255785418825"
+  },
+  {
+    "fecha": "2026-04-07",
+    "concepto": "Retención Impuesto a los IIBB de Corrientes",
+    "monto": 1380.0,
+    "categoria": "AFIP / Impuestos",
+    "medio": "Mercado Pago",
+    "notas": "Extracto MP mov #2255785418827"
+  },
+  {
+    "fecha": "2026-04-07",
+    "concepto": "Costo de Mercado Pago",
+    "monto": 5250.9,
+    "categoria": "Gastos bancarios",
+    "medio": "Mercado Pago",
+    "notas": "Extracto MP mov #2255785418829"
+  },
+  {
+    "fecha": "2026-04-07",
+    "concepto": "Costo por intereses absorbidos",
+    "monto": 5430.3,
+    "categoria": "Gastos bancarios",
+    "medio": "Mercado Pago",
+    "notas": "Extracto MP mov #2255785418831"
+  },
+  {
+    "fecha": "2026-04-08",
+    "concepto": "Imp. Ley 25413 + IIBB — Santander",
+    "monto": 1866.49,
     "categoria": "AFIP / Impuestos",
     "medio": "Santander",
-    "notas": "Importado de descargaUltimosMovimientos.xls"
+    "notas": "Extracto Santander 08/04"
   },
   {
-    "fecha": "2026-04-06",
-    "concepto": "Impuesto al cheque (Ley 25413)",
-    "monto": 1970.92,
+    "fecha": "2026-04-08",
+    "concepto": "GASTO RAPIDO — GASTOS VARIOS (VIDRIERO)",
+    "monto": 4000.0,
+    "neto": 4000.0,
+    "iva": 0,
+    "categoria": "Servicios (luz/gas/tel)",
+    "medio": "Efectivo",
+    "notas": "Importado de Dux compras"
+  },
+  {
+    "fecha": "2026-04-09",
+    "concepto": "Pago tarjeta de crédito — Cobro T.Credito ref 1254977483",
+    "monto": 1719442.16,
+    "categoria": "Gastos bancarios",
+    "medio": "Banco Corrientes",
+    "notas": "Débito automático extracto 09/04"
+  },
+  {
+    "fecha": "2026-04-09",
+    "concepto": "Pago tarjeta de crédito — Cobro T.Credito ref 1215585654",
+    "monto": 163.7,
+    "categoria": "Gastos bancarios",
+    "medio": "Banco Corrientes",
+    "notas": "Débito automático extracto 09/04"
+  },
+  {
+    "fecha": "2026-04-09",
+    "concepto": "Imp. Ley 25413 + IIBB — Santander",
+    "monto": 1217.05,
     "categoria": "AFIP / Impuestos",
     "medio": "Santander",
-    "notas": "Importado de descargaUltimosMovimientos.xls"
+    "notas": "Extracto Santander 09/04"
   },
   {
-    "fecha": "2026-03-31",
-    "concepto": "Regimen Recaudacion Iibbcorrientes  - Resp:30717936279 / 0,50% Sobre $61.597,00",
-    "monto": 307.99,
+    "fecha": "2026-04-09",
+    "concepto": "Impuesto sobre los Créditos y Débitos en cobros",
+    "monto": 359.4,
+    "categoria": "AFIP / Impuestos",
+    "medio": "Mercado Pago",
+    "notas": "Extracto MP mov #2258032475835"
+  },
+  {
+    "fecha": "2026-04-09",
+    "concepto": "Retención Impuesto a los IIBB de Corrientes",
+    "monto": 1198.0,
+    "categoria": "AFIP / Impuestos",
+    "medio": "Mercado Pago",
+    "notas": "Extracto MP mov #2258032475837"
+  },
+  {
+    "fecha": "2026-04-09",
+    "concepto": "Costo de Mercado Pago",
+    "monto": 4558.39,
     "categoria": "Gastos bancarios",
-    "medio": "Santander",
-    "notas": "Importado de descargaUltimosMovimientos.xls"
+    "medio": "Mercado Pago",
+    "notas": "Extracto MP mov #2258032475839"
   },
   {
-    "fecha": "2026-03-31",
-    "concepto": "Impuesto al cheque (Ley 25413)",
-    "monto": 33.8,
+    "fecha": "2026-04-09",
+    "concepto": "Costo por intereses absorbidos",
+    "monto": 4714.13,
+    "categoria": "Gastos bancarios",
+    "medio": "Mercado Pago",
+    "notas": "Extracto MP mov #2258032475841"
+  },
+  {
+    "fecha": "2026-04-09",
+    "concepto": "Impuesto sobre los Créditos y Débitos en cobros",
+    "monto": 1432.8,
+    "categoria": "AFIP / Impuestos",
+    "medio": "Mercado Pago",
+    "notas": "Extracto MP mov #2258536460914"
+  },
+  {
+    "fecha": "2026-04-09",
+    "concepto": "Retención Impuesto a los IIBB de Corrientes",
+    "monto": 4776.0,
+    "categoria": "AFIP / Impuestos",
+    "medio": "Mercado Pago",
+    "notas": "Extracto MP mov #2258536460916"
+  },
+  {
+    "fecha": "2026-04-09",
+    "concepto": "Costo de Mercado Pago",
+    "monto": 18172.68,
+    "categoria": "Gastos bancarios",
+    "medio": "Mercado Pago",
+    "notas": "Extracto MP mov #2258536460918"
+  },
+  {
+    "fecha": "2026-04-09",
+    "concepto": "Costo por intereses absorbidos",
+    "monto": 31497.72,
+    "categoria": "Gastos bancarios",
+    "medio": "Mercado Pago",
+    "notas": "Extracto MP mov #2258536460920"
+  },
+  {
+    "fecha": "2026-04-10",
+    "concepto": "Impuesto al cheque (Ley 25413) — Banco Corrientes",
+    "monto": 10317.63,
+    "categoria": "AFIP / Impuestos",
+    "medio": "Banco Corrientes",
+    "notas": "Débito automático extracto 10/04"
+  },
+  {
+    "fecha": "2026-04-10",
+    "concepto": "Imp. Ley 25413 + IIBB — Santander",
+    "monto": 276.55,
     "categoria": "AFIP / Impuestos",
     "medio": "Santander",
-    "notas": "Importado de descargaUltimosMovimientos.xls"
+    "notas": "Extracto Santander 10/04 (debito $3.31 + credito $149.04 + IIBB $124.20)"
   },
   {
-    "fecha": "2026-03-31",
+    "fecha": "2026-04-10",
+    "concepto": "GASTO RAPIDO — GASTOS VARIOS (DIA DE FOTOS - COMPRAMOS CHIPA PARA COMP)",
+    "monto": 5000.0,
+    "neto": 5000.0,
+    "iva": 0,
+    "categoria": "Servicios (luz/gas/tel)",
+    "medio": "Efectivo",
+    "notas": "Importado de Dux compras"
+  },
+  {
+    "fecha": "2026-04-10",
+    "concepto": "CARDOZO, GABRIELA ANALIA — GABRIELA (VIANDA)",
+    "monto": 103000.0,
+    "neto": 103000.0,
+    "iva": 0,
+    "categoria": "Sueldos",
+    "medio": "Efectivo",
+    "notas": "Importado de Dux compras"
+  },
+  {
+    "fecha": "2026-04-11",
+    "concepto": "Impuesto sobre los Créditos y Débitos en pagos",
+    "monto": 1505.98,
+    "categoria": "AFIP / Impuestos",
+    "medio": "Mercado Pago",
+    "notas": "Extracto MP mov #2259827003565"
+  },
+  {
+    "fecha": "2026-04-11",
+    "concepto": "Pago",
+    "monto": 250996.75,
+    "categoria": "Otros",
+    "medio": "Mercado Pago",
+    "notas": "Extracto MP mov #2259827003567"
+  },
+  {
+    "fecha": "2026-04-12",
+    "concepto": "Impuesto sobre los Créditos y Débitos en cobros",
+    "monto": 241.44,
+    "categoria": "AFIP / Impuestos",
+    "medio": "Mercado Pago",
+    "notas": "Extracto MP mov #2260913043369"
+  },
+  {
+    "fecha": "2026-04-12",
+    "concepto": "Tarifa por uso de plataforma de terceros",
+    "monto": 402.4,
+    "categoria": "Gastos bancarios",
+    "medio": "Mercado Pago",
+    "notas": "Extracto MP mov #2260913043371"
+  },
+  {
+    "fecha": "2026-04-12",
+    "concepto": "Retención Impuesto a los IIBB de Corrientes",
+    "monto": 804.8,
+    "categoria": "AFIP / Impuestos",
+    "medio": "Mercado Pago",
+    "notas": "Extracto MP mov #2260913043373"
+  },
+  {
+    "fecha": "2026-04-12",
+    "concepto": "Costo de Mercado Pago",
+    "monto": 3062.26,
+    "categoria": "Gastos bancarios",
+    "medio": "Mercado Pago",
+    "notas": "Extracto MP mov #2260913043375"
+  },
+  {
+    "fecha": "2026-04-13",
+    "concepto": "CARDOZO, GABRIELA ANALIA — GABRIELA (FISIO DINO)",
+    "monto": 25000.0,
+    "neto": 25000.0,
+    "iva": 0,
+    "categoria": "Sueldos",
+    "medio": "Efectivo",
+    "notas": "Importado de Dux compras"
+  },
+  {
+    "fecha": "2026-04-13",
+    "concepto": "CORREO OFICIAL DE LA REPUBLICA ARGENTINA SOCIEDAD ANONIMA — TRANSPORTE (2 ENVIOS TIENDA NUBE)",
+    "monto": 21140.0,
+    "neto": 21140.0,
+    "iva": 0,
+    "categoria": "Transporte",
+    "medio": "Cuenta bancaria",
+    "notas": "Importado de Dux compras"
+  },
+  {
+    "fecha": "2026-04-13",
+    "concepto": "Impuesto sobre los Créditos y Débitos en pagos",
+    "monto": 125.93,
+    "categoria": "AFIP / Impuestos",
+    "medio": "Mercado Pago",
+    "notas": "Extracto MP mov #2262304242388"
+  },
+  {
+    "fecha": "2026-04-13",
+    "concepto": "Pago",
+    "monto": 20987.77,
+    "categoria": "Otros",
+    "medio": "Mercado Pago",
+    "notas": "Extracto MP mov #2262304242390"
+  },
+  {
+    "fecha": "2026-04-13",
+    "concepto": "Impuesto sobre los Créditos y Débitos en pagos",
+    "monto": 62.1,
+    "categoria": "AFIP / Impuestos",
+    "medio": "Mercado Pago",
+    "notas": "Extracto MP mov #2262317583282"
+  },
+  {
+    "fecha": "2026-04-13",
+    "concepto": "Pago",
+    "monto": 10350.0,
+    "categoria": "Otros",
+    "medio": "Mercado Pago",
+    "notas": "Extracto MP mov #2262317583284"
+  },
+  {
+    "fecha": "2026-04-14",
     "concepto": "Impuesto al cheque (Ley 25413)",
-    "monto": 369.58,
+    "monto": 13.19,
     "categoria": "AFIP / Impuestos",
     "medio": "Santander",
-    "notas": "Importado de descargaUltimosMovimientos.xls"
+    "notas": "Importado de Santader 14-4.xls"
   },
   {
-    "fecha": "2026-03-30",
-    "concepto": "Regimen Recaudacion Iibbcorrientes  - Resp:30717936279 / 0,50% Sobre $1.126.783,00",
-    "monto": 5633.92,
-    "categoria": "Gastos bancarios",
-    "medio": "Santander",
-    "notas": "Importado de descargaUltimosMovimientos.xls"
-  },
-  {
-    "fecha": "2026-03-30",
-    "concepto": "Impuesto al cheque (Ley 25413)",
-    "monto": 4568.13,
+    "fecha": "2026-04-14",
+    "concepto": "Impuesto sobre los Créditos y Débitos en pagos",
+    "monto": 5.77,
     "categoria": "AFIP / Impuestos",
-    "medio": "Santander",
-    "notas": "Importado de descargaUltimosMovimientos.xls"
+    "medio": "Mercado Pago",
+    "notas": "Extracto MP mov #2262707332042"
   },
   {
-    "fecha": "2026-03-30",
-    "concepto": "Impuesto al cheque (Ley 25413)",
-    "monto": 6760.7,
+    "fecha": "2026-04-14",
+    "concepto": "Pago",
+    "monto": 962.35,
+    "categoria": "Otros",
+    "medio": "Mercado Pago",
+    "notas": "Extracto MP mov #2262707332044"
+  },
+  {
+    "fecha": "2026-04-14",
+    "concepto": "Impuesto sobre los Créditos y Débitos en cobros",
+    "monto": 341.41,
     "categoria": "AFIP / Impuestos",
-    "medio": "Santander",
-    "notas": "Importado de descargaUltimosMovimientos.xls"
+    "medio": "Mercado Pago",
+    "notas": "Extracto MP mov #2263495206588"
   },
   {
-    "fecha": "2026-03-30",
-    "concepto": "Iva Percepcion Rg 2408",
-    "monto": 414.75,
+    "fecha": "2026-04-14",
+    "concepto": "Tarifa por uso de plataforma de terceros",
+    "monto": 569.01,
     "categoria": "Gastos bancarios",
-    "medio": "Santander",
-    "notas": "Importado de descargaUltimosMovimientos.xls"
+    "medio": "Mercado Pago",
+    "notas": "Extracto MP mov #2263495206590"
   },
   {
-    "fecha": "2026-03-30",
-    "concepto": "Comision bancaria — Comision Servicio Cuenta Dolares",
-    "monto": 13825.0,
-    "categoria": "Gastos bancarios",
-    "medio": "Santander",
-    "notas": "Importado de descargaUltimosMovimientos.xls"
-  },
-  {
-    "fecha": "2026-03-30",
-    "concepto": "Iva Percepcion Rg 2408",
-    "monto": 1725.0,
-    "categoria": "Gastos bancarios",
-    "medio": "Santander",
-    "notas": "Importado de descargaUltimosMovimientos.xls"
-  },
-  {
-    "fecha": "2026-03-30",
-    "concepto": "Comision bancaria — Comision Por Servicio De Cuenta",
-    "monto": 57500.0,
-    "categoria": "Gastos bancarios",
-    "medio": "Santander",
-    "notas": "Importado de descargaUltimosMovimientos.xls"
-  },
-  {
-    "fecha": "2026-03-30",
-    "concepto": "Echeq Clearing Recibido 48hs",
-    "monto": 671665.09,
-    "categoria": "Gastos bancarios",
-    "medio": "Santander",
-    "notas": "Importado de descargaUltimosMovimientos.xls"
-  },
-  {
-    "fecha": "2026-03-27",
-    "concepto": "Regimen Recaudacion Iibbcorrientes  - Resp:30717936279 / 0,50% Sobre $249.440,00",
-    "monto": 1247.2,
-    "categoria": "Gastos bancarios",
-    "medio": "Santander",
-    "notas": "Importado de descargaUltimosMovimientos.xls"
-  },
-  {
-    "fecha": "2026-03-27",
-    "concepto": "Impuesto al cheque (Ley 25413)",
-    "monto": 10.22,
+    "fecha": "2026-04-14",
+    "concepto": "Retención Impuesto a los IIBB de Corrientes",
+    "monto": 1138.02,
     "categoria": "AFIP / Impuestos",
-    "medio": "Santander",
-    "notas": "Importado de descargaUltimosMovimientos.xls"
+    "medio": "Mercado Pago",
+    "notas": "Extracto MP mov #2263495206592"
   },
   {
-    "fecha": "2026-03-27",
-    "concepto": "Impuesto al cheque (Ley 25413)",
-    "monto": 1496.64,
-    "categoria": "AFIP / Impuestos",
-    "medio": "Santander",
-    "notas": "Importado de descargaUltimosMovimientos.xls"
-  },
-  {
-    "fecha": "2026-03-26",
-    "concepto": "Regimen Recaudacion Iibbcorrientes  - Resp:30717936279 / 0,50% Sobre $340.626,50",
-    "monto": 1703.14,
+    "fecha": "2026-04-14",
+    "concepto": "Costo de Mercado Pago",
+    "monto": 4330.17,
     "categoria": "Gastos bancarios",
-    "medio": "Santander",
-    "notas": "Importado de descargaUltimosMovimientos.xls"
+    "medio": "Mercado Pago",
+    "notas": "Extracto MP mov #2263495206594"
   },
   {
-    "fecha": "2026-03-26",
-    "concepto": "Impuesto al cheque (Ley 25413)",
-    "monto": 302.76,
-    "categoria": "AFIP / Impuestos",
-    "medio": "Santander",
-    "notas": "Importado de descargaUltimosMovimientos.xls"
-  },
-  {
-    "fecha": "2026-03-26",
-    "concepto": "Impuesto al cheque (Ley 25413)",
-    "monto": 2043.76,
-    "categoria": "AFIP / Impuestos",
-    "medio": "Santander",
-    "notas": "Importado de descargaUltimosMovimientos.xls"
-  },
-  {
-    "fecha": "2026-03-26",
-    "concepto": "Debito Comercio Getnet",
-    "monto": 49247.0,
+    "fecha": "2026-04-14",
+    "concepto": "Costo por intereses absorbidos",
+    "monto": 7505.24,
     "categoria": "Gastos bancarios",
-    "medio": "Santander",
-    "notas": "Importado de descargaUltimosMovimientos.xls"
+    "medio": "Mercado Pago",
+    "notas": "Extracto MP mov #2263495206596"
+  },
+  {
+    "fecha": "2026-04-14",
+    "concepto": "Impuesto sobre los Créditos y Débitos en cobros",
+    "monto": 256.44,
+    "categoria": "AFIP / Impuestos",
+    "medio": "Mercado Pago",
+    "notas": "Extracto MP mov #2263624624856"
+  },
+  {
+    "fecha": "2026-04-14",
+    "concepto": "Tarifa por uso de plataforma de terceros",
+    "monto": 427.4,
+    "categoria": "Gastos bancarios",
+    "medio": "Mercado Pago",
+    "notas": "Extracto MP mov #2263624624858"
+  },
+  {
+    "fecha": "2026-04-14",
+    "concepto": "Costo de Mercado Pago",
+    "monto": 3252.51,
+    "categoria": "Gastos bancarios",
+    "medio": "Mercado Pago",
+    "notas": "Extracto MP mov #2263624624860"
+  },
+  {
+    "fecha": "2026-04-14",
+    "concepto": "Costo por intereses absorbidos",
+    "monto": 3363.64,
+    "categoria": "Gastos bancarios",
+    "medio": "Mercado Pago",
+    "notas": "Extracto MP mov #2263624624862"
   },
   {
     "fecha": "2026-04-15",
@@ -706,6 +922,46 @@
     "categoria": "Servicios (luz/gas/tel)",
     "medio": "Efectivo",
     "notas": "Importado de Dux compras"
+  },
+  {
+    "fecha": "2026-04-15",
+    "concepto": "Pago",
+    "monto": 12600.0,
+    "categoria": "Otros",
+    "medio": "Mercado Pago",
+    "notas": "Extracto MP mov #2264297716476"
+  },
+  {
+    "fecha": "2026-04-15",
+    "concepto": "Impuesto sobre los Créditos y Débitos en cobros",
+    "monto": 175.2,
+    "categoria": "AFIP / Impuestos",
+    "medio": "Mercado Pago",
+    "notas": "Extracto MP mov #2264259073931"
+  },
+  {
+    "fecha": "2026-04-15",
+    "concepto": "Retención Impuesto a los IIBB de Corrientes",
+    "monto": 584.0,
+    "categoria": "AFIP / Impuestos",
+    "medio": "Mercado Pago",
+    "notas": "Extracto MP mov #2264259073933"
+  },
+  {
+    "fecha": "2026-04-15",
+    "concepto": "Costo de Mercado Pago",
+    "monto": 2222.12,
+    "categoria": "Gastos bancarios",
+    "medio": "Mercado Pago",
+    "notas": "Extracto MP mov #2264259073935"
+  },
+  {
+    "fecha": "2026-04-15",
+    "concepto": "Costo por intereses absorbidos",
+    "monto": 2298.04,
+    "categoria": "Gastos bancarios",
+    "medio": "Mercado Pago",
+    "notas": "Extracto MP mov #2264259073937"
   },
   {
     "fecha": "2026-04-16",
@@ -757,86 +1013,6 @@
   },
   {
     "fecha": "2026-04-16",
-    "concepto": "Impuesto sobre los Créditos y Débitos en cobros",
-    "monto": 192.0,
-    "categoria": "Gastos bancarios",
-    "medio": "Mercado Pago",
-    "notas": "Importado de C:\\Users\\Gusta\\Downloads\\mp.xlsx"
-  },
-  {
-    "fecha": "2026-04-16",
-    "concepto": "Retención Impuesto a los IIBB de Corrientes",
-    "monto": 640.0,
-    "categoria": "Gastos bancarios",
-    "medio": "Mercado Pago",
-    "notas": "Importado de C:\\Users\\Gusta\\Downloads\\mp.xlsx"
-  },
-  {
-    "fecha": "2026-04-16",
-    "concepto": "Costo de Mercado Pago",
-    "monto": 2435.2,
-    "categoria": "Gastos bancarios",
-    "medio": "Mercado Pago",
-    "notas": "Importado de C:\\Users\\Gusta\\Downloads\\mp.xlsx"
-  },
-  {
-    "fecha": "2026-04-16",
-    "concepto": "Costo por intereses absorbidos",
-    "monto": 2518.4,
-    "categoria": "Gastos bancarios",
-    "medio": "Mercado Pago",
-    "notas": "Importado de C:\\Users\\Gusta\\Downloads\\mp.xlsx"
-  },
-  {
-    "fecha": "2026-04-16",
-    "concepto": "Impuesto sobre los Créditos y Débitos en pagos",
-    "monto": 62.96,
-    "categoria": "Gastos bancarios",
-    "medio": "Mercado Pago",
-    "notas": "Importado de C:\\Users\\Gusta\\Downloads\\mp.xlsx"
-  },
-  {
-    "fecha": "2026-04-16",
-    "concepto": "Pago",
-    "monto": 10493.88,
-    "categoria": "Gastos bancarios",
-    "medio": "Mercado Pago",
-    "notas": "Importado de C:\\Users\\Gusta\\Downloads\\mp.xlsx"
-  },
-  {
-    "fecha": "2026-04-16",
-    "concepto": "Impuesto sobre los Créditos y Débitos en cobros",
-    "monto": 430.8,
-    "categoria": "Gastos bancarios",
-    "medio": "Mercado Pago",
-    "notas": "Importado de C:\\Users\\Gusta\\Downloads\\mp.xlsx"
-  },
-  {
-    "fecha": "2026-04-16",
-    "concepto": "Retención Impuesto a los IIBB de Corrientes",
-    "monto": 1436.0,
-    "categoria": "Gastos bancarios",
-    "medio": "Mercado Pago",
-    "notas": "Importado de C:\\Users\\Gusta\\Downloads\\mp.xlsx"
-  },
-  {
-    "fecha": "2026-04-16",
-    "concepto": "Costo de Mercado Pago",
-    "monto": 5463.98,
-    "categoria": "Gastos bancarios",
-    "medio": "Mercado Pago",
-    "notas": "Importado de C:\\Users\\Gusta\\Downloads\\mp.xlsx"
-  },
-  {
-    "fecha": "2026-04-16",
-    "concepto": "Costo por intereses absorbidos",
-    "monto": 5650.66,
-    "categoria": "Gastos bancarios",
-    "medio": "Mercado Pago",
-    "notas": "Importado de C:\\Users\\Gusta\\Downloads\\mp.xlsx"
-  },
-  {
-    "fecha": "2026-04-16",
     "concepto": "Pago tarjeta — Cobro T.Credito",
     "monto": 989682.37,
     "categoria": "Gastos bancarios",
@@ -850,5 +1026,285 @@
     "categoria": "Sueldos",
     "medio": "Efectivo",
     "notas": "Cargado manualmente"
+  },
+  {
+    "fecha": "2026-04-16",
+    "concepto": "Impuesto sobre los Créditos y Débitos en cobros",
+    "monto": 192.0,
+    "categoria": "AFIP / Impuestos",
+    "medio": "Mercado Pago",
+    "notas": "Extracto MP mov #2265255008480"
+  },
+  {
+    "fecha": "2026-04-16",
+    "concepto": "Retención Impuesto a los IIBB de Corrientes",
+    "monto": 640.0,
+    "categoria": "AFIP / Impuestos",
+    "medio": "Mercado Pago",
+    "notas": "Extracto MP mov #2265255008482"
+  },
+  {
+    "fecha": "2026-04-16",
+    "concepto": "Costo de Mercado Pago",
+    "monto": 2435.2,
+    "categoria": "Gastos bancarios",
+    "medio": "Mercado Pago",
+    "notas": "Extracto MP mov #2265255008484"
+  },
+  {
+    "fecha": "2026-04-16",
+    "concepto": "Costo por intereses absorbidos",
+    "monto": 2518.4,
+    "categoria": "Gastos bancarios",
+    "medio": "Mercado Pago",
+    "notas": "Extracto MP mov #2265255008486"
+  },
+  {
+    "fecha": "2026-04-16",
+    "concepto": "Impuesto sobre los Créditos y Débitos en pagos",
+    "monto": 62.96,
+    "categoria": "AFIP / Impuestos",
+    "medio": "Mercado Pago",
+    "notas": "Extracto MP mov #2265351140132"
+  },
+  {
+    "fecha": "2026-04-16",
+    "concepto": "Pago",
+    "monto": 10493.88,
+    "categoria": "Otros",
+    "medio": "Mercado Pago",
+    "notas": "Extracto MP mov #2265351140134"
+  },
+  {
+    "fecha": "2026-04-16",
+    "concepto": "Impuesto sobre los Créditos y Débitos en cobros",
+    "monto": 430.8,
+    "categoria": "AFIP / Impuestos",
+    "medio": "Mercado Pago",
+    "notas": "Extracto MP mov #2265384484293"
+  },
+  {
+    "fecha": "2026-04-16",
+    "concepto": "Retención Impuesto a los IIBB de Corrientes",
+    "monto": 1436.0,
+    "categoria": "AFIP / Impuestos",
+    "medio": "Mercado Pago",
+    "notas": "Extracto MP mov #2265384484295"
+  },
+  {
+    "fecha": "2026-04-16",
+    "concepto": "Costo de Mercado Pago",
+    "monto": 5463.98,
+    "categoria": "Gastos bancarios",
+    "medio": "Mercado Pago",
+    "notas": "Extracto MP mov #2265384484297"
+  },
+  {
+    "fecha": "2026-04-16",
+    "concepto": "Costo por intereses absorbidos",
+    "monto": 5650.66,
+    "categoria": "Gastos bancarios",
+    "medio": "Mercado Pago",
+    "notas": "Extracto MP mov #2265384484299"
+  },
+  {
+    "fecha": "2026-04-17",
+    "concepto": "Impuesto sobre los Créditos y Débitos en cobros",
+    "monto": 773.4,
+    "categoria": "AFIP / Impuestos",
+    "medio": "Mercado Pago",
+    "notas": "Extracto MP mov #2266498355936"
+  },
+  {
+    "fecha": "2026-04-17",
+    "concepto": "Retención Impuesto a los IIBB de Corrientes",
+    "monto": 2578.0,
+    "categoria": "AFIP / Impuestos",
+    "medio": "Mercado Pago",
+    "notas": "Extracto MP mov #2266498355938"
+  },
+  {
+    "fecha": "2026-04-17",
+    "concepto": "Costo de Mercado Pago",
+    "monto": 9809.29,
+    "categoria": "Gastos bancarios",
+    "medio": "Mercado Pago",
+    "notas": "Extracto MP mov #2266498355940"
+  },
+  {
+    "fecha": "2026-04-17",
+    "concepto": "Costo por intereses absorbidos",
+    "monto": 10144.43,
+    "categoria": "Gastos bancarios",
+    "medio": "Mercado Pago",
+    "notas": "Extracto MP mov #2266498355942"
+  },
+  {
+    "fecha": "2026-04-17",
+    "concepto": "Impuesto sobre los Créditos y Débitos en cobros",
+    "monto": 990.0,
+    "categoria": "AFIP / Impuestos",
+    "medio": "Mercado Pago",
+    "notas": "Extracto MP mov #2266530920156"
+  },
+  {
+    "fecha": "2026-04-17",
+    "concepto": "Tarifa por uso de plataforma de terceros",
+    "monto": 1650.0,
+    "categoria": "Gastos bancarios",
+    "medio": "Mercado Pago",
+    "notas": "Extracto MP mov #2266530920158"
+  },
+  {
+    "fecha": "2026-04-17",
+    "concepto": "Costo de Mercado Pago",
+    "monto": 12556.5,
+    "categoria": "Gastos bancarios",
+    "medio": "Mercado Pago",
+    "notas": "Extracto MP mov #2266530920160"
+  },
+  {
+    "fecha": "2026-04-17",
+    "concepto": "Costo por intereses absorbidos",
+    "monto": 21763.5,
+    "categoria": "Gastos bancarios",
+    "medio": "Mercado Pago",
+    "notas": "Extracto MP mov #2266530920162"
+  },
+  {
+    "fecha": "2026-04-17",
+    "concepto": "Impuesto sobre los Créditos y Débitos en cobros",
+    "monto": 378.6,
+    "categoria": "AFIP / Impuestos",
+    "medio": "Mercado Pago",
+    "notas": "Extracto MP mov #2266484579685"
+  },
+  {
+    "fecha": "2026-04-17",
+    "concepto": "Retención Impuesto a los IIBB de Corrientes",
+    "monto": 1262.0,
+    "categoria": "AFIP / Impuestos",
+    "medio": "Mercado Pago",
+    "notas": "Extracto MP mov #2266484579687"
+  },
+  {
+    "fecha": "2026-04-17",
+    "concepto": "Costo de Mercado Pago",
+    "monto": 4801.91,
+    "categoria": "Gastos bancarios",
+    "medio": "Mercado Pago",
+    "notas": "Extracto MP mov #2266484579689"
+  },
+  {
+    "fecha": "2026-04-17",
+    "concepto": "Costo por intereses absorbidos",
+    "monto": 4965.97,
+    "categoria": "Gastos bancarios",
+    "medio": "Mercado Pago",
+    "notas": "Extracto MP mov #2266484579691"
+  },
+  {
+    "fecha": "2026-04-17",
+    "concepto": "Impuesto sobre los Créditos y Débitos en cobros",
+    "monto": 241.44,
+    "categoria": "AFIP / Impuestos",
+    "medio": "Mercado Pago",
+    "notas": "Extracto MP mov #2266866441308"
+  },
+  {
+    "fecha": "2026-04-17",
+    "concepto": "Tarifa por uso de plataforma de terceros",
+    "monto": 402.4,
+    "categoria": "Gastos bancarios",
+    "medio": "Mercado Pago",
+    "notas": "Extracto MP mov #2266866441310"
+  },
+  {
+    "fecha": "2026-04-17",
+    "concepto": "Retención Impuesto a los IIBB de Corrientes",
+    "monto": 804.8,
+    "categoria": "AFIP / Impuestos",
+    "medio": "Mercado Pago",
+    "notas": "Extracto MP mov #2266866441312"
+  },
+  {
+    "fecha": "2026-04-17",
+    "concepto": "Costo de Mercado Pago",
+    "monto": 3062.26,
+    "categoria": "Gastos bancarios",
+    "medio": "Mercado Pago",
+    "notas": "Extracto MP mov #2266866441314"
+  },
+  {
+    "fecha": "2026-04-17",
+    "concepto": "Costo por intereses absorbidos",
+    "monto": 3166.89,
+    "categoria": "Gastos bancarios",
+    "medio": "Mercado Pago",
+    "notas": "Extracto MP mov #2266866441316"
+  },
+  {
+    "fecha": "2026-04-17",
+    "concepto": "Impuesto sobre los Créditos y Débitos en cobros",
+    "monto": 215.4,
+    "categoria": "AFIP / Impuestos",
+    "medio": "Mercado Pago",
+    "notas": "Extracto MP mov #2266905893598"
+  },
+  {
+    "fecha": "2026-04-17",
+    "concepto": "Retención Impuesto a los IIBB de Corrientes",
+    "monto": 718.0,
+    "categoria": "AFIP / Impuestos",
+    "medio": "Mercado Pago",
+    "notas": "Extracto MP mov #2266905893600"
+  },
+  {
+    "fecha": "2026-04-17",
+    "concepto": "Costo de Mercado Pago",
+    "monto": 2731.99,
+    "categoria": "Gastos bancarios",
+    "medio": "Mercado Pago",
+    "notas": "Extracto MP mov #2266905893602"
+  },
+  {
+    "fecha": "2026-04-17",
+    "concepto": "Costo por intereses absorbidos",
+    "monto": 2825.33,
+    "categoria": "Gastos bancarios",
+    "medio": "Mercado Pago",
+    "notas": "Extracto MP mov #2266905893604"
+  },
+  {
+    "fecha": "2026-04-17",
+    "concepto": "Impuesto sobre los Créditos y Débitos en cobros",
+    "monto": 430.8,
+    "categoria": "AFIP / Impuestos",
+    "medio": "Mercado Pago",
+    "notas": "Extracto MP mov #2266656371453"
+  },
+  {
+    "fecha": "2026-04-17",
+    "concepto": "Retención Impuesto a los IIBB de Corrientes",
+    "monto": 1436.0,
+    "categoria": "AFIP / Impuestos",
+    "medio": "Mercado Pago",
+    "notas": "Extracto MP mov #2266656371455"
+  },
+  {
+    "fecha": "2026-04-17",
+    "concepto": "Costo de Mercado Pago",
+    "monto": 5463.98,
+    "categoria": "Gastos bancarios",
+    "medio": "Mercado Pago",
+    "notas": "Extracto MP mov #2266656371457"
+  },
+  {
+    "fecha": "2026-04-17",
+    "concepto": "Costo por intereses absorbidos",
+    "monto": 5650.66,
+    "categoria": "Gastos bancarios",
+    "medio": "Mercado Pago",
+    "notas": "Extracto MP mov #2266656371459"
   }
 ]
