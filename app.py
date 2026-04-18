@@ -1985,17 +1985,20 @@ if tab3:
     seccion("Todos los movimientos — ventas y gastos")
 
     # ── Filtros ───────────────────────────────────────────────────────────────
-    f1, f2, f3, f4 = st.columns([1, 1, 1, 1])
+    f1, f2, f3, f4, f5 = st.columns([1, 1, 1, 1, 1])
     filtro_tipo = f1.selectbox("Tipo", ["Todos", "Ventas", "Gastos"], key="mov_tipo")
     filtro_periodo = f2.selectbox("Período", [
         "Hoy", "Ayer", "Últimos 7 días", "Últimos 15 días", "Últimos 30 días",
         "Este mes", "Mes anterior", "Elegir día", "Todo"
     ], index=5, key="mov_periodo")
     filtro_medio = f3.selectbox("Medio / Banco", ["Todos", "Efectivo", "Mercado Pago", "Santander", "BBVA Frances", "Banco Corrientes", "Online"], key="mov_medio")
+    filtro_comparar = f4.selectbox("Comparar con", [
+        "Ningún período", "Período anterior", "Mes anterior", "Año anterior"
+    ], key="mov_comparar")
     if filtro_periodo == "Elegir día":
-        filtro_dia = f4.date_input("Día", value=hoy, key="mov_dia_especifico")
+        filtro_dia = f5.date_input("Día", value=hoy, key="mov_dia_especifico")
     else:
-        f4.markdown("<div style='height:52px'></div>", unsafe_allow_html=True)
+        f5.markdown("<div style='height:52px'></div>", unsafe_allow_html=True)
 
     # ── Construir lista unificada ─────────────────────────────────────────────
     movimientos_all = []
@@ -2103,55 +2106,379 @@ if tab3:
             st.markdown(metric_card("📋", "Movimientos", str(len(df_mov)),
                 "en el periodo", "azul"), unsafe_allow_html=True)
 
-        # ── Datos cargados por banco ──────────────────────────────────────────
-        seccion("Datos cargados por banco")
-        _gastos_todos = get_gastos()
-        _bancos_con_datos = {}
-        for _g in _gastos_todos:
-            _medio = _g.get("medio", "?")
-            _fecha_g = _g["fecha"]
-            if _medio not in _bancos_con_datos:
-                _bancos_con_datos[_medio] = {"desde": _fecha_g, "hasta": _fecha_g, "cant": 0, "total": 0}
-            _bancos_con_datos[_medio]["cant"] += 1
-            _bancos_con_datos[_medio]["total"] += _g["monto"]
-            if _fecha_g < _bancos_con_datos[_medio]["desde"]:
-                _bancos_con_datos[_medio]["desde"] = _fecha_g
-            if _fecha_g > _bancos_con_datos[_medio]["hasta"]:
-                _bancos_con_datos[_medio]["hasta"] = _fecha_g
+        # ── Calcular período de comparación ──────────────────────────────────
+        _fecha_min = df_mov["fecha"].min()
+        _fecha_max = df_mov["fecha"].max()
+        _dias_periodo = max((_fecha_max - _fecha_min).days, 1) if len(df_mov) > 0 else 1
+        df_comp = pd.DataFrame()
+        _tiene_comp = False
 
-        if _bancos_con_datos:
-            _rows_banco = ""
-            for _medio_b in sorted(_bancos_con_datos.keys()):
-                _info = _bancos_con_datos[_medio_b]
-                _color = "#00c96b" if _info["hasta"] >= (hoy - timedelta(days=3)).isoformat() else "#f7b731"
-                _estado = "Al día" if _info["hasta"] >= (hoy - timedelta(days=3)).isoformat() else "Desactualizado"
-                _rows_banco += (
-                    f'<tr>'
-                    f'<td style="font-weight:700">{_medio_b}</td>'
-                    f'<td>{_info["desde"][5:]}</td>'
-                    f'<td>{_info["hasta"][5:]}</td>'
-                    f'<td style="text-align:center">{_info["cant"]}</td>'
-                    f'<td style="text-align:right;color:#e94560;font-weight:700">{fmt_tabla(_info["total"])}</td>'
-                    f'<td style="text-align:center"><span style="color:{_color};font-weight:700">{_estado}</span></td>'
-                    f'</tr>'
-                )
-            st.markdown(
-                f'<div class="tabla-wrapper"><table class="tabla-custom">'
-                f'<thead><tr><th>Banco / Medio</th><th>Desde</th><th>Hasta</th><th style="text-align:center">Movs</th><th style="text-align:right">Total gastos</th><th style="text-align:center">Estado</th></tr></thead>'
-                f'<tbody>{_rows_banco}</tbody></table></div>',
-                unsafe_allow_html=True
+        if filtro_comparar != "Ningún período" and len(df_mov) > 0:
+            # Reconstruir movimientos completos (sin filtro de tipo/medio)
+            _mov_all_raw = pd.DataFrame(movimientos_all)
+            _mov_all_raw["fecha"] = pd.to_datetime(_mov_all_raw["fecha"], errors="coerce")
+            _mov_all_raw = _mov_all_raw.dropna(subset=["fecha"])
+
+            if filtro_comparar == "Período anterior":
+                _comp_hasta = _fecha_min - pd.Timedelta(days=1)
+                _comp_desde = _comp_hasta - pd.Timedelta(days=_dias_periodo)
+            elif filtro_comparar == "Mes anterior":
+                _mes_c = _fecha_min.month - 1 if _fecha_min.month > 1 else 12
+                _anio_c = _fecha_min.year if _fecha_min.month > 1 else _fecha_min.year - 1
+                _comp_desde = pd.Timestamp(date(_anio_c, _mes_c, 1))
+                import calendar
+                _ult_dia_c = calendar.monthrange(_anio_c, _mes_c)[1]
+                _comp_hasta = pd.Timestamp(date(_anio_c, _mes_c, _ult_dia_c))
+            elif filtro_comparar == "Año anterior":
+                _comp_desde = _fecha_min - pd.DateOffset(years=1)
+                _comp_hasta = _fecha_max - pd.DateOffset(years=1)
+
+            df_comp = _mov_all_raw[
+                (_mov_all_raw["fecha"] >= _comp_desde) & (_mov_all_raw["fecha"] <= _comp_hasta)
+            ].copy()
+            if filtro_tipo == "Ventas":
+                df_comp = df_comp[df_comp["tipo"] == "VENTA"]
+            elif filtro_tipo == "Gastos":
+                df_comp = df_comp[df_comp["tipo"] == "GASTO"]
+            if filtro_medio != "Todos":
+                df_comp = df_comp[df_comp["medio"].str.contains(filtro_medio, case=False, na=False)]
+            _tiene_comp = len(df_comp) > 0
+
+        def _pct_cambio(actual, anterior):
+            if anterior == 0:
+                return ""
+            pct = ((actual - anterior) / abs(anterior)) * 100
+            color = "#00c96b" if pct >= 0 else "#e94560"
+            signo = "+" if pct >= 0 else ""
+            return f'<span style="color:{color};font-size:0.82rem;font-weight:700"> {signo}{pct:.0f}%</span>'
+
+        # ── REPORTE DE VENTAS ─────────────────────────────────────────────────
+        seccion("Reporte de ventas")
+        _ventas_per = df_mov[df_mov["tipo"] == "VENTA"].copy()
+        if not _ventas_per.empty:
+            _total_vr = _ventas_per["monto"].sum()
+            _cant_vr = len(_ventas_per)
+            _ticket_vr = _total_vr / _cant_vr if _cant_vr else 0
+            _uds_vr = int(_ventas_per["cantidad"].sum()) if "cantidad" in _ventas_per.columns else 0
+
+            # Comparación ventas
+            _comp_v_txt = ""
+            _comp_t_txt = ""
+            _comp_u_txt = ""
+            if _tiene_comp:
+                _vc = df_comp[df_comp["tipo"] == "VENTA"]
+                _comp_v_txt = _pct_cambio(_total_vr, _vc["monto"].sum())
+                _comp_t_txt = _pct_cambio(_ticket_vr, _vc["monto"].sum() / len(_vc) if len(_vc) else 0)
+                _comp_u_txt = _pct_cambio(_cant_vr, len(_vc))
+
+            rv1, rv2, rv3 = st.columns(3)
+            with rv1:
+                st.markdown(f'''<div style="background:#1a1a2e;border:1px solid #00c96b33;border-radius:14px;padding:20px;border-left:4px solid #00c96b">
+                    <div style="font-size:0.75rem;color:#00c96b;font-weight:700;text-transform:uppercase">Volumen de ventas</div>
+                    <div style="font-size:1.8rem;font-weight:800;color:#eee;margin:6px 0">{fmt(_total_vr)} {_comp_v_txt}</div>
+                    <div style="font-size:0.78rem;color:#8888aa">Sin IVA · {_cant_vr} operaciones</div>
+                </div>''', unsafe_allow_html=True)
+            with rv2:
+                st.markdown(f'''<div style="background:#1a1a2e;border:1px solid #3a86ff33;border-radius:14px;padding:20px;border-left:4px solid #3a86ff">
+                    <div style="font-size:0.75rem;color:#3a86ff;font-weight:700;text-transform:uppercase">Ticket promedio</div>
+                    <div style="font-size:1.8rem;font-weight:800;color:#eee;margin:6px 0">{fmt(_ticket_vr)} {_comp_t_txt}</div>
+                    <div style="font-size:0.78rem;color:#8888aa">Por operación</div>
+                </div>''', unsafe_allow_html=True)
+            with rv3:
+                st.markdown(f'''<div style="background:#1a1a2e;border:1px solid #8b5cf633;border-radius:14px;padding:20px;border-left:4px solid #8b5cf6">
+                    <div style="font-size:0.75rem;color:#8b5cf6;font-weight:700;text-transform:uppercase">Unidades vendidas</div>
+                    <div style="font-size:1.8rem;font-weight:800;color:#eee;margin:6px 0">{_uds_vr} {_comp_u_txt}</div>
+                    <div style="font-size:0.78rem;color:#8888aa">{_cant_vr} ventas</div>
+                </div>''', unsafe_allow_html=True)
+
+            # Gráfico diario de ventas
+            _v_dia = _ventas_per.groupby(_ventas_per["fecha"].dt.date).agg(
+                neto=("monto", "sum"), uds=("cantidad", "sum")
+            ).reset_index()
+            _v_dia.columns = ["fecha_dia", "neto", "uds"]
+            _v_dia = _v_dia.sort_values("fecha_dia")
+            _v_dia["fecha_dt"] = pd.to_datetime(_v_dia["fecha_dia"])
+
+            fig_v = go.Figure()
+            fig_v.add_trace(go.Scatter(
+                x=_v_dia["fecha_dt"], y=_v_dia["neto"],
+                fill="tozeroy", fillcolor="rgba(0,201,107,0.1)",
+                line=dict(color="#00c96b", width=2.5),
+                name="Ventas",
+                hovertemplate="<b>%{x|%d/%m}</b><br>Ventas: $%{y:,.0f}<extra></extra>",
+            ))
+            if _tiene_comp:
+                _vc_dia = df_comp[df_comp["tipo"] == "VENTA"].copy()
+                if not _vc_dia.empty:
+                    _vc_dia_g = _vc_dia.groupby(_vc_dia["fecha"].dt.date)["monto"].sum().reset_index()
+                    _vc_dia_g.columns = ["fecha_dia", "neto"]
+                    _vc_dia_g = _vc_dia_g.sort_values("fecha_dia")
+                    # Alinear al mismo eje X usando día relativo
+                    _vc_dia_g["dia_rel"] = range(len(_vc_dia_g))
+                    _v_dia_plot = _v_dia.copy()
+                    _v_dia_plot["dia_rel"] = range(len(_v_dia_plot))
+                    _merged = _v_dia_plot.merge(_vc_dia_g[["dia_rel", "neto"]], on="dia_rel", how="left", suffixes=("", "_comp"))
+                    if "neto_comp" in _merged.columns:
+                        fig_v.add_trace(go.Scatter(
+                            x=_merged["fecha_dt"], y=_merged["neto_comp"],
+                            line=dict(color="#666688", width=1.5, dash="dot"),
+                            name="Período anterior",
+                            hovertemplate="<b>Comparación</b><br>$%{y:,.0f}<extra></extra>",
+                        ))
+            fig_v.update_layout(
+                paper_bgcolor="rgba(0,0,0,0)", plot_bgcolor="#1a1a2e",
+                font=dict(family="Inter", color="#888899", size=11),
+                height=280, margin=dict(t=20, b=10, l=50, r=20),
+                legend=dict(orientation="h", y=1.08, x=0, bgcolor="rgba(0,0,0,0)", font=dict(size=10)),
+                xaxis=dict(showgrid=False, tickformat="%d/%m", linecolor="rgba(255,255,255,0.06)"),
+                yaxis=dict(showgrid=True, gridcolor="rgba(255,255,255,0.04)", tickformat="$,.0f", linecolor="rgba(255,255,255,0.06)"),
             )
-            # Saldos actuales
-            _ult_bancos = get_bancos()[-1] if get_bancos() else {}
-            _fecha_saldo = _ult_bancos.get("fecha", "?")
-            st.markdown(
-                f'<div style="color:#8888aa;font-size:0.8rem;margin-top:8px">'
-                f'Saldos bancarios actualizados al {_fecha_saldo} — '
-                f'Si un banco dice "Desactualizado", subí el extracto nuevo en Config</div>',
-                unsafe_allow_html=True
-            )
+            st.plotly_chart(fig_v, use_container_width=True, config={"displayModeBar": False})
+
+            # Desglose por medio de pago
+            _v_medio = _ventas_per.groupby("medio").agg(total=("monto", "sum"), cant=("monto", "count")).reset_index()
+            _v_medio = _v_medio.sort_values("total", ascending=False)
+            _v_medio_total = _v_medio["total"].sum()
+            _colores_medio = {"Efectivo": "#00c96b", "Mercado Pago": "#3a86ff", "Santander": "#e94560",
+                              "BBVA Frances": "#f7b731", "Banco Corrientes": "#8b5cf6", "Online": "#4ecdc4"}
+            _rows_mp = ""
+            for _, _rm in _v_medio.iterrows():
+                _pct_m = _rm["total"] / _v_medio_total * 100 if _v_medio_total else 0
+                _col_m = _colores_medio.get(_rm["medio"], "#6666aa")
+                _rows_mp += f'''<div style="margin:8px 0">
+                    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px">
+                        <span style="color:#ccc;font-weight:600;font-size:0.85rem">{_rm["medio"]}</span>
+                        <span style="color:#eee;font-weight:700;font-size:0.85rem">{fmt_tabla(_rm["total"])} · {_pct_m:.0f}%</span>
+                    </div>
+                    <div style="background:#ffffff10;border-radius:4px;height:8px;overflow:hidden">
+                        <div style="width:{_pct_m:.0f}%;height:100%;background:{_col_m};border-radius:4px"></div>
+                    </div>
+                </div>'''
+            st.markdown(f'''<div style="background:#1a1a2e;border:1px solid #ffffff10;border-radius:14px;padding:16px 20px;margin-top:8px">
+                <div style="font-size:0.78rem;color:#8888aa;font-weight:700;text-transform:uppercase;margin-bottom:10px">Medios de pago</div>
+                {_rows_mp}
+            </div>''', unsafe_allow_html=True)
         else:
-            alerta_html("No hay gastos cargados de ningún banco", "amarillo")
+            alerta_html("Sin ventas en este período", "amarillo")
+
+        # ── REPORTE DE GASTOS ─────────────────────────────────────────────────
+        seccion("Reporte de gastos")
+        _gastos_per = df_mov[df_mov["tipo"] == "GASTO"].copy()
+        if not _gastos_per.empty:
+            _total_gr = abs(_gastos_per["monto"].sum())
+            _cant_gr = len(_gastos_per)
+            _ticket_gr = _total_gr / _cant_gr if _cant_gr else 0
+
+            _comp_g_txt = ""
+            _comp_gt_txt = ""
+            if _tiene_comp:
+                _gc = df_comp[df_comp["tipo"] == "GASTO"]
+                _comp_g_txt = _pct_cambio(_total_gr, abs(_gc["monto"].sum()))
+                _comp_gt_txt = _pct_cambio(_cant_gr, len(_gc))
+
+            rg1, rg2, rg3 = st.columns(3)
+            with rg1:
+                st.markdown(f'''<div style="background:#1a1a2e;border:1px solid #e9456033;border-radius:14px;padding:20px;border-left:4px solid #e94560">
+                    <div style="font-size:0.75rem;color:#e94560;font-weight:700;text-transform:uppercase">Total gastos</div>
+                    <div style="font-size:1.8rem;font-weight:800;color:#eee;margin:6px 0">{fmt(_total_gr)} {_comp_g_txt}</div>
+                    <div style="font-size:0.78rem;color:#8888aa">{_cant_gr} movimientos</div>
+                </div>''', unsafe_allow_html=True)
+            with rg2:
+                st.markdown(f'''<div style="background:#1a1a2e;border:1px solid #f7b73133;border-radius:14px;padding:20px;border-left:4px solid #f7b731">
+                    <div style="font-size:0.75rem;color:#f7b731;font-weight:700;text-transform:uppercase">Gasto promedio</div>
+                    <div style="font-size:1.8rem;font-weight:800;color:#eee;margin:6px 0">{fmt(_ticket_gr)}</div>
+                    <div style="font-size:0.78rem;color:#8888aa">Por movimiento</div>
+                </div>''', unsafe_allow_html=True)
+            with rg3:
+                st.markdown(f'''<div style="background:#1a1a2e;border:1px solid #3a86ff33;border-radius:14px;padding:20px;border-left:4px solid #3a86ff">
+                    <div style="font-size:0.75rem;color:#3a86ff;font-weight:700;text-transform:uppercase">Movimientos</div>
+                    <div style="font-size:1.8rem;font-weight:800;color:#eee;margin:6px 0">{_cant_gr} {_comp_gt_txt}</div>
+                    <div style="font-size:0.78rem;color:#8888aa">en el período</div>
+                </div>''', unsafe_allow_html=True)
+
+            # Gráfico diario de gastos
+            _g_dia = _gastos_per.copy()
+            _g_dia["monto_abs"] = _g_dia["monto"].abs()
+            _g_dia = _g_dia.groupby(_g_dia["fecha"].dt.date).agg(total=("monto_abs", "sum"), cant=("monto_abs", "count")).reset_index()
+            _g_dia.columns = ["fecha_dia", "total", "cant"]
+            _g_dia = _g_dia.sort_values("fecha_dia")
+            _g_dia["fecha_dt"] = pd.to_datetime(_g_dia["fecha_dia"])
+
+            fig_g = go.Figure()
+            fig_g.add_trace(go.Scatter(
+                x=_g_dia["fecha_dt"], y=_g_dia["total"],
+                fill="tozeroy", fillcolor="rgba(233,69,96,0.1)",
+                line=dict(color="#e94560", width=2.5),
+                name="Gastos",
+                hovertemplate="<b>%{x|%d/%m}</b><br>Gastos: $%{y:,.0f}<extra></extra>",
+            ))
+            if _tiene_comp:
+                _gc_dia = df_comp[df_comp["tipo"] == "GASTO"].copy()
+                if not _gc_dia.empty:
+                    _gc_dia["monto_abs"] = _gc_dia["monto"].abs()
+                    _gc_dia_g = _gc_dia.groupby(_gc_dia["fecha"].dt.date)["monto_abs"].sum().reset_index()
+                    _gc_dia_g.columns = ["fecha_dia", "total"]
+                    _gc_dia_g = _gc_dia_g.sort_values("fecha_dia")
+                    _gc_dia_g["dia_rel"] = range(len(_gc_dia_g))
+                    _g_dia_plot = _g_dia.copy()
+                    _g_dia_plot["dia_rel"] = range(len(_g_dia_plot))
+                    _merged_g = _g_dia_plot.merge(_gc_dia_g[["dia_rel", "total"]], on="dia_rel", how="left", suffixes=("", "_comp"))
+                    if "total_comp" in _merged_g.columns:
+                        fig_g.add_trace(go.Scatter(
+                            x=_merged_g["fecha_dt"], y=_merged_g["total_comp"],
+                            line=dict(color="#666688", width=1.5, dash="dot"),
+                            name="Período anterior",
+                            hovertemplate="<b>Comparación</b><br>$%{y:,.0f}<extra></extra>",
+                        ))
+            fig_g.update_layout(
+                paper_bgcolor="rgba(0,0,0,0)", plot_bgcolor="#1a1a2e",
+                font=dict(family="Inter", color="#888899", size=11),
+                height=280, margin=dict(t=20, b=10, l=50, r=20),
+                legend=dict(orientation="h", y=1.08, x=0, bgcolor="rgba(0,0,0,0)", font=dict(size=10)),
+                xaxis=dict(showgrid=False, tickformat="%d/%m", linecolor="rgba(255,255,255,0.06)"),
+                yaxis=dict(showgrid=True, gridcolor="rgba(255,255,255,0.04)", tickformat="$,.0f", linecolor="rgba(255,255,255,0.06)"),
+            )
+            st.plotly_chart(fig_g, use_container_width=True, config={"displayModeBar": False})
+
+            # Desglose por categoría
+            _g_cat = _gastos_per.copy()
+            _g_cat["monto_abs"] = _g_cat["monto"].abs()
+            _g_cat = _g_cat.groupby("categoria").agg(total=("monto_abs", "sum"), cant=("monto_abs", "count")).reset_index()
+            _g_cat = _g_cat.sort_values("total", ascending=False)
+            _g_cat_total = _g_cat["total"].sum()
+            _col_cats = {"AFIP / Impuestos": "#8b5cf6", "Gastos bancarios": "#e94560",
+                         "Servicios (luz/gas/tel)": "#f7b731", "Sueldos": "#3a86ff",
+                         "Alquiler": "#e94560", "Transporte": "#00c96b",
+                         "Mercadería": "#4ecdc4", "Cheque debitado": "#ff6b6b", "Otros": "#6666aa"}
+            _rows_gc = ""
+            for _, _rg in _g_cat.iterrows():
+                _pct_g = _rg["total"] / _g_cat_total * 100 if _g_cat_total else 0
+                _col_g = _col_cats.get(_rg["categoria"], "#6666aa")
+                _rows_gc += f'''<div style="margin:8px 0">
+                    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px">
+                        <span style="color:#ccc;font-weight:600;font-size:0.85rem">{_rg["categoria"]}</span>
+                        <span style="color:#eee;font-weight:700;font-size:0.85rem">{fmt_tabla(_rg["total"])} · {_pct_g:.0f}%</span>
+                    </div>
+                    <div style="background:#ffffff10;border-radius:4px;height:8px;overflow:hidden">
+                        <div style="width:{_pct_g:.0f}%;height:100%;background:{_col_g};border-radius:4px"></div>
+                    </div>
+                </div>'''
+            st.markdown(f'''<div style="background:#1a1a2e;border:1px solid #ffffff10;border-radius:14px;padding:16px 20px;margin-top:8px">
+                <div style="font-size:0.78rem;color:#8888aa;font-weight:700;text-transform:uppercase;margin-bottom:10px">Gastos por categoría</div>
+                {_rows_gc}
+            </div>''', unsafe_allow_html=True)
+        else:
+            alerta_html("Sin gastos en este período", "amarillo")
+
+        # ── REPORTES POR BANCO / MEDIO ────────────────────────────────────────
+        seccion("Reporte por banco / medio")
+        _all_medios = sorted(df_mov["medio"].dropna().unique())
+        _ult_bancos = get_bancos()[-1] if get_bancos() else {}
+        _saldos_map = {
+            "BBVA Frances": _ult_bancos.get("BBVA Frances", None),
+            "Banco Corrientes": _ult_bancos.get("Banco Corrientes", None),
+            "Galicia": _ult_bancos.get("Galicia", None),
+            "Santander": _ult_bancos.get("Santander", None),
+            "Mercado Pago": _ult_bancos.get("Mercado Pago", None),
+            "Efectivo Caja": _ult_bancos.get("Efectivo Caja", None),
+            "Efectivo": _ult_bancos.get("Efectivo Caja", None),
+        }
+        _iconos_banco = {"BBVA Frances": "🏦", "Banco Corrientes": "🏦", "Galicia": "🏦",
+                         "Santander": "🏦", "Mercado Pago": "💳", "Efectivo": "💵",
+                         "Online": "🌐", "Cuenta bancaria": "🏦"}
+
+        for _medio_rep in _all_medios:
+            _mov_m = df_mov[df_mov["medio"] == _medio_rep].copy()
+            _ventas_m = _mov_m[_mov_m["tipo"] == "VENTA"]
+            _gastos_m = _mov_m[_mov_m["tipo"] == "GASTO"]
+            _total_ven_m = _ventas_m["monto"].sum()
+            _total_gas_m = abs(_gastos_m["monto"].sum())
+            _neto_m = _total_ven_m - _total_gas_m
+            _cant_m = len(_mov_m)
+            _icono = _iconos_banco.get(_medio_rep, "📋")
+            _saldo = _saldos_map.get(_medio_rep)
+            _saldo_txt = f" · Saldo actual: {fmt(_saldo)}" if _saldo is not None else ""
+
+            with st.expander(f"{_icono} {_medio_rep} — {_cant_m} movs — Ingresos: {fmt(_total_ven_m)} | Egresos: {fmt(_total_gas_m)}{_saldo_txt}"):
+                # KPIs del banco
+                bk1, bk2, bk3 = st.columns(3)
+                _col_neto = "#00c96b" if _neto_m >= 0 else "#e94560"
+                with bk1:
+                    st.markdown(f'''<div style="background:#0d0d14;border:1px solid #00c96b33;border-radius:12px;padding:14px;border-left:3px solid #00c96b">
+                        <div style="font-size:0.72rem;color:#00c96b;font-weight:700">INGRESOS</div>
+                        <div style="font-size:1.4rem;font-weight:800;color:#eee">{fmt(_total_ven_m)}</div>
+                        <div style="font-size:0.72rem;color:#8888aa">{len(_ventas_m)} ventas</div>
+                    </div>''', unsafe_allow_html=True)
+                with bk2:
+                    st.markdown(f'''<div style="background:#0d0d14;border:1px solid #e9456033;border-radius:12px;padding:14px;border-left:3px solid #e94560">
+                        <div style="font-size:0.72rem;color:#e94560;font-weight:700">EGRESOS</div>
+                        <div style="font-size:1.4rem;font-weight:800;color:#eee">{fmt(_total_gas_m)}</div>
+                        <div style="font-size:0.72rem;color:#8888aa">{len(_gastos_m)} gastos</div>
+                    </div>''', unsafe_allow_html=True)
+                with bk3:
+                    st.markdown(f'''<div style="background:#0d0d14;border:1px solid {_col_neto}33;border-radius:12px;padding:14px;border-left:3px solid {_col_neto}">
+                        <div style="font-size:0.72rem;color:{_col_neto};font-weight:700">NETO</div>
+                        <div style="font-size:1.4rem;font-weight:800;color:{_col_neto}">{fmt(_neto_m)}</div>
+                        <div style="font-size:0.72rem;color:#8888aa">{"Saldo: " + fmt(_saldo) if _saldo is not None else "ingresos - egresos"}</div>
+                    </div>''', unsafe_allow_html=True)
+
+                # Gráfico diario del banco
+                _bk_dia_v = _ventas_m.groupby(_ventas_m["fecha"].dt.date)["monto"].sum().reset_index()
+                _bk_dia_v.columns = ["fecha_dia", "ingresos"]
+                _bk_dia_g = _gastos_m.copy()
+                _bk_dia_g["monto_abs"] = _bk_dia_g["monto"].abs()
+                _bk_dia_g = _bk_dia_g.groupby(_bk_dia_g["fecha"].dt.date)["monto_abs"].sum().reset_index()
+                _bk_dia_g.columns = ["fecha_dia", "egresos"]
+
+                _bk_dia = pd.DataFrame({"fecha_dia": sorted(set(
+                    list(_bk_dia_v["fecha_dia"]) + list(_bk_dia_g["fecha_dia"])
+                ))})
+                _bk_dia = _bk_dia.merge(_bk_dia_v, on="fecha_dia", how="left").merge(_bk_dia_g, on="fecha_dia", how="left").fillna(0)
+                _bk_dia["fecha_dt"] = pd.to_datetime(_bk_dia["fecha_dia"])
+
+                if len(_bk_dia) > 1:
+                    fig_bk = go.Figure()
+                    if _bk_dia["ingresos"].sum() > 0:
+                        fig_bk.add_trace(go.Bar(
+                            x=_bk_dia["fecha_dt"], y=_bk_dia["ingresos"],
+                            name="Ingresos", marker_color="#00c96b",
+                            hovertemplate="<b>%{x|%d/%m}</b><br>Ingreso: $%{y:,.0f}<extra></extra>",
+                        ))
+                    if _bk_dia["egresos"].sum() > 0:
+                        fig_bk.add_trace(go.Bar(
+                            x=_bk_dia["fecha_dt"], y=_bk_dia["egresos"],
+                            name="Egresos", marker_color="#e94560",
+                            hovertemplate="<b>%{x|%d/%m}</b><br>Egreso: $%{y:,.0f}<extra></extra>",
+                        ))
+                    fig_bk.update_layout(
+                        paper_bgcolor="rgba(0,0,0,0)", plot_bgcolor="#0d0d14",
+                        font=dict(family="Inter", color="#888899", size=10),
+                        height=220, margin=dict(t=10, b=10, l=50, r=10),
+                        barmode="group",
+                        legend=dict(orientation="h", y=1.1, x=0, bgcolor="rgba(0,0,0,0)", font=dict(size=9)),
+                        xaxis=dict(showgrid=False, tickformat="%d/%m", linecolor="rgba(255,255,255,0.06)"),
+                        yaxis=dict(showgrid=True, gridcolor="rgba(255,255,255,0.04)", tickformat="$,.0f", linecolor="rgba(255,255,255,0.06)"),
+                    )
+                    st.plotly_chart(fig_bk, use_container_width=True, config={"displayModeBar": False})
+
+                # Últimos movimientos del banco
+                _ult_mov = _mov_m.sort_values("fecha", ascending=False).head(10)
+                _rows_bk = ""
+                for _, _rbk in _ult_mov.iterrows():
+                    _es_v = _rbk["tipo"] == "VENTA"
+                    _col_bk = "#00c96b" if _es_v else "#e94560"
+                    _sig_bk = "+" if _es_v else ""
+                    _fecha_bk = _rbk["fecha"].strftime("%d/%m") if hasattr(_rbk["fecha"], "strftime") else str(_rbk["fecha"])[:10]
+                    _rows_bk += (
+                        f'<tr><td style="white-space:nowrap;font-size:0.8rem">{_fecha_bk}</td>'
+                        f'<td style="font-size:0.8rem">{str(_rbk["concepto"])[:45]}</td>'
+                        f'<td style="text-align:right;color:{_col_bk};font-weight:700;font-size:0.8rem">{_sig_bk}{fmt_tabla(_rbk["monto"])}</td></tr>'
+                    )
+                st.markdown(
+                    f'<div class="tabla-wrapper"><table class="tabla-custom">'
+                    f'<thead><tr><th>Fecha</th><th>Concepto</th><th style="text-align:right">Monto</th></tr></thead>'
+                    f'<tbody>{_rows_bk}</tbody></table></div>',
+                    unsafe_allow_html=True)
 
         # ── Gastos del mes por categoría ──────────────────────────────────────
         seccion("Gastos del mes — a donde se va la plata")
