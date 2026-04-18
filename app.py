@@ -1214,43 +1214,6 @@ if tab1:
             "roja"
         )
 
-    # ── Bancos + cruce con formas de pago ────────────────────────────────────
-    # ── Desglose de ventas por destino ───────────────────────────────────────
-    if not sin_datos and "forma_pago" in df.columns:
-        _fp_all = df["forma_pago"].astype(str).str.upper()
-
-        # MP Cuotas = acreditación inmediata en MP
-        _mask_mp_cuota = _fp_all.str.contains("MERCADO PAGO", na=False) & _fp_all.str.contains("CUOTA", na=False)
-        # Tarjetas POS (Naranja, Visa, Master, Cabal, Amex) = 18-30 días
-        _mask_pos = _fp_all.str.contains("NARANJA|VISA|MASTER|AMEX|CABAL", na=False) & ~_fp_all.str.contains("MERCADO", na=False)
-
-        _mp_cuota_neto = df[_mask_mp_cuota]["neto"].sum()
-        _pos_neto = df[_mask_pos]["neto"].sum()
-
-        _items = []
-        if _mp_cuota_neto > 0:
-            _items.append(("MP Cuotas Simple", _mp_cuota_neto, "#00c96b", "Ya acreditado en MP (inmediato)", "cobrado"))
-        if _pos_neto > 0:
-            _items.append(("Tarjeta POS (Naranja/Visa)", _pos_neto, "#f7b731", "Entra en 18-30 dias al banco", "pendiente"))
-
-        if _items:
-            for _nombre, _neto_i, _color_i, _desc_i, _estado_i in _items:
-                _iva_i = _neto_i * 1.21
-                _icono = "✅" if _estado_i == "cobrado" else "⏳"
-                st.markdown(f"""
-                <div style="background:#1a1a2e;border:1px solid {_color_i}44;border-radius:12px;padding:12px 20px;margin:6px 0;border-left:4px solid {_color_i}">
-                    <div style="display:flex;justify-content:space-between;align-items:center">
-                        <div>
-                            <div style="font-size:0.75rem;color:{_color_i};font-weight:700">{_icono} {_nombre}</div>
-                            <div style="font-size:0.78rem;color:#8888aa;margin-top:2px">{_desc_i}</div>
-                        </div>
-                        <div style="text-align:right">
-                            <div style="font-size:1.2rem;font-weight:800;color:{_color_i}">{fmt(_iva_i)}</div>
-                            <div style="font-size:0.72rem;color:#666688">sin IVA: {fmt(_neto_i)}</div>
-                        </div>
-                    </div>
-                </div>""", unsafe_allow_html=True)
-
     bancos_data = get_bancos()
     seccion("Bancos — saldos actuales")
     if bancos_data:
@@ -1411,45 +1374,6 @@ if tab1:
     else:
         alerta_html("Sin datos bancarios — actualizalos en Config", "azul")
 
-    # ── Flujo por forma de pago (solo si hay datos de Dux con forma_pago) ───────
-    if not sin_datos and "forma_pago" in df.columns:
-        seccion("Flujo de ventas — hacia donde fue la plata")
-        _df_fp = df[
-            (df["fecha_dia"] >= fecha_desde) &
-            (df["fecha_dia"] <= fecha_hasta)
-        ].copy()
-
-        def _cat_pago(fp):
-            fp = str(fp).upper()
-            if "EFECTIVO" in fp:                                              return "efectivo"
-            elif "TRANSF" in fp:                                              return "transferencia"
-            elif any(k in fp for k in ["TARJETA","CREDITO","DEBITO","CUOTA","MP","MERCADO"]): return "tarjeta_pos"
-            else:                                                             return "otros"
-
-        _df_fp["_cat"] = _df_fp["forma_pago"].apply(_cat_pago)
-        _col_iva = "total_con_iva" if "total_con_iva" in _df_fp.columns else None
-        _g_neto = _df_fp.groupby("_cat")["neto"].sum()
-        _g_iva = _df_fp.groupby("_cat")[_col_iva].sum() if _col_iva else _g_neto * 1.21
-        ef = _g_iva.get("efectivo", 0)
-        ef_n = _g_neto.get("efectivo", 0)
-        tr = _g_iva.get("transferencia", 0)
-        tr_n = _g_neto.get("transferencia", 0)
-        tp = _g_iva.get("tarjeta_pos", 0)
-        tp_n = _g_neto.get("tarjeta_pos", 0)
-        ot = _g_iva.get("otros", 0)
-        ot_n = _g_neto.get("otros", 0)
-
-        cf1, cf2, cf3, cf4 = st.columns(4)
-        with cf1:
-            st.markdown(metric_card("💵","Efectivo",fmt(ef),f"Sin IVA: {fmt(ef_n)} · Queda en caja","amarillo"), unsafe_allow_html=True)
-        with cf2:
-            _sub_tr = f"Sin IVA: {fmt(tr_n)} · Va al banco" if tr > 0 else "Sin transferencias"
-            st.markdown(metric_card("🔄","Transferencias",fmt(tr),_sub_tr,"azul" if tr > 0 else "gris"), unsafe_allow_html=True)
-        with cf3:
-            st.markdown(metric_card("💳","Tarjeta / POS",fmt(tp),f"Sin IVA: {fmt(tp_n)} · Acredita en Santander/MP","verde"), unsafe_allow_html=True)
-        with cf4:
-            st.markdown(metric_card("🌐","Online / Otros",fmt(ot),f"Sin IVA: {fmt(ot_n)} · Tienda Nube / MP","morado"), unsafe_allow_html=True)
-
     # ── Ventas del período ────────────────────────────────────────────────────
     seccion(f"Ventas — {label_periodo}")
 
@@ -1559,83 +1483,11 @@ if tab1:
         </div>
         """, unsafe_allow_html=True)
 
-        # ── Detalle de ventas y gastos (expandibles) ─────────────────────────
-        dc1, dc2, dc3, dc4 = st.columns(4)
-        with dc1:
-            st.markdown(metric_card("💰","Ventas con IVA",fmt(iva_per),"Lo que entro realmente","verde"), unsafe_allow_html=True)
-            with st.expander("Ver detalle ventas"):
-                if not df_per.empty and "producto" in df_per.columns:
-                    _agg_top = {"neto": ("neto","sum")}
-                    if "total_con_iva" in df_per.columns:
-                        _agg_top["con_iva"] = ("total_con_iva","sum")
-                    top_prod = df_per.groupby("producto").agg(**_agg_top).sort_values("neto", ascending=False).head(10)
-                    if "con_iva" not in top_prod.columns:
-                        top_prod["con_iva"] = top_prod["neto"] * 1.21
-                    for _, _rp in top_prod.iterrows():
-                        st.markdown(f'<div style="display:flex;justify-content:space-between;padding:3px 0;font-size:0.82rem"><span style="color:#ccc">{str(_rp.name)[:40]}</span><span style="color:#00c96b;font-weight:700">{fmt(_rp["con_iva"])}</span></div>', unsafe_allow_html=True)
-                else:
-                    st.info("Sin datos")
-        with dc2:
-            st.markdown(metric_card("💵","Ventas sin IVA",fmt(neto_per),f"IVA a pagar: {fmt(iva_per - neto_per)}","azul"), unsafe_allow_html=True)
-            with st.expander("Ver por forma de pago"):
-                if not df_per.empty and "forma_pago" in df_per.columns:
-                    fp_grupo = df_per.groupby("forma_pago")["neto"].sum().sort_values(ascending=False)
-                    for fp_n, neto_fp in fp_grupo.items():
-                        con_iva_fp = neto_fp * 1.21
-                        st.markdown(f'<div style="display:flex;justify-content:space-between;padding:3px 0;font-size:0.82rem"><span style="color:#ccc">{fp_n}</span><span style="color:#3a86ff;font-weight:700">{fmt(con_iva_fp)}</span></div>', unsafe_allow_html=True)
-                else:
-                    st.info("Sin datos de pago")
-        with dc3:
-            st.markdown(metric_card("💸","Gastos estimados",fmt(total_gastos_per),f"Fijos {fmt(gf_proporcional)} + Var {fmt(total_gv)}","rojo"), unsafe_allow_html=True)
-            with st.expander("Ver detalle gastos"):
-                gastos_periodo = [g for g in get_gastos()
-                    if date.fromisoformat(g["fecha"]) >= fecha_desde
-                    and date.fromisoformat(g["fecha"]) <= fecha_hasta]
-                if gastos_periodo:
-                    for g in sorted(gastos_periodo, key=lambda x: x["fecha"])[:15]:
-                        st.markdown(f'<div style="display:flex;justify-content:space-between;padding:3px 0;font-size:0.82rem"><span style="color:#ccc">{g["concepto"][:40]}</span><span style="color:#e94560;font-weight:700">{fmt_tabla(g["monto"])}</span></div>', unsafe_allow_html=True)
-                st.markdown(f'<div style="margin-top:6px;font-size:0.75rem;color:#666688">+ Gastos fijos proporcionales: {fmt(gf_proporcional)}</div>', unsafe_allow_html=True)
-        with dc4:
-            falta = max(total_gastos_per - neto_per, 0)
-            dias_txt_r = "Ya cubiertos" if resultado >= 0 else f"Faltan {(fecha_hasta - hoy).days + 1 if fecha_hasta >= hoy else 0} dias"
-            st.markdown(metric_card("🎯","Para cubrir gastos",fmt(falta),dias_txt_r,"amarillo"), unsafe_allow_html=True)
-            with st.expander("Ver proximos vencimientos"):
-                cheques_prox = sorted(
-                    [c for c in cheques if c.get("estado") == "pendiente" and c.get("tipo") == "emitido"],
-                    key=lambda x: x["vencimiento"]
-                )
-                for ch in cheques_prox[:5]:
-                    dias_ch = (date.fromisoformat(ch["vencimiento"]) - hoy).days
-                    color_ch = "#e94560" if dias_ch <= 0 else "#f7b731" if dias_ch <= 7 else "#8888aa"
-                    estado_ch = "VENCIDO" if dias_ch < 0 else f"en {dias_ch}d"
-                    st.markdown(f'<div style="display:flex;justify-content:space-between;padding:3px 0;font-size:0.82rem"><span style="color:{color_ch}">{ch["id"]} {ch["proveedor"]} ({estado_ch})</span><span style="color:{color_ch};font-weight:700">{fmt(ch["monto"])}</span></div>', unsafe_allow_html=True)
-
-        # ── IVA ───────────────────────────────────────────────────────────────
-        seccion("IVA del periodo")
-        _iva_deb_r = neto_per * 0.21
-        _p_fact_r = Path("data/facturas_compra.json")
-        _fact_r = json.loads(_p_fact_r.read_text(encoding="utf-8")) if _p_fact_r.exists() else []
-        _iva_cred_r = sum(f.get("iva", 0) for f in _fact_r)
-        _iva_saldo_r = _iva_deb_r - _iva_cred_r
-        _n_fact_r = len(_fact_r)
-
-        col_iva1, col_iva2, col_iva3 = st.columns(3)
-        with col_iva1:
-            st.markdown(metric_card("📤", "IVA Debito",
-                fmt(_iva_deb_r),
-                "21% sobre ventas — lo que debes", "rojo"), unsafe_allow_html=True)
-        with col_iva2:
-            st.markdown(metric_card("📥", "IVA Credito",
-                fmt(_iva_cred_r),
-                f"{_n_fact_r} factura{'s' if _n_fact_r!=1 else ''} cargada{'s' if _n_fact_r!=1 else ''}" if _n_fact_r > 0 else "Sin facturas — carga en Movimientos", "verde" if _n_fact_r > 0 else "gris"), unsafe_allow_html=True)
-        with col_iva3:
-            st.markdown(metric_card("🧾", "IVA a pagar",
-                fmt(_iva_saldo_r),
-                f"Compra {fmt(max(_iva_saldo_r/0.21, 0))} neto para anularlo", "amarillo"), unsafe_allow_html=True)
-
         # ── Gráfico ───────────────────────────────────────────────────────────
         vxd = ventas_por_dia(df_per)
         vxd["fecha_dia"] = pd.to_datetime(vxd["fecha_dia"])
+        if "con_iva" not in vxd.columns:
+            vxd["con_iva"] = vxd["neto"] * 1.21
         if not vxd.empty:
             colores_barras = [
                 "#00c96b" if v >= OBJETIVO_DIARIO
@@ -1644,12 +1496,13 @@ if tab1:
             ]
             fig = go.Figure()
             fig.add_trace(go.Bar(
-                x=vxd["fecha_dia"], y=vxd["neto"],
+                x=vxd["fecha_dia"], y=vxd["con_iva"],
                 marker_color=colores_barras,
-                text=[fmt(v) for v in vxd["neto"]],
+                text=[fmt(v) for v in vxd["con_iva"]],
                 textposition="outside",
                 textfont=dict(size=9, color="#aaaacc"),
-                hovertemplate="<b>%{x|%d/%m}</b><br>%{text}<br><extra></extra>",
+                hovertemplate="<b>%{x|%d/%m}</b><br>Con IVA: %{text}<br>Sin IVA: $%{customdata:,.0f}<extra></extra>",
+                customdata=vxd["neto"],
             ))
             fig.add_hline(y=OBJETIVO_DIARIO, line_dash="dot", line_color="#3a86ff",
                 line_width=1.5,
@@ -1675,60 +1528,6 @@ if tab1:
                 bargap=0.25,
             )
             st.plotly_chart(fig, use_container_width=True, config={"displayModeBar": False})
-
-        # ── Por canal y forma de pago ─────────────────────────────────────────
-        col_a, col_b = st.columns(2)
-        with col_a:
-            seccion("Por canal")
-            fisico = df_per[df_per["canal"] == "Físico"]["neto"].sum()
-            online = df_per[df_per["canal"] == "Online"]["neto"].sum()
-            total_c = fisico + online or 1
-            st.markdown(f"""
-            <div class="tabla-wrapper" style="padding:16px 20px">
-                <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
-                    <span style="color:#ccccee;font-weight:600">Fisico</span>
-                    <span style="font-weight:700;color:#fff">{fmt(fisico)}</span>
-                </div>
-                {progress_bar(fisico/total_c*100,"#3a86ff")}
-                <div style="display:flex;justify-content:space-between;align-items:center;margin-top:10px;margin-bottom:8px">
-                    <span style="color:#ccccee;font-weight:600">Online</span>
-                    <span style="font-weight:700;color:#fff">{fmt(online)}</span>
-                </div>
-                {progress_bar(online/total_c*100,"#8b5cf6")}
-            </div>""", unsafe_allow_html=True)
-        with col_b:
-            seccion("Por forma de pago")
-            if "forma_pago" in df_per.columns:
-                pagos = df_per.groupby("forma_pago")["neto"].sum().sort_values(ascending=False).head(5)
-                total_p = pagos.sum() or 1
-                rows = ""
-                pcolores = ["#3a86ff","#8b5cf6","#e94560","#f7b731","#00c96b"]
-                for i,(forma,monto) in enumerate(pagos.items()):
-                    rows += f"""
-                    <div style="margin-bottom:8px">
-                        <div style="display:flex;justify-content:space-between;margin-bottom:4px">
-                            <span style="color:#ccccee;font-size:0.85rem">{forma}</span>
-                            <span style="font-weight:700;color:#fff;font-size:0.85rem">{fmt(monto)}</span>
-                        </div>
-                        {progress_bar(monto/total_p*100,pcolores[i%len(pcolores)])}
-                    </div>"""
-                st.markdown(f'<div class="tabla-wrapper" style="padding:16px 20px">{rows}</div>',unsafe_allow_html=True)
-
-        # ── Meta Ads ──────────────────────────────────────────────────────────
-        seccion("Meta Ads")
-        meta_data = get_meta()
-        if meta_data:
-            total_inv   = sum(m.get("inversion",0) for m in meta_data)
-            total_vconv = sum(m.get("valor_conversion",0) for m in meta_data)
-            roas_total  = total_vconv / total_inv if total_inv else 0
-            ult_meta    = meta_data[-1]
-            col_m1,col_m2,col_m3,col_m4 = st.columns(4)
-            with col_m1: st.markdown(metric_card("📢","Inversion Meta",fmt(total_inv),"total","azul"),unsafe_allow_html=True)
-            with col_m2: st.markdown(metric_card("🛒","Valor conversion",fmt(total_vconv),"atribuido","verde"),unsafe_allow_html=True)
-            with col_m3: st.markdown(metric_card("📊","ROAS",f"{roas_total:.2f}x","retorno sobre inversion","verde" if roas_total>=3 else "amarillo"),unsafe_allow_html=True)
-            with col_m4: st.markdown(metric_card("📅","Ultima actualiz.",ult_meta.get("fecha","—"),ult_meta.get("notas",""),"morado"),unsafe_allow_html=True)
-        else:
-            alerta_html("Sin datos de Meta Ads — pasame una captura y los cargo","azul")
 
     else:
         alerta_html("Sin datos de ventas — subi el .xls de Dux en la pestana Config","azul")
