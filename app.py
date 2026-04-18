@@ -646,6 +646,82 @@ OBJETIVO_DIARIO = 300_000
 COLORES = {"KAZUMA": "#3a86ff", "LISBON": "#8b5cf6", "DISTRICT": "#f7b731"}
 
 
+# ── Sincronización GitHub (persistencia en la nube) ───────────────────────────
+import base64
+import requests as _req
+
+_GITHUB_REPO = "ovecard-cell/dashboard-theroom"
+_GITHUB_BRANCH = "main"
+
+def _get_github_token():
+    """Obtener token de GitHub desde secrets de Streamlit"""
+    try:
+        return st.secrets.get("GITHUB_TOKEN", "")
+    except Exception:
+        return os.environ.get("GITHUB_TOKEN", "")
+
+def _sync_github(file_path: str, content: str, message: str = ""):
+    """Commitear archivo al repo de GitHub via API. Solo actúa si hay token."""
+    token = _get_github_token()
+    if not token:
+        return False
+    api_url = f"https://api.github.com/repos/{_GITHUB_REPO}/contents/{file_path}"
+    headers = {"Authorization": f"token {token}", "Accept": "application/vnd.github.v3+json"}
+    # Obtener SHA actual del archivo (necesario para update)
+    try:
+        resp = _req.get(api_url, headers=headers, params={"ref": _GITHUB_BRANCH}, timeout=10)
+        sha = resp.json().get("sha", "") if resp.status_code == 200 else ""
+    except Exception:
+        sha = ""
+    if not message:
+        message = f"Auto-save {file_path} desde dashboard"
+    payload = {
+        "message": message,
+        "content": base64.b64encode(content.encode("utf-8")).decode("ascii"),
+        "branch": _GITHUB_BRANCH,
+    }
+    if sha:
+        payload["sha"] = sha
+    try:
+        resp = _req.put(api_url, headers=headers, json=payload, timeout=15)
+        return resp.status_code in (200, 201)
+    except Exception:
+        return False
+
+def _sync_github_binary(file_path: str, content_bytes: bytes, message: str = ""):
+    """Commitear archivo binario (ej: .xls) al repo de GitHub via API."""
+    token = _get_github_token()
+    if not token:
+        return False
+    api_url = f"https://api.github.com/repos/{_GITHUB_REPO}/contents/{file_path}"
+    headers = {"Authorization": f"token {token}", "Accept": "application/vnd.github.v3+json"}
+    try:
+        resp = _req.get(api_url, headers=headers, params={"ref": _GITHUB_BRANCH}, timeout=10)
+        sha = resp.json().get("sha", "") if resp.status_code == 200 else ""
+    except Exception:
+        sha = ""
+    if not message:
+        message = f"Auto-save {file_path} desde dashboard"
+    payload = {
+        "message": message,
+        "content": base64.b64encode(content_bytes).decode("ascii"),
+        "branch": _GITHUB_BRANCH,
+    }
+    if sha:
+        payload["sha"] = sha
+    try:
+        resp = _req.put(api_url, headers=headers, json=payload, timeout=15)
+        return resp.status_code in (200, 201)
+    except Exception:
+        return False
+
+def _save_json_and_sync(file_path: str, data, message: str = ""):
+    """Guardar JSON localmente Y sincronizar a GitHub"""
+    content = json.dumps(data, ensure_ascii=False, indent=2)
+    Path(file_path).write_text(content, encoding="utf-8")
+    _sync_github(file_path, content, message)
+
+
 # ── Carga de datos ─────────────────────────────────────────────────────────────
 @st.cache_data(ttl=300, show_spinner=False)
 def get_ventas():
@@ -658,9 +734,7 @@ def get_cheques():
 
 
 def save_cheques(data):
-    Path("data/cheques.json").write_text(
-        json.dumps(data, ensure_ascii=False, indent=2), encoding="utf-8"
-    )
+    _save_json_and_sync("data/cheques.json", data, "Actualizar cheques desde dashboard")
 
 
 def get_stock_ini():
@@ -674,9 +748,7 @@ def get_deuda():
 
 
 def save_deuda(data):
-    Path("data/deuda_personal.json").write_text(
-        json.dumps(data, ensure_ascii=False, indent=2), encoding="utf-8"
-    )
+    _save_json_and_sync("data/deuda_personal.json", data, "Actualizar deuda personal desde dashboard")
 
 
 def get_bancos():
@@ -685,9 +757,7 @@ def get_bancos():
 
 
 def save_bancos(data):
-    Path("data/bancos.json").write_text(
-        json.dumps(data, ensure_ascii=False, indent=2), encoding="utf-8"
-    )
+    _save_json_and_sync("data/bancos.json", data, "Actualizar saldos bancarios desde dashboard")
 
 
 def get_gastos():
@@ -696,9 +766,7 @@ def get_gastos():
 
 
 def save_gastos(data):
-    Path("data/gastos.json").write_text(
-        json.dumps(data, ensure_ascii=False, indent=2), encoding="utf-8"
-    )
+    _save_json_and_sync("data/gastos.json", data, "Actualizar gastos desde dashboard")
 
 
 def get_meta():
@@ -707,9 +775,7 @@ def get_meta():
 
 
 def save_meta(data):
-    Path("data/meta_ads.json").write_text(
-        json.dumps(data, ensure_ascii=False, indent=2), encoding="utf-8"
-    )
+    _save_json_and_sync("data/meta_ads.json", data, "Actualizar Meta Ads desde dashboard")
 
 
 # ── API key ────────────────────────────────────────────────────────────────────
@@ -1298,7 +1364,7 @@ if tab1:
                             "nota": _nota_arq or ""
                         }
                         _ctrl["arqueos"].append(_nuevo_arqueo)
-                        _p_ctrl.write_text(json.dumps(_ctrl, ensure_ascii=False, indent=2), encoding="utf-8")
+                        _save_json_and_sync(str(_p_ctrl), _ctrl, "Arqueo de caja desde dashboard")
 
                         if abs(_dif_arq) < 500:
                             st.success(f"Caja cuadra. Diferencia: ${_dif_arq:,.0f}")
@@ -2627,7 +2693,7 @@ if tab3:
                             "total": f_neto + f_iva,
                             "descripcion": f_desc,
                         })
-                        _p_fact.write_text(json.dumps(facturas, ensure_ascii=False, indent=2), encoding="utf-8")
+                        _save_json_and_sync(str(_p_fact), facturas, "Factura IVA cargada desde dashboard")
                         _notificar(f"✅ Factura cargada: {f_prov} — Neto {fmt(f_neto)} — IVA crédito {fmt(f_iva)}")
                         st.rerun()
 
@@ -4632,7 +4698,7 @@ if tab9:
                 },
                 "markup": _costos_cfg.get("markup", {"remeras": 2.5, "default": 2.3}),
             }
-            _p_costos_cfg.write_text(json.dumps(_nuevo_costos, ensure_ascii=False, indent=2), encoding="utf-8")
+            _save_json_and_sync(str(_p_costos_cfg), _nuevo_costos, "Actualizar tasas desde dashboard")
             _notificar("✅ Tasas actualizadas correctamente")
             st.rerun()
 
@@ -4743,6 +4809,7 @@ if tab9:
                     pass
                 dest = Path("data/ventas") / nombre_final
                 dest.write_bytes(f.getvalue())
+                _sync_github_binary(f"data/ventas/{nombre_final}", f.getvalue(), f"Subir ventas {nombre_final} desde dashboard")
                 guardados.append(nombre_final)
             st.cache_data.clear()
             n = len(guardados)
@@ -4947,7 +5014,7 @@ if tab9:
                 vm_data.append({"fecha": fecha_vm.isoformat(), "neto": int(neto_vm),
                                 "cantidad": int(cant_vm), "canal": canal_vm})
                 vm_data.sort(key=lambda x: x["fecha"])
-                p_vm.write_text(json.dumps(vm_data, ensure_ascii=False, indent=2), encoding="utf-8")
+                _save_json_and_sync(str(p_vm), vm_data, "Venta manual cargada desde dashboard")
                 st.cache_data.clear()
                 _notificar(f"✅ Venta del {fecha_vm.strftime('%d/%m')} guardada — {fmt(neto_vm)}")
                 st.rerun()
