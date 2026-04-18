@@ -9,70 +9,6 @@
   },
   {
     "fecha": "2026-04-01",
-    "concepto": "Sellado — SELLADO",
-    "monto": 3073.48,
-    "categoria": "AFIP / Impuestos",
-    "medio": "BBVA Frances",
-    "notas": "Importado de bbva.xls"
-  },
-  {
-    "fecha": "2026-04-01",
-    "concepto": "Percepcion IIBB — PER. CORRIEN 31/03/26 00002L",
-    "monto": 45000.0,
-    "categoria": "AFIP / Impuestos",
-    "medio": "BBVA Frances",
-    "notas": "Importado de bbva.xls"
-  },
-  {
-    "fecha": "2026-04-01",
-    "concepto": "Impuesto al cheque (Ley 25413)",
-    "monto": 54000.0,
-    "categoria": "AFIP / Impuestos",
-    "medio": "BBVA Frances",
-    "notas": "Importado de bbva.xls"
-  },
-  {
-    "fecha": "2026-04-01",
-    "concepto": "Intereses bancarios — INTERES COBR 000000000202603",
-    "monto": 74316.58,
-    "categoria": "Gastos bancarios",
-    "medio": "BBVA Frances",
-    "notas": "Importado de bbva.xls"
-  },
-  {
-    "fecha": "2026-04-01",
-    "concepto": "IVA — IVA TASA RED",
-    "monto": 7803.24,
-    "categoria": "AFIP / Impuestos",
-    "medio": "BBVA Frances",
-    "notas": "Importado de bbva.xls"
-  },
-  {
-    "fecha": "2026-04-01",
-    "concepto": "Percepcion IIBB — PERCEPCION I",
-    "monto": 1114.74,
-    "categoria": "AFIP / Impuestos",
-    "medio": "BBVA Frances",
-    "notas": "Importado de bbva.xls"
-  },
-  {
-    "fecha": "2026-04-01",
-    "concepto": "Débito automático — OG-DEBITO DI 25586PROS ALAR",
-    "monto": 62284.53,
-    "categoria": "Gastos bancarios",
-    "medio": "BBVA Frances",
-    "notas": "Importado de bbva.xls"
-  },
-  {
-    "fecha": "2026-04-01",
-    "concepto": "Débito automático — OG-DEBITO DI 25586PROS ALAR",
-    "monto": 60499.78,
-    "categoria": "Gastos bancarios",
-    "medio": "BBVA Frances",
-    "notas": "Importado de bbva.xls"
-  },
-  {
-    "fecha": "2026-04-01",
     "concepto": "Comision servicio de cuenta Galicia — marzo 2026",
     "monto": 60000,
     "categoria": "Gastos bancarios",
@@ -184,6 +120,78 @@
     "notas": "Extracto Santander 01-17/04"
   },
   {
+    "fecha": "2026-04-01",
+    "concepto": "SELLADO",
+    "monto": 3073.48,
+    "categoria": "AFIP / Impuestos",
+    "medio": "BBVA Frances",
+    "notas": "Extracto BBVA 01-17/04"
+  },
+  {
+    "fecha": "2026-04-01",
+    "concepto": "PER. CORRIEN 31/03/26 00002L",
+    "monto": 45000.0,
+    "categoria": "Gastos bancarios",
+    "medio": "BBVA Frances",
+    "notas": "Extracto BBVA 01-17/04"
+  },
+  {
+    "fecha": "2026-04-01",
+    "concepto": "LEY NRO 25.4 31/03/26 00002",
+    "monto": 54000.0,
+    "categoria": "Gastos bancarios",
+    "medio": "BBVA Frances",
+    "notas": "Extracto BBVA 01-17/04"
+  },
+  {
+    "fecha": "2026-04-01",
+    "concepto": "INTERES COBR 000000000202603",
+    "monto": 74316.58,
+    "categoria": "Gastos bancarios",
+    "medio": "BBVA Frances",
+    "notas": "Extracto BBVA 01-17/04"
+  },
+  {
+    "fecha": "2026-04-01",
+    "concepto": "IVA TASA RED",
+    "monto": 7803.24,
+    "categoria": "Gastos bancarios",
+    "medio": "BBVA Frances",
+    "notas": "Extracto BBVA 01-17/04"
+  },
+  {
+    "fecha": "2026-04-01",
+    "concepto": "PERCEPCION I",
+    "monto": 1114.74,
+    "categoria": "Gastos bancarios",
+    "medio": "BBVA Frances",
+    "notas": "Extracto BBVA 01-17/04"
+  },
+  {
+    "fecha": "2026-04-01",
+    "concepto": "PERCEPCION I",
+    "monto": 1114.74,
+    "categoria": "Gastos bancarios",
+    "medio": "BBVA Frances",
+    "notas": "Extracto BBVA 01-17/04"
+  },
+  {
+    "fecha": "2026-04-01",
+    "concepto": "OG-DEBITO DI 25586PROS ALAR",
+    "monto": 62284.53,
+    "categoria": "Gastos bancarios",
+    "medio": "BBVA Frances",
+    "notas": "Extracto BBVA 01-17/04"
+  },
+  {
+    "fecha": "2026-04-01",
+    "concepto": "OG-DEBITO DI 25586PROS ALAR",
+    "monto": 60499.78,
+    "categoria": "Gastos bancarios",
+    "medio": "BBVA Frances",
+    "notas": "Extracto BBVA 01-17/04"
+  },
+  {
     "fecha": "2026-04-04",
     "concepto": "Impuesto sobre los Créditos y Débitos en cobros",
     "monto": 345.0,
@@ -214,78 +222,6 @@
     "categoria": "Gastos bancarios",
     "medio": "Mercado Pago",
     "notas": "Extracto MP mov #2253028520437"
-  },
-  {
-    "fecha": "2026-04-06",
-    "concepto": "Sellado — SELLADO",
-    "monto": 7.15,
-    "categoria": "AFIP / Impuestos",
-    "medio": "BBVA Frances",
-    "notas": "Importado de bbva.xls"
-  },
-  {
-    "fecha": "2026-04-06",
-    "concepto": "Intereses bancarios — AJUSTE DE IN 000000000000000",
-    "monto": 190.76,
-    "categoria": "Gastos bancarios",
-    "medio": "BBVA Frances",
-    "notas": "Importado de bbva.xls"
-  },
-  {
-    "fecha": "2026-04-06",
-    "concepto": "IVA — IVA TASA RED",
-    "monto": 20.02,
-    "categoria": "AFIP / Impuestos",
-    "medio": "BBVA Frances",
-    "notas": "Importado de bbva.xls"
-  },
-  {
-    "fecha": "2026-04-06",
-    "concepto": "Percepcion IIBB — PERCEPCION I",
-    "monto": 2.86,
-    "categoria": "AFIP / Impuestos",
-    "medio": "BBVA Frances",
-    "notas": "Importado de bbva.xls"
-  },
-  {
-    "fecha": "2026-04-06",
-    "concepto": "Impuesto Ley — IMPUESTO LEY 01/04/26 00007",
-    "monto": 1531.19,
-    "categoria": "AFIP / Impuestos",
-    "medio": "BBVA Frances",
-    "notas": "Importado de bbva.xls"
-  },
-  {
-    "fecha": "2026-04-06",
-    "concepto": "Comision bancaria — COM MANT FRA 03/26 120008885",
-    "monto": 59000.0,
-    "categoria": "Gastos bancarios",
-    "medio": "BBVA Frances",
-    "notas": "Importado de bbva.xls"
-  },
-  {
-    "fecha": "2026-04-06",
-    "concepto": "IVA — IVA TASA GRA",
-    "monto": 12390.0,
-    "categoria": "AFIP / Impuestos",
-    "medio": "BBVA Frances",
-    "notas": "Importado de bbva.xls"
-  },
-  {
-    "fecha": "2026-04-06",
-    "concepto": "Percepcion IIBB — PERCEPCION I",
-    "monto": 1770.0,
-    "categoria": "AFIP / Impuestos",
-    "medio": "BBVA Frances",
-    "notas": "Importado de bbva.xls"
-  },
-  {
-    "fecha": "2026-04-06",
-    "concepto": "Percepcion IIBB — PERCEPCION I",
-    "monto": 885.0,
-    "categoria": "AFIP / Impuestos",
-    "medio": "BBVA Frances",
-    "notas": "Importado de bbva.xls"
   },
   {
     "fecha": "2026-04-06",
@@ -336,12 +272,76 @@
     "notas": "Extracto Santander 01-17/04"
   },
   {
-    "fecha": "2026-04-07",
-    "concepto": "Impuesto Ley — IMPUESTO LEY 06/04/26 00006",
-    "monto": 445.58,
+    "fecha": "2026-04-06",
+    "concepto": "SELLADO",
+    "monto": 7.15,
     "categoria": "AFIP / Impuestos",
     "medio": "BBVA Frances",
-    "notas": "Importado de bbva.xls"
+    "notas": "Extracto BBVA 01-17/04"
+  },
+  {
+    "fecha": "2026-04-06",
+    "concepto": "AJUSTE DE IN 000000000000000",
+    "monto": 190.76,
+    "categoria": "Gastos bancarios",
+    "medio": "BBVA Frances",
+    "notas": "Extracto BBVA 01-17/04"
+  },
+  {
+    "fecha": "2026-04-06",
+    "concepto": "IVA TASA RED",
+    "monto": 20.02,
+    "categoria": "Gastos bancarios",
+    "medio": "BBVA Frances",
+    "notas": "Extracto BBVA 01-17/04"
+  },
+  {
+    "fecha": "2026-04-06",
+    "concepto": "PERCEPCION I",
+    "monto": 2.86,
+    "categoria": "Gastos bancarios",
+    "medio": "BBVA Frances",
+    "notas": "Extracto BBVA 01-17/04"
+  },
+  {
+    "fecha": "2026-04-06",
+    "concepto": "IMPUESTO LEY 01/04/26 00007",
+    "monto": 1531.19,
+    "categoria": "AFIP / Impuestos",
+    "medio": "BBVA Frances",
+    "notas": "Extracto BBVA 01-17/04"
+  },
+  {
+    "fecha": "2026-04-06",
+    "concepto": "COM MANT FRA 03/26 120008885",
+    "monto": 59000.0,
+    "categoria": "Gastos bancarios",
+    "medio": "BBVA Frances",
+    "notas": "Extracto BBVA 01-17/04"
+  },
+  {
+    "fecha": "2026-04-06",
+    "concepto": "IVA TASA GRA",
+    "monto": 12390.0,
+    "categoria": "Gastos bancarios",
+    "medio": "BBVA Frances",
+    "notas": "Extracto BBVA 01-17/04"
+  },
+  {
+    "fecha": "2026-04-06",
+    "concepto": "PERCEPCION I",
+    "monto": 1770.0,
+    "categoria": "Gastos bancarios",
+    "medio": "BBVA Frances",
+    "notas": "Extracto BBVA 01-17/04"
+  },
+  {
+    "fecha": "2026-04-06",
+    "concepto": "PERCEPCION I",
+    "monto": 885.0,
+    "categoria": "Gastos bancarios",
+    "medio": "BBVA Frances",
+    "notas": "Extracto BBVA 01-17/04"
   },
   {
     "fecha": "2026-04-07",
@@ -424,6 +424,14 @@
     "notas": "Extracto Santander 01-17/04"
   },
   {
+    "fecha": "2026-04-07",
+    "concepto": "IMPUESTO LEY 06/04/26 00006",
+    "monto": 445.58,
+    "categoria": "AFIP / Impuestos",
+    "medio": "BBVA Frances",
+    "notas": "Extracto BBVA 01-17/04"
+  },
+  {
     "fecha": "2026-04-08",
     "concepto": "GASTO RAPIDO — GASTOS VARIOS (VIDRIERO)",
     "monto": 4000.0,
@@ -456,6 +464,22 @@
     "categoria": "AFIP / Impuestos",
     "medio": "Santander",
     "notas": "Extracto Santander 01-17/04"
+  },
+  {
+    "fecha": "2026-04-08",
+    "concepto": "TRANSFERENCI 30717936279",
+    "monto": 300000.0,
+    "categoria": "Otros",
+    "medio": "BBVA Frances",
+    "notas": "Extracto BBVA 01-17/04"
+  },
+  {
+    "fecha": "2026-04-08",
+    "concepto": "TRANSFERENCI 30717936279",
+    "monto": 3000000.0,
+    "categoria": "Otros",
+    "medio": "BBVA Frances",
+    "notas": "Extracto BBVA 01-17/04"
   },
   {
     "fecha": "2026-04-09",
@@ -560,6 +584,14 @@
     "categoria": "AFIP / Impuestos",
     "medio": "Santander",
     "notas": "Extracto Santander 01-17/04"
+  },
+  {
+    "fecha": "2026-04-09",
+    "concepto": "TRANSF. INM  30717936279",
+    "monto": 1520000.0,
+    "categoria": "Otros",
+    "medio": "BBVA Frances",
+    "notas": "Extracto BBVA 01-17/04"
   },
   {
     "fecha": "2026-04-10",
@@ -1060,6 +1092,14 @@
     "notas": "Extracto Santander 01-17/04"
   },
   {
+    "fecha": "2026-04-16",
+    "concepto": "TRANSFERENCI 30717936279",
+    "monto": 1000000.0,
+    "categoria": "Otros",
+    "medio": "BBVA Frances",
+    "notas": "Extracto BBVA 01-17/04"
+  },
+  {
     "fecha": "2026-04-17",
     "concepto": "Impuesto sobre los Créditos y Débitos en cobros",
     "monto": 773.4,
@@ -1282,5 +1322,21 @@
     "categoria": "AFIP / Impuestos",
     "medio": "Santander",
     "notas": "Extracto Santander 01-17/04"
+  },
+  {
+    "fecha": "2026-04-17",
+    "concepto": "TRANSFERENCI 30717936279",
+    "monto": 75000.0,
+    "categoria": "Otros",
+    "medio": "BBVA Frances",
+    "notas": "Extracto BBVA 01-17/04"
+  },
+  {
+    "fecha": "2026-04-17",
+    "concepto": "TRANSFERENCI 30717936279",
+    "monto": 655100.0,
+    "categoria": "Otros",
+    "medio": "BBVA Frances",
+    "notas": "Extracto BBVA 01-17/04"
   }
 ]
