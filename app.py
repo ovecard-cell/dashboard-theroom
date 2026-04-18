@@ -1427,22 +1427,28 @@ if tab1:
             else:                                                             return "otros"
 
         _df_fp["_cat"] = _df_fp["forma_pago"].apply(_cat_pago)
-        _g = _df_fp.groupby("_cat")["neto"].sum()
-        ef = _g.get("efectivo", 0)
-        tr = _g.get("transferencia", 0)
-        tp = _g.get("tarjeta_pos", 0)
-        ot = _g.get("otros", 0)
+        _col_iva = "total_con_iva" if "total_con_iva" in _df_fp.columns else None
+        _g_neto = _df_fp.groupby("_cat")["neto"].sum()
+        _g_iva = _df_fp.groupby("_cat")[_col_iva].sum() if _col_iva else _g_neto * 1.21
+        ef = _g_iva.get("efectivo", 0)
+        ef_n = _g_neto.get("efectivo", 0)
+        tr = _g_iva.get("transferencia", 0)
+        tr_n = _g_neto.get("transferencia", 0)
+        tp = _g_iva.get("tarjeta_pos", 0)
+        tp_n = _g_neto.get("tarjeta_pos", 0)
+        ot = _g_iva.get("otros", 0)
+        ot_n = _g_neto.get("otros", 0)
 
         cf1, cf2, cf3, cf4 = st.columns(4)
         with cf1:
-            st.markdown(metric_card("💵","Efectivo",fmt(ef),"Queda en caja","amarillo"), unsafe_allow_html=True)
+            st.markdown(metric_card("💵","Efectivo",fmt(ef),f"Sin IVA: {fmt(ef_n)} · Queda en caja","amarillo"), unsafe_allow_html=True)
         with cf2:
-            _sub_tr = "Va al banco / cubre descubierto" if tr > 0 else "Sin transferencias en este periodo"
+            _sub_tr = f"Sin IVA: {fmt(tr_n)} · Va al banco" if tr > 0 else "Sin transferencias"
             st.markdown(metric_card("🔄","Transferencias",fmt(tr),_sub_tr,"azul" if tr > 0 else "gris"), unsafe_allow_html=True)
         with cf3:
-            st.markdown(metric_card("💳","Tarjeta / POS",fmt(tp),"Acredita en Santander o MP","verde"), unsafe_allow_html=True)
+            st.markdown(metric_card("💳","Tarjeta / POS",fmt(tp),f"Sin IVA: {fmt(tp_n)} · Acredita en Santander/MP","verde"), unsafe_allow_html=True)
         with cf4:
-            st.markdown(metric_card("🌐","Online / Otros",fmt(ot),"Tienda Nube / MP online","morado"), unsafe_allow_html=True)
+            st.markdown(metric_card("🌐","Online / Otros",fmt(ot),f"Sin IVA: {fmt(ot_n)} · Tienda Nube / MP","morado"), unsafe_allow_html=True)
 
     # ── Ventas del período ────────────────────────────────────────────────────
     seccion(f"Ventas — {label_periodo}")
@@ -1556,16 +1562,21 @@ if tab1:
         # ── Detalle de ventas y gastos (expandibles) ─────────────────────────
         dc1, dc2, dc3, dc4 = st.columns(4)
         with dc1:
-            st.markdown(metric_card("💰","Ventas sin IVA",fmt(neto_per),"Lo que registra Dux neto","verde"), unsafe_allow_html=True)
+            st.markdown(metric_card("💰","Ventas con IVA",fmt(iva_per),"Lo que entro realmente","verde"), unsafe_allow_html=True)
             with st.expander("Ver detalle ventas"):
                 if not df_per.empty and "producto" in df_per.columns:
-                    top_prod = df_per.groupby("producto")["neto"].sum().sort_values(ascending=False).head(10)
-                    for prod, neto_p in top_prod.items():
-                        st.markdown(f'<div style="display:flex;justify-content:space-between;padding:3px 0;font-size:0.82rem"><span style="color:#ccc">{str(prod)[:40]}</span><span style="color:#00c96b;font-weight:700">{fmt(neto_p)}</span></div>', unsafe_allow_html=True)
+                    _agg_top = {"neto": ("neto","sum")}
+                    if "total_con_iva" in df_per.columns:
+                        _agg_top["con_iva"] = ("total_con_iva","sum")
+                    top_prod = df_per.groupby("producto").agg(**_agg_top).sort_values("neto", ascending=False).head(10)
+                    if "con_iva" not in top_prod.columns:
+                        top_prod["con_iva"] = top_prod["neto"] * 1.21
+                    for _, _rp in top_prod.iterrows():
+                        st.markdown(f'<div style="display:flex;justify-content:space-between;padding:3px 0;font-size:0.82rem"><span style="color:#ccc">{str(_rp.name)[:40]}</span><span style="color:#00c96b;font-weight:700">{fmt(_rp["con_iva"])}</span></div>', unsafe_allow_html=True)
                 else:
                     st.info("Sin datos")
         with dc2:
-            st.markdown(metric_card("💵","Ventas con IVA",fmt(iva_per),"Lo que entro realmente","azul"), unsafe_allow_html=True)
+            st.markdown(metric_card("💵","Ventas sin IVA",fmt(neto_per),f"IVA a pagar: {fmt(iva_per - neto_per)}","azul"), unsafe_allow_html=True)
             with st.expander("Ver por forma de pago"):
                 if not df_per.empty and "forma_pago" in df_per.columns:
                     fp_grupo = df_per.groupby("forma_pago")["neto"].sum().sort_values(ascending=False)
@@ -1862,9 +1873,9 @@ if tab2:
                         <div style="background:#1a1a2e;border:1px solid {color}44;border-radius:14px;
                                     padding:18px 20px;margin-bottom:12px;border-left:4px solid {color}">
                             <div style="font-size:0.78rem;color:#8888aa;margin-bottom:4px">{nombre}</div>
-                            <div style="font-size:1.25rem;font-weight:800;color:{color}">{fmt(neto_fp)}</div>
+                            <div style="font-size:1.25rem;font-weight:800;color:{color}">{fmt(iva_fp)}</div>
                             <div style="font-size:0.72rem;color:#666688;margin-top:4px">
-                                Con IVA: {fmt(iva_fp)}<br>
+                                Sin IVA: {fmt(neto_fp)}<br>
                                 {cant_fp} uds · {pct_fp:.0f}% del total
                             </div>
                             <div style="background:rgba(255,255,255,0.05);border-radius:4px;height:4px;margin-top:10px;overflow:hidden">
@@ -1875,17 +1886,23 @@ if tab2:
 
                 # Tabla de formas de pago sin categorizar (debug / detalle)
                 with st.expander("Ver detalle de formas de pago"):
+                    _agg_fp = {"neto": ("neto","sum"), "cantidad": ("cantidad","sum")}
+                    if "total_con_iva" in df_mes.columns:
+                        _agg_fp["con_iva"] = ("total_con_iva","sum")
                     detalle_fp = (
                         df_mes.groupby("forma_pago")
-                        .agg(neto=("neto","sum"), cantidad=("cantidad","sum"))
+                        .agg(**_agg_fp)
                         .reset_index()
                         .sort_values("neto", ascending=False)
                     )
+                    if "con_iva" not in detalle_fp.columns:
+                        detalle_fp["con_iva"] = detalle_fp["neto"] * 1.21
                     rows_fp = ""
                     for _, r in detalle_fp.iterrows():
                         rows_fp += (
                             f'<tr><td style="font-size:0.78rem">{r["forma_pago"]}</td>'
-                            f'<td style="color:#3a86ff;font-weight:700">{fmt(r["neto"])}</td>'
+                            f'<td style="color:#3a86ff;font-weight:700">{fmt(r["con_iva"])}</td>'
+                            f'<td style="color:#8888aa">{fmt(r["neto"])}</td>'
                             f'<td style="color:#8888aa">{int(r["cantidad"])} uds</td></tr>'
                         )
                     st.markdown(
