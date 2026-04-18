@@ -842,5 +842,13 @@
     "categoria": "Gastos bancarios",
     "medio": "Banco Corrientes",
     "notas": "Importado de ctes.xlsx"
+  },
+  {
+    "fecha": "2026-04-16",
+    "concepto": "Sueldo Sofía abril",
+    "monto": 500000,
+    "categoria": "Sueldos",
+    "medio": "Efectivo",
+    "notas": "Cargado manualmente"
   }
 ]
