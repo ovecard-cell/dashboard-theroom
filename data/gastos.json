@@ -1306,5 +1306,29 @@
     "categoria": "Gastos bancarios",
     "medio": "Mercado Pago",
     "notas": "Extracto MP mov #2266656371459"
+  },
+  {
+    "fecha": "2026-04-17",
+    "concepto": "Regimen Recaudacion Iibbcorrientes - Resp:30717936279",
+    "monto": 726,
+    "categoria": "AFIP / Impuestos",
+    "medio": "Santander",
+    "notas": "Extracto Santander 17/04"
+  },
+  {
+    "fecha": "2026-04-17",
+    "concepto": "Impuesto Ley 25.413 Credito 0,6%",
+    "monto": 871.2,
+    "categoria": "AFIP / Impuestos",
+    "medio": "Santander",
+    "notas": "Extracto Santander 17/04"
+  },
+  {
+    "fecha": "2026-04-17",
+    "concepto": "Impuesto Ley 25.413 Debito 0,6%",
+    "monto": 4.23,
+    "categoria": "AFIP / Impuestos",
+    "medio": "Santander",
+    "notas": "Extracto Santander 17/04"
   }
 ]
