@@ -181,20 +181,23 @@ def load_dux_files(folder: str = "data/ventas") -> pd.DataFrame:
 
 def ventas_por_dia(df: pd.DataFrame) -> pd.DataFrame:
     if df.empty:
-        return pd.DataFrame(columns=["fecha_dia", "neto", "cantidad"])
-    return (
-        df.groupby("fecha_dia")
-        .agg(neto=("neto", "sum"), cantidad=("cantidad", "sum"))
-        .reset_index()
-        .sort_values("fecha_dia")
-    )
+        return pd.DataFrame(columns=["fecha_dia", "neto", "con_iva", "cantidad"])
+    agg_dict = {"neto": ("neto", "sum"), "cantidad": ("cantidad", "sum")}
+    if "total_con_iva" in df.columns:
+        agg_dict["con_iva"] = ("total_con_iva", "sum")
+    result = df.groupby("fecha_dia").agg(**agg_dict).reset_index().sort_values("fecha_dia")
+    if "con_iva" not in result.columns:
+        result["con_iva"] = result["neto"] * 1.21
+    return result
 
 
 def ventas_hoy(df: pd.DataFrame) -> dict:
     hoy = date.today()
     sub = df[df["fecha_dia"] == hoy]
+    con_iva = sub["total_con_iva"].sum() if "total_con_iva" in sub.columns else sub["neto"].sum() * 1.21
     return {
         "neto": sub["neto"].sum(),
+        "con_iva": con_iva,
         "cantidad": int(sub["cantidad"].sum()),
         "transacciones": len(sub),
     }

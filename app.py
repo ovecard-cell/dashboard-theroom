@@ -1470,21 +1470,21 @@ if tab1:
         col1,col2,col3,col4 = st.columns(4)
         delta_hoy = datos_hoy_["neto"] - OBJETIVO_DIARIO
         with col1:
-            st.markdown(metric_card("💰","Ventas hoy",fmt(datos_hoy_["neto"]),
-                f"Con IVA: {fmt(iva_hoy)} · {datos_hoy_['cantidad']} uds",
+            st.markdown(metric_card("💰","Ventas hoy",fmt(iva_hoy),
+                f"Sin IVA: {fmt(datos_hoy_['neto'])} · {datos_hoy_['cantidad']} uds",
                 "verde" if datos_hoy_["neto"]>=OBJETIVO_DIARIO else "rojo",
                 f"{'↑' if delta_hoy>=0 else '↓'} {fmt(abs(delta_hoy))} vs objetivo",delta_hoy>=0),unsafe_allow_html=True)
         with col2:
-            st.markdown(metric_card("📅",f"Ventas {label_periodo}",fmt(neto_per),
-                f"Con IVA: {fmt(iva_per)} · {uds_per} uds","azul"),unsafe_allow_html=True)
+            st.markdown(metric_card("📅",f"Ventas {label_periodo}",fmt(iva_per),
+                f"Sin IVA: {fmt(neto_per)} · {uds_per} uds","azul"),unsafe_allow_html=True)
         with col3:
             if proy_per:
                 proy_con_iva = proy_per * (iva_per / neto_per) if neto_per > 0 else proy_per * 1.21
-                st.markdown(metric_card("📈","Proyeccion del mes",fmt(proy_per),
-                    f"Con IVA: {fmt(proy_con_iva)} · {fmt(prom_dia)}/dia","morado" if proy_per>=9_000_000 else "amarillo"),unsafe_allow_html=True)
+                st.markdown(metric_card("📈","Proyeccion del mes",fmt(proy_con_iva),
+                    f"Sin IVA: {fmt(proy_per)} · {fmt(prom_dia)}/dia","morado" if proy_per>=9_000_000 else "amarillo"),unsafe_allow_html=True)
             else:
-                st.markdown(metric_card("📈","Promedio diario",fmt(prom_dia),
-                    f"Con IVA: {fmt(prom_dia*1.21)}/dia","morado"),unsafe_allow_html=True)
+                st.markdown(metric_card("📈","Promedio diario",fmt(prom_dia*1.21),
+                    f"Sin IVA: {fmt(prom_dia)}/dia","morado"),unsafe_allow_html=True)
         with col4:
             cob = neto_per - total_urgente
             st.markdown(metric_card("🔴" if total_urgente>0 else "✅",
@@ -1745,8 +1745,9 @@ if tab2:
             and date.fromisoformat(g["fecha"]) <= hoy
         )
         gasto_total_acum = gasto_acum + gastos_extra
-        resultado_acum   = venta_acum - gasto_total_acum
-        proy_venta_mes   = (venta_acum / dias_trans * dias_mes_t) if dias_trans > 0 else 0
+        resultado_acum   = venta_acum_iva - gasto_total_acum
+        proy_venta_mes   = (venta_acum_iva / dias_trans * dias_mes_t) if dias_trans > 0 else 0
+        proy_venta_neto  = (venta_acum / dias_trans * dias_mes_t) if dias_trans > 0 else 0
         gasto_mes_total  = GASTOS_FIJOS_MES + sum(
             g["monto"] for g in get_gastos()
             if date.fromisoformat(g["fecha"]).month == hoy.month
@@ -1769,11 +1770,11 @@ if tab2:
         with c3:
             col_r = "verde" if resultado_acum >= 0 else "rojo"
             st.markdown(metric_card("📊","Resultado hasta hoy",fmt(resultado_acum),
-                "Ganancia" if resultado_acum >= 0 else "Perdida",col_r), unsafe_allow_html=True)
+                f"Con IVA · {'Ganancia' if resultado_acum >= 0 else 'Perdida'}",col_r), unsafe_allow_html=True)
         with c4:
             col_p = "verde" if resultado_proy >= 0 else "amarillo" if resultado_proy >= -1_000_000 else "rojo"
             st.markdown(metric_card("📈","Proyeccion fin de mes",fmt(proy_venta_mes),
-                f"Resultado proyectado {fmt(resultado_proy)}",col_p), unsafe_allow_html=True)
+                f"Sin IVA: {fmt(proy_venta_neto)} · Resultado {fmt(resultado_proy)}",col_p), unsafe_allow_html=True)
 
         # Barra de progreso: ventas vs gastos del mes
         st.markdown(f"""
@@ -1912,33 +1913,38 @@ if tab2:
             )
             gasto_x_dia = GASTOS_FIJOS_MES / dias_mes_t
             vxd_all["gasto_dia"] = gasto_x_dia
-            vxd_all["venta_acum"] = vxd_all["neto"].cumsum()
+            if "con_iva" not in vxd_all.columns:
+                vxd_all["con_iva"] = vxd_all["neto"] * 1.21
+            vxd_all["venta_acum"] = vxd_all["con_iva"].cumsum()
+            vxd_all["venta_acum_neto"] = vxd_all["neto"].cumsum()
             vxd_all["gasto_acum"] = [gasto_x_dia * (i+1) for i in range(len(vxd_all))]
             vxd_all["fecha_dt"]   = pd.to_datetime(vxd_all["fecha_dia"])
 
             fig2 = go.Figure()
-            # Barras de ventas diarias
+            # Barras de ventas diarias (con IVA — plata real que entra)
             colores_v = [
                 "#00c96b" if v >= OBJETIVO_DIARIO else
                 "#f7b731" if v >= OBJETIVO_DIARIO * 0.67 else
                 "#e94560" for v in vxd_all["neto"]
             ]
             fig2.add_trace(go.Bar(
-                x=vxd_all["fecha_dt"], y=vxd_all["neto"],
-                name="Venta del dia",
+                x=vxd_all["fecha_dt"], y=vxd_all["con_iva"],
+                name="Venta con IVA",
                 marker_color=colores_v,
-                text=[fmt(v) for v in vxd_all["neto"]],
+                text=[f"{fmt(ci)}" for ci, n in zip(vxd_all["con_iva"], vxd_all["neto"])],
                 textposition="outside",
                 textfont=dict(size=8, color="#aaaacc"),
-                hovertemplate="<b>%{x|%d/%m}</b><br>Venta: %{text}<extra></extra>",
+                hovertemplate="<b>%{x|%d/%m}</b><br>Con IVA: %{text}<br>Sin IVA: $%{customdata:,.0f}<extra></extra>",
+                customdata=vxd_all["neto"],
                 yaxis="y",
             ))
-            # Linea acumulado ventas
+            # Linea acumulado ventas con IVA
             fig2.add_trace(go.Scatter(
                 x=vxd_all["fecha_dt"], y=vxd_all["venta_acum"],
-                name="Ventas acumuladas",
+                name="Acum con IVA",
                 line=dict(color="#00c96b", width=2, dash="solid"),
-                hovertemplate="<b>%{x|%d/%m}</b><br>Acum ventas: $%{y:,.0f}<extra></extra>",
+                hovertemplate="<b>%{x|%d/%m}</b><br>Acum con IVA: $%{y:,.0f}<br>Acum sin IVA: $%{customdata:,.0f}<extra></extra>",
+                customdata=vxd_all["venta_acum_neto"],
                 yaxis="y2",
             ))
             # Linea acumulado gastos
