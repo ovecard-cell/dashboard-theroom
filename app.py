@@ -1040,10 +1040,10 @@ if st.session_state.get("mostrar_reporte"):
     reporte = f"""# REPORTE THE ROOM — {fmt_fecha(hoy, 'larga')}
 
 ## VENTAS ({fmt_fecha(hoy, 'mes')})
-- Neto sin IVA: ${_venta_neta:,.0f}
 - Con IVA: ${_venta_iva:,.0f}
+- Sin IVA: ${_venta_neta:,.0f}
 - Dias con venta: {_dias_venta}
-- Promedio diario: ${_prom_dia:,.0f}
+- Promedio diario con IVA: ${_prom_dia*1.21:,.0f} (sin IVA: ${_prom_dia:,.0f})
 - Objetivo diario: $300.000 → cumplimiento {_prom_dia/300000*100:.0f}%
 
 ## VENTAS DIARIAS (ultimos 30 dias)
@@ -1852,11 +1852,13 @@ if tab2:
             # Tabla resumen por mes
             rows_m = ""
             for _, r in meses_hist.iterrows():
-                res = r["resultado"]
+                _neto_m = r["neto"]
+                _iva_m = r.get("con_iva", _neto_m * 1.21)
+                res = _iva_m - r["gasto_est"]
                 col_r2 = "#00c96b" if res >= 0 else "#e94560"
                 rows_m += (
                     f'<tr><td>{r["label"]}</td>'
-                    f'<td style="color:#3a86ff;font-weight:700">{fmt(r["neto"])}</td>'
+                    f'<td style="color:#3a86ff;font-weight:700">{fmt(_iva_m)}<br><span style="color:#6666aa;font-size:0.72rem">sin IVA: {fmt(_neto_m)}</span></td>'
                     f'<td style="color:#e94560">{fmt(r["gasto_est"])}</td>'
                     f'<td style="color:{col_r2};font-weight:700">{fmt(res)}</td>'
                     f'<td style="color:#8888aa">{int(r["cantidad"])} uds</td></tr>'
@@ -2049,7 +2051,8 @@ if tab3:
         seccion("Reporte de ventas")
         _ventas_per = df_mov[df_mov["tipo"] == "VENTA"].copy()
         if not _ventas_per.empty:
-            _total_vr = _ventas_per["monto"].sum()
+            _total_vr_neto = _ventas_per["monto"].sum()
+            _total_vr = _ventas_per["con_iva"].sum() if "con_iva" in _ventas_per.columns else _total_vr_neto * 1.21
             _cant_vr = len(_ventas_per)
             _ticket_vr = _total_vr / _cant_vr if _cant_vr else 0
             _uds_vr = int(_ventas_per["cantidad"].sum()) if "cantidad" in _ventas_per.columns else 0
@@ -2069,13 +2072,14 @@ if tab3:
                 st.markdown(f'''<div style="background:#1a1a2e;border:1px solid #00c96b33;border-radius:14px;padding:20px;border-left:4px solid #00c96b">
                     <div style="font-size:0.75rem;color:#00c96b;font-weight:700;text-transform:uppercase">Volumen de ventas</div>
                     <div style="font-size:1.8rem;font-weight:800;color:#eee;margin:6px 0">{fmt(_total_vr)} {_comp_v_txt}</div>
-                    <div style="font-size:0.78rem;color:#8888aa">Sin IVA · {_cant_vr} operaciones</div>
+                    <div style="font-size:0.78rem;color:#8888aa">Sin IVA: {fmt(_total_vr_neto)} · {_cant_vr} operaciones</div>
                 </div>''', unsafe_allow_html=True)
             with rv2:
+                _ticket_neto = _total_vr_neto / _cant_vr if _cant_vr else 0
                 st.markdown(f'''<div style="background:#1a1a2e;border:1px solid #3a86ff33;border-radius:14px;padding:20px;border-left:4px solid #3a86ff">
                     <div style="font-size:0.75rem;color:#3a86ff;font-weight:700;text-transform:uppercase">Ticket promedio</div>
                     <div style="font-size:1.8rem;font-weight:800;color:#eee;margin:6px 0">{fmt(_ticket_vr)} {_comp_t_txt}</div>
-                    <div style="font-size:0.78rem;color:#8888aa">Por operación</div>
+                    <div style="font-size:0.78rem;color:#8888aa">Sin IVA: {fmt(_ticket_neto)}</div>
                 </div>''', unsafe_allow_html=True)
             with rv3:
                 st.markdown(f'''<div style="background:#1a1a2e;border:1px solid #8b5cf633;border-radius:14px;padding:20px;border-left:4px solid #8b5cf6">
@@ -2086,19 +2090,20 @@ if tab3:
 
             # Gráfico diario de ventas
             _v_dia = _ventas_per.groupby(_ventas_per["fecha"].dt.date).agg(
-                neto=("monto", "sum"), uds=("cantidad", "sum")
+                neto=("monto", "sum"), con_iva=("con_iva", "sum"), uds=("cantidad", "sum")
             ).reset_index()
-            _v_dia.columns = ["fecha_dia", "neto", "uds"]
+            _v_dia.columns = ["fecha_dia", "neto", "con_iva", "uds"]
             _v_dia = _v_dia.sort_values("fecha_dia")
             _v_dia["fecha_dt"] = pd.to_datetime(_v_dia["fecha_dia"])
 
             fig_v = go.Figure()
             fig_v.add_trace(go.Scatter(
-                x=_v_dia["fecha_dt"], y=_v_dia["neto"],
+                x=_v_dia["fecha_dt"], y=_v_dia["con_iva"],
                 fill="tozeroy", fillcolor="rgba(0,201,107,0.1)",
                 line=dict(color="#00c96b", width=2.5),
-                name="Ventas",
-                hovertemplate="<b>%{x|%d/%m}</b><br>Ventas: $%{y:,.0f}<extra></extra>",
+                name="Ventas con IVA",
+                hovertemplate="<b>%{x|%d/%m}</b><br>Con IVA: $%{y:,.0f}<br>Sin IVA: $%{customdata:,.0f}<extra></extra>",
+                customdata=_v_dia["neto"],
             ))
             if _tiene_comp:
                 _vc_dia = df_comp[df_comp["tipo"] == "VENTA"].copy()
@@ -2129,7 +2134,7 @@ if tab3:
             st.plotly_chart(fig_v, use_container_width=True, config={"displayModeBar": False})
 
             # Desglose por medio de pago
-            _v_medio = _ventas_per.groupby("medio").agg(total=("monto", "sum"), cant=("monto", "count")).reset_index()
+            _v_medio = _ventas_per.groupby("medio").agg(total=("con_iva", "sum"), neto=("monto", "sum"), cant=("monto", "count")).reset_index()
             _v_medio = _v_medio.sort_values("total", ascending=False)
             _v_medio_total = _v_medio["total"].sum()
             _colores_medio = {"Efectivo": "#00c96b", "Mercado Pago": "#3a86ff", "Santander": "#e94560",
@@ -3867,25 +3872,30 @@ if tab5:
         if not sin_datos:
             seccion("Stock viejo")
             viejo = df[df["stock_tipo"] == "VIEJO"]
+            _viejo_neto = viejo["neto"].sum()
+            _viejo_iva = viejo["total_con_iva"].sum() if "total_con_iva" in viejo.columns else _viejo_neto * 1.21
             col1, col2, col3 = st.columns(3)
             with col1:
                 st.markdown(metric_card("📦", "Unidades vendidas", str(int(viejo["cantidad"].sum())), "stock viejo", "gris" if True else "azul"), unsafe_allow_html=True)
             with col2:
-                st.markdown(metric_card("💵", "Neto generado", fmt(viejo["neto"].sum()), "de stock viejo", "azul"), unsafe_allow_html=True)
+                st.markdown(metric_card("💵", "Facturado", fmt(_viejo_iva), f"Sin IVA: {fmt(_viejo_neto)}", "azul"), unsafe_allow_html=True)
             with col3:
-                ticket = viejo["neto"].sum() / max(len(viejo), 1)
-                st.markdown(metric_card("🧾", "Ticket promedio", fmt(ticket), "por transacción", "morado"), unsafe_allow_html=True)
+                ticket = _viejo_iva / max(len(viejo), 1)
+                ticket_neto = _viejo_neto / max(len(viejo), 1)
+                st.markdown(metric_card("🧾", "Ticket promedio", fmt(ticket), f"Sin IVA: {fmt(ticket_neto)}", "morado"), unsafe_allow_html=True)
 
             with st.expander(f"Ver {int(viejo['cantidad'].sum())} productos vendidos del stock viejo"):
-                det_viejo = viejo.groupby("producto").agg(
-                    vendidos=("cantidad","sum"), neto=("neto","sum")
-                ).sort_values("vendidos", ascending=False)
+                _agg_vj = {"vendidos": ("cantidad","sum"), "neto": ("neto","sum")}
+                if "total_con_iva" in viejo.columns:
+                    _agg_vj["con_iva"] = ("total_con_iva","sum")
+                det_viejo = viejo.groupby("producto").agg(**_agg_vj).sort_values("vendidos", ascending=False)
                 rows_vj = ""
                 for prod, rv in det_viejo.iterrows():
-                    rows_vj += f'<tr><td>{prod}</td><td style="text-align:center">{int(rv["vendidos"])}</td><td style="text-align:right">{fmt(rv["neto"])}</td></tr>'
+                    _vj_iva = rv.get("con_iva", rv["neto"] * 1.21)
+                    rows_vj += f'<tr><td>{prod}</td><td style="text-align:center">{int(rv["vendidos"])}</td><td style="text-align:right">{fmt(_vj_iva)}<br><span style="color:#6666aa;font-size:0.72rem">sin IVA: {fmt(rv["neto"])}</span></td></tr>'
                 st.markdown(
                     f'<div class="tabla-wrapper"><table class="tabla-custom">'
-                    f'<thead><tr><th>Producto</th><th style="text-align:center">Uds</th><th style="text-align:right">Neto</th></tr></thead>'
+                    f'<thead><tr><th>Producto</th><th style="text-align:center">Uds</th><th style="text-align:right">Con IVA</th></tr></thead>'
                     f'<tbody>{rows_vj}</tbody></table></div>',
                     unsafe_allow_html=True,
                 )
@@ -4229,7 +4239,7 @@ if tab5b:
                 with r1:
                     st.markdown(metric_card("💰", "Ganancia estimada", fmt(ganancia_est), f"margen {_m_info['margen']:.0f}%", "verde"), unsafe_allow_html=True)
                 with r2:
-                    st.markdown(metric_card("🛒", "Venta generada", fmt(venta_est), "neto sin IVA", "azul"), unsafe_allow_html=True)
+                    st.markdown(metric_card("🛒", "Venta generada", fmt(venta_est * 1.21), f"Sin IVA: {fmt(venta_est)}", "azul"), unsafe_allow_html=True)
                 with r3:
                     st.markdown(metric_card("🧾", "IVA credito", fmt(iva_credito_est), "21% sobre la compra", "amarillo"), unsafe_allow_html=True)
                 with r4:
