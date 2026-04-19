@@ -2912,6 +2912,117 @@ if tab5:
                     "azul"
                 )
 
+        # ── Reporte exportable por proveedor ─────────────────────────────────
+        seccion("Exportar reporte para proveedor")
+        _prov_reporte = st.selectbox(
+            "Elegí proveedor", ["TODOS", "KAZUMA", "LISBON", "DISTRICT"],
+            key="prov_reporte_sel",
+        )
+
+        def _generar_reporte_proveedor(prov_filtro, df_stock_data, df_ventas):
+            """Genera reporte de velocidad de venta para compartir con proveedores."""
+            from datetime import date as _d
+
+            if prov_filtro == "TODOS":
+                proveedores = ["KAZUMA", "LISBON", "DISTRICT"]
+            else:
+                proveedores = [prov_filtro]
+
+            lineas = []
+            lineas.append("=" * 60)
+            lineas.append("THE ROOM ARGENTINA — Reporte de stock")
+            lineas.append(f"Fecha: {hoy.strftime('%d/%m/%Y')}")
+            lineas.append("=" * 60)
+
+            for prov in proveedores:
+                prov_data = df_stock_data[df_stock_data["Proveedor"] == prov]
+                if prov_data.empty:
+                    continue
+
+                total_ini = int(prov_data["Stock Inicial"].sum())
+                total_vend = int(prov_data["Vendidos"].sum())
+                total_quedan = int(prov_data["Quedan"].sum())
+                total_neto = prov_data["Neto $"].sum()
+                pct_total = round(total_vend / total_ini * 100, 1) if total_ini > 0 else 0
+                dias_tr = int(prov_data["Días transcurridos"].iloc[0])
+
+                lineas.append("")
+                lineas.append("-" * 60)
+                lineas.append(f"PROVEEDOR: {prov}")
+                lineas.append(f"Días en tienda: {dias_tr}")
+                lineas.append(f"Total: {total_vend}/{total_ini} vendidos ({pct_total}%) — quedan {total_quedan}")
+                lineas.append(f"Facturado neto: ${total_neto:,.0f}")
+                lineas.append("-" * 60)
+                lineas.append("")
+                lineas.append(f"{'Producto':<40} {'Ini':>4} {'Vend':>5} {'Qued':>5} {'%':>6} {'Vel/d':>6} {'Dias stk':>8} {'Neto $':>12} {'Estado'}")
+                lineas.append("-" * 120)
+
+                for _, r in prov_data.iterrows():
+                    vend = int(r["Vendidos"])
+                    ini = int(r["Stock Inicial"])
+                    quedan = int(r["Quedan"])
+                    pct = r["% Vendido"]
+                    vel = r["Vel/día"]
+                    dias_stk = r["Días de stock"]
+                    neto = r["Neto $"]
+
+                    if vend == 0:
+                        estado = "SIN VENTAS"
+                    elif pct >= 60:
+                        estado = "REPONER"
+                    elif vel >= 0.5:
+                        estado = "RAPIDO"
+                    elif vel >= 0.15:
+                        estado = "NORMAL"
+                    else:
+                        estado = "LENTO"
+
+                    lineas.append(
+                        f"{str(r['Tipo']):<40} {ini:>4} {vend:>5} {quedan:>5} {pct:>5.1f}% {vel:>6.2f} {str(dias_stk):>8} ${neto:>11,.0f} {estado}"
+                    )
+
+                # Detalle por producto individual (SKU)
+                if not df_ventas.empty:
+                    nuevos_prov = df_ventas[
+                        (df_ventas["stock_tipo"] == "NUEVO") &
+                        (df_ventas["proveedor_nuevo"] == prov)
+                    ]
+                    if not nuevos_prov.empty:
+                        lineas.append("")
+                        lineas.append(f"  Detalle de ventas — {prov}:")
+                        lineas.append(f"  {'Fecha':<12} {'Producto':<45} {'Cant':>4} {'Neto $':>10} {'Canal'}")
+                        lineas.append("  " + "-" * 90)
+                        for _, v in nuevos_prov.sort_values("fecha").iterrows():
+                            lineas.append(
+                                f"  {str(v['fecha'])[:10]:<12} {v['producto']:<45} {int(v['cantidad']):>4} ${v['neto']:>9,.0f} {v['canal']}"
+                            )
+
+                # Productos sin ninguna venta
+                sin_venta = prov_data[prov_data["Vendidos"] == 0]
+                if not sin_venta.empty:
+                    lineas.append("")
+                    lineas.append(f"  *** ATENCION — Productos sin movimiento de {prov}:")
+                    for _, sv in sin_venta.iterrows():
+                        lineas.append(f"      - {sv['Tipo']} ({int(sv['Stock Inicial'])} unidades, {int(sv['Días transcurridos'])} días sin vender)")
+
+            lineas.append("")
+            lineas.append("=" * 60)
+            lineas.append("Generado por The Room Argentina Dashboard")
+            lineas.append("=" * 60)
+            return "\n".join(lineas)
+
+        _reporte_prov = _generar_reporte_proveedor(_prov_reporte, df_stock, df)
+        st.code(_reporte_prov, language=None)
+
+        _nombre_archivo_rep = f"reporte_stock_{_prov_reporte.lower()}_{hoy.isoformat()}.txt"
+        st.download_button(
+            label=f"Descargar reporte {_prov_reporte}",
+            data=_reporte_prov,
+            file_name=_nombre_archivo_rep,
+            mime="text/plain",
+            use_container_width=True,
+        )
+
         # Resumen total nuevo
         seccion("Resumen stock nuevo")
         totales = df_stock.groupby("Proveedor").agg(
