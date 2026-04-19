@@ -5,19 +5,19 @@
     "Banco Corrientes": -10210318,
     "Galicia": -74602,
     "Santander": 2058678,
-    "Mercado Pago": 96556,
+    "Mercado Pago": 59089,
     "Efectivo Caja": 282400,
-    "notas": "Todos los bancos actualizados segun extractos abril 2026. Santander tiene cheques cobrados y transferencias de clientes."
+    "notas": "Todos los bancos actualizados segun extractos abril 2026. MP $59.089 (extracto real)."
   },
   {
     "fecha": "2026-04-16",
     "BBVA Frances": -5193481,
-    "Banco Corrientes": -10210318,
+    "Banco Corrientes": -10200000,
     "Galicia": -74602,
     "Santander": 2093429,
-    "Mercado Pago": 167097,
+    "Mercado Pago": 235121,
     "Efectivo Caja": 416000,
-    "notas": "Santander al 15/04 (extracto), MP $167.097, Caja $416K dato Gustavo 16/04"
+    "notas": "Santander al 15/04 (extracto), MP $235.121 (extracto real), Corrientes -$10.200.000 (extracto real), Caja $416K dato Gustavo 16/04"
   },
   {
     "fecha": "2026-04-17",
@@ -25,9 +25,9 @@
     "Banco Corrientes": -10205938,
     "Galicia": -74602,
     "Santander": 1944995,
-    "Mercado Pago": 241649,
+    "Mercado Pago": 641334,
     "Efectivo Caja": 416000,
-    "notas": "Santander $1.945K, Corrientes -$10.2M, MP $241K — extractos 16-17/04"
+    "notas": "Santander $1.945K, Corrientes -$10.2M, MP $641K — extractos reales 01-17/04"
   },
   {
     "fecha": "2026-04-18",
@@ -35,8 +35,8 @@
     "Banco Corrientes": -10205938,
     "Galicia": -74602,
     "Santander": 2088594,
-    "Mercado Pago": 241649,
+    "Mercado Pago": 641334,
     "Efectivo Caja": 416000,
-    "notas": "BBVA -$6.923.582 + Santander $2.088.594 (extractos 18/04). MP pendiente actualizar."
+    "notas": "BBVA -$6.923.582 + Santander $2.088.594 (extractos 18/04). MP mismo que 17/04, pendiente extracto 18/04."
   }
 ]

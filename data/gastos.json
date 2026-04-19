@@ -1,15 +1,15 @@
 [
   {
     "fecha": "2026-04-01",
-    "concepto": "Impuesto al cheque (Ley 25413) — Banco Corrientes",
+    "concepto": "Impuesto al cheque (Ley 25413) â€” Banco Corrientes",
     "monto": 4691.54,
     "categoria": "AFIP / Impuestos",
     "medio": "Banco Corrientes",
-    "notas": "Débito automático extracto 01/04"
+    "notas": "DÃ©bito automÃ¡tico extracto 01/04"
   },
   {
     "fecha": "2026-04-01",
-    "concepto": "Comision servicio de cuenta Galicia — marzo 2026",
+    "concepto": "Comision servicio de cuenta Galicia â€” marzo 2026",
     "monto": 60000,
     "categoria": "Gastos bancarios",
     "medio": "Galicia",
@@ -17,7 +17,7 @@
   },
   {
     "fecha": "2026-04-01",
-    "concepto": "IVA sobre comision Galicia — marzo 2026",
+    "concepto": "IVA sobre comision Galicia â€” marzo 2026",
     "monto": 12600,
     "categoria": "AFIP / Impuestos",
     "medio": "Galicia",
@@ -25,7 +25,7 @@
   },
   {
     "fecha": "2026-04-01",
-    "concepto": "Percepcion IVA — Galicia marzo 2026",
+    "concepto": "Percepcion IVA â€” Galicia marzo 2026",
     "monto": 1800,
     "categoria": "AFIP / Impuestos",
     "medio": "Galicia",
@@ -33,7 +33,7 @@
   },
   {
     "fecha": "2026-04-01",
-    "concepto": "Impuesto al cheque (Ley 25413) — Galicia",
+    "concepto": "Impuesto al cheque (Ley 25413) â€” Galicia",
     "monto": 446.4,
     "categoria": "AFIP / Impuestos",
     "medio": "Galicia",
@@ -41,7 +41,7 @@
   },
   {
     "fecha": "2026-04-01",
-    "concepto": "Intereses saldos deudores — Galicia marzo 2026",
+    "concepto": "Intereses saldos deudores â€” Galicia marzo 2026",
     "monto": 1028.56,
     "categoria": "Gastos bancarios",
     "medio": "Galicia",
@@ -49,7 +49,7 @@
   },
   {
     "fecha": "2026-04-01",
-    "concepto": "Impuesto de sellos — Galicia marzo 2026",
+    "concepto": "Impuesto de sellos â€” Galicia marzo 2026",
     "monto": 41.14,
     "categoria": "AFIP / Impuestos",
     "medio": "Galicia",
@@ -57,7 +57,7 @@
   },
   {
     "fecha": "2026-04-01",
-    "concepto": "IVA sellos — Galicia marzo 2026",
+    "concepto": "IVA sellos â€” Galicia marzo 2026",
     "monto": 108,
     "categoria": "AFIP / Impuestos",
     "medio": "Galicia",
@@ -65,7 +65,7 @@
   },
   {
     "fecha": "2026-04-01",
-    "concepto": "Impuesto al cheque (Ley 25413) — Galicia",
+    "concepto": "Impuesto al cheque (Ley 25413) â€” Galicia",
     "monto": 7.07,
     "categoria": "AFIP / Impuestos",
     "medio": "Galicia",
@@ -100,14 +100,6 @@
     "concepto": "Debito Debin  - Id Debin Z0kv87940411qr34npeydx Cuit 30715123580",
     "monto": 78166.0,
     "categoria": "Gastos bancarios",
-    "medio": "Santander",
-    "notas": "Extracto Santander 01-17/04"
-  },
-  {
-    "fecha": "2026-04-01",
-    "concepto": "Echeq Clearing Recibido 48hs",
-    "monto": 1279705.1,
-    "categoria": "Cheque debitado",
     "medio": "Santander",
     "notas": "Extracto Santander 01-17/04"
   },
@@ -193,7 +185,7 @@
   },
   {
     "fecha": "2026-04-04",
-    "concepto": "Impuesto sobre los Créditos y Débitos en cobros",
+    "concepto": "Impuesto sobre los CrÃ©ditos y DÃ©bitos en cobros",
     "monto": 345.0,
     "categoria": "AFIP / Impuestos",
     "medio": "Mercado Pago",
@@ -201,7 +193,7 @@
   },
   {
     "fecha": "2026-04-04",
-    "concepto": "Retención Impuesto a los IIBB de Corrientes",
+    "concepto": "RetenciÃ³n Impuesto a los IIBB de Corrientes",
     "monto": 1150.0,
     "categoria": "AFIP / Impuestos",
     "medio": "Mercado Pago",
@@ -225,7 +217,7 @@
   },
   {
     "fecha": "2026-04-06",
-    "concepto": "Impuesto sobre los Créditos y Débitos en pagos",
+    "concepto": "Impuesto sobre los CrÃ©ditos y DÃ©bitos en pagos",
     "monto": 127.86,
     "categoria": "AFIP / Impuestos",
     "medio": "Mercado Pago",
@@ -345,7 +337,7 @@
   },
   {
     "fecha": "2026-04-07",
-    "concepto": "Impuesto sobre los Créditos y Débitos en pagos",
+    "concepto": "Impuesto sobre los CrÃ©ditos y DÃ©bitos en pagos",
     "monto": 43.2,
     "categoria": "AFIP / Impuestos",
     "medio": "Mercado Pago",
@@ -361,7 +353,7 @@
   },
   {
     "fecha": "2026-04-07",
-    "concepto": "Impuesto sobre los Créditos y Débitos en cobros",
+    "concepto": "Impuesto sobre los CrÃ©ditos y DÃ©bitos en cobros",
     "monto": 414.0,
     "categoria": "AFIP / Impuestos",
     "medio": "Mercado Pago",
@@ -369,7 +361,7 @@
   },
   {
     "fecha": "2026-04-07",
-    "concepto": "Retención Impuesto a los IIBB de Corrientes",
+    "concepto": "RetenciÃ³n Impuesto a los IIBB de Corrientes",
     "monto": 1380.0,
     "categoria": "AFIP / Impuestos",
     "medio": "Mercado Pago",
@@ -433,7 +425,7 @@
   },
   {
     "fecha": "2026-04-08",
-    "concepto": "GASTO RAPIDO — GASTOS VARIOS (VIDRIERO)",
+    "concepto": "GASTO RAPIDO â€” GASTOS VARIOS (VIDRIERO)",
     "monto": 4000.0,
     "neto": 4000.0,
     "iva": 0,
@@ -466,40 +458,24 @@
     "notas": "Extracto Santander 01-17/04"
   },
   {
-    "fecha": "2026-04-08",
-    "concepto": "TRANSFERENCI 30717936279",
-    "monto": 300000.0,
-    "categoria": "Otros",
-    "medio": "BBVA Frances",
-    "notas": "Extracto BBVA 01-17/04"
-  },
-  {
-    "fecha": "2026-04-08",
-    "concepto": "TRANSFERENCI 30717936279",
-    "monto": 3000000.0,
-    "categoria": "Otros",
-    "medio": "BBVA Frances",
-    "notas": "Extracto BBVA 01-17/04"
-  },
-  {
     "fecha": "2026-04-09",
-    "concepto": "Pago tarjeta de crédito — Cobro T.Credito ref 1254977483",
+    "concepto": "Pago tarjeta de crÃ©dito â€” Cobro T.Credito ref 1254977483",
     "monto": 1719442.16,
     "categoria": "Gastos bancarios",
     "medio": "Banco Corrientes",
-    "notas": "Débito automático extracto 09/04"
+    "notas": "DÃ©bito automÃ¡tico extracto 09/04"
   },
   {
     "fecha": "2026-04-09",
-    "concepto": "Pago tarjeta de crédito — Cobro T.Credito ref 1215585654",
+    "concepto": "Pago tarjeta de crÃ©dito â€” Cobro T.Credito ref 1215585654",
     "monto": 163.7,
     "categoria": "Gastos bancarios",
     "medio": "Banco Corrientes",
-    "notas": "Débito automático extracto 09/04"
+    "notas": "DÃ©bito automÃ¡tico extracto 09/04"
   },
   {
     "fecha": "2026-04-09",
-    "concepto": "Impuesto sobre los Créditos y Débitos en cobros",
+    "concepto": "Impuesto sobre los CrÃ©ditos y DÃ©bitos en cobros",
     "monto": 359.4,
     "categoria": "AFIP / Impuestos",
     "medio": "Mercado Pago",
@@ -507,7 +483,7 @@
   },
   {
     "fecha": "2026-04-09",
-    "concepto": "Retención Impuesto a los IIBB de Corrientes",
+    "concepto": "RetenciÃ³n Impuesto a los IIBB de Corrientes",
     "monto": 1198.0,
     "categoria": "AFIP / Impuestos",
     "medio": "Mercado Pago",
@@ -531,7 +507,7 @@
   },
   {
     "fecha": "2026-04-09",
-    "concepto": "Impuesto sobre los Créditos y Débitos en cobros",
+    "concepto": "Impuesto sobre los CrÃ©ditos y DÃ©bitos en cobros",
     "monto": 1432.8,
     "categoria": "AFIP / Impuestos",
     "medio": "Mercado Pago",
@@ -539,7 +515,7 @@
   },
   {
     "fecha": "2026-04-09",
-    "concepto": "Retención Impuesto a los IIBB de Corrientes",
+    "concepto": "RetenciÃ³n Impuesto a los IIBB de Corrientes",
     "monto": 4776.0,
     "categoria": "AFIP / Impuestos",
     "medio": "Mercado Pago",
@@ -586,24 +562,16 @@
     "notas": "Extracto Santander 01-17/04"
   },
   {
-    "fecha": "2026-04-09",
-    "concepto": "TRANSF. INM  30717936279",
-    "monto": 1520000.0,
-    "categoria": "Otros",
-    "medio": "BBVA Frances",
-    "notas": "Extracto BBVA 01-17/04"
-  },
-  {
     "fecha": "2026-04-10",
-    "concepto": "Impuesto al cheque (Ley 25413) — Banco Corrientes",
+    "concepto": "Impuesto al cheque (Ley 25413) â€” Banco Corrientes",
     "monto": 10317.63,
     "categoria": "AFIP / Impuestos",
     "medio": "Banco Corrientes",
-    "notas": "Débito automático extracto 10/04"
+    "notas": "DÃ©bito automÃ¡tico extracto 10/04"
   },
   {
     "fecha": "2026-04-10",
-    "concepto": "GASTO RAPIDO — GASTOS VARIOS (DIA DE FOTOS - COMPRAMOS CHIPA PARA COMP)",
+    "concepto": "GASTO RAPIDO â€” GASTOS VARIOS (DIA DE FOTOS - COMPRAMOS CHIPA PARA COMP)",
     "monto": 5000.0,
     "neto": 5000.0,
     "iva": 0,
@@ -613,7 +581,7 @@
   },
   {
     "fecha": "2026-04-10",
-    "concepto": "CARDOZO, GABRIELA ANALIA — GABRIELA (VIANDA)",
+    "concepto": "CARDOZO, GABRIELA ANALIA â€” GABRIELA (VIANDA)",
     "monto": 103000.0,
     "neto": 103000.0,
     "iva": 0,
@@ -647,7 +615,7 @@
   },
   {
     "fecha": "2026-04-11",
-    "concepto": "Impuesto sobre los Créditos y Débitos en pagos",
+    "concepto": "Impuesto sobre los CrÃ©ditos y DÃ©bitos en pagos",
     "monto": 1505.98,
     "categoria": "AFIP / Impuestos",
     "medio": "Mercado Pago",
@@ -663,7 +631,7 @@
   },
   {
     "fecha": "2026-04-12",
-    "concepto": "Impuesto sobre los Créditos y Débitos en cobros",
+    "concepto": "Impuesto sobre los CrÃ©ditos y DÃ©bitos en cobros",
     "monto": 241.44,
     "categoria": "AFIP / Impuestos",
     "medio": "Mercado Pago",
@@ -679,7 +647,7 @@
   },
   {
     "fecha": "2026-04-12",
-    "concepto": "Retención Impuesto a los IIBB de Corrientes",
+    "concepto": "RetenciÃ³n Impuesto a los IIBB de Corrientes",
     "monto": 804.8,
     "categoria": "AFIP / Impuestos",
     "medio": "Mercado Pago",
@@ -695,7 +663,7 @@
   },
   {
     "fecha": "2026-04-13",
-    "concepto": "CARDOZO, GABRIELA ANALIA — GABRIELA (FISIO DINO)",
+    "concepto": "CARDOZO, GABRIELA ANALIA â€” GABRIELA (FISIO DINO)",
     "monto": 25000.0,
     "neto": 25000.0,
     "iva": 0,
@@ -705,7 +673,7 @@
   },
   {
     "fecha": "2026-04-13",
-    "concepto": "CORREO OFICIAL DE LA REPUBLICA ARGENTINA SOCIEDAD ANONIMA — TRANSPORTE (2 ENVIOS TIENDA NUBE)",
+    "concepto": "CORREO OFICIAL DE LA REPUBLICA ARGENTINA SOCIEDAD ANONIMA â€” TRANSPORTE (2 ENVIOS TIENDA NUBE)",
     "monto": 21140.0,
     "neto": 21140.0,
     "iva": 0,
@@ -715,7 +683,7 @@
   },
   {
     "fecha": "2026-04-13",
-    "concepto": "Impuesto sobre los Créditos y Débitos en pagos",
+    "concepto": "Impuesto sobre los CrÃ©ditos y DÃ©bitos en pagos",
     "monto": 125.93,
     "categoria": "AFIP / Impuestos",
     "medio": "Mercado Pago",
@@ -731,7 +699,7 @@
   },
   {
     "fecha": "2026-04-13",
-    "concepto": "Impuesto sobre los Créditos y Débitos en pagos",
+    "concepto": "Impuesto sobre los CrÃ©ditos y DÃ©bitos en pagos",
     "monto": 62.1,
     "categoria": "AFIP / Impuestos",
     "medio": "Mercado Pago",
@@ -771,7 +739,7 @@
   },
   {
     "fecha": "2026-04-14",
-    "concepto": "Impuesto sobre los Créditos y Débitos en pagos",
+    "concepto": "Impuesto sobre los CrÃ©ditos y DÃ©bitos en pagos",
     "monto": 5.77,
     "categoria": "AFIP / Impuestos",
     "medio": "Mercado Pago",
@@ -787,7 +755,7 @@
   },
   {
     "fecha": "2026-04-14",
-    "concepto": "Impuesto sobre los Créditos y Débitos en cobros",
+    "concepto": "Impuesto sobre los CrÃ©ditos y DÃ©bitos en cobros",
     "monto": 341.41,
     "categoria": "AFIP / Impuestos",
     "medio": "Mercado Pago",
@@ -803,7 +771,7 @@
   },
   {
     "fecha": "2026-04-14",
-    "concepto": "Retención Impuesto a los IIBB de Corrientes",
+    "concepto": "RetenciÃ³n Impuesto a los IIBB de Corrientes",
     "monto": 1138.02,
     "categoria": "AFIP / Impuestos",
     "medio": "Mercado Pago",
@@ -827,7 +795,7 @@
   },
   {
     "fecha": "2026-04-14",
-    "concepto": "Impuesto sobre los Créditos y Débitos en cobros",
+    "concepto": "Impuesto sobre los CrÃ©ditos y DÃ©bitos en cobros",
     "monto": 256.44,
     "categoria": "AFIP / Impuestos",
     "medio": "Mercado Pago",
@@ -867,7 +835,7 @@
   },
   {
     "fecha": "2026-04-15",
-    "concepto": "GASTO RAPIDO — GASTOS VARIOS (SUPER, PAPEL HIGIENICO, LLAVANDINA, DESO)",
+    "concepto": "GASTO RAPIDO â€” GASTOS VARIOS (SUPER, PAPEL HIGIENICO, LLAVANDINA, DESO)",
     "monto": 19300.0,
     "neto": 19300.0,
     "iva": 0,
@@ -885,7 +853,7 @@
   },
   {
     "fecha": "2026-04-15",
-    "concepto": "Impuesto sobre los Créditos y Débitos en cobros",
+    "concepto": "Impuesto sobre los CrÃ©ditos y DÃ©bitos en cobros",
     "monto": 175.2,
     "categoria": "AFIP / Impuestos",
     "medio": "Mercado Pago",
@@ -893,7 +861,7 @@
   },
   {
     "fecha": "2026-04-15",
-    "concepto": "Retención Impuesto a los IIBB de Corrientes",
+    "concepto": "RetenciÃ³n Impuesto a los IIBB de Corrientes",
     "monto": 584.0,
     "categoria": "AFIP / Impuestos",
     "medio": "Mercado Pago",
@@ -949,7 +917,7 @@
   },
   {
     "fecha": "2026-04-16",
-    "concepto": "Pago tarjeta — Cobro T.Credito",
+    "concepto": "Pago tarjeta â€” Cobro T.Credito",
     "monto": 989682.37,
     "categoria": "Gastos bancarios",
     "medio": "Banco Corrientes",
@@ -957,7 +925,7 @@
   },
   {
     "fecha": "2026-04-16",
-    "concepto": "Sueldo Sofía abril",
+    "concepto": "Sueldo SofÃ­a abril",
     "monto": 500000,
     "categoria": "Sueldos",
     "medio": "Efectivo",
@@ -965,7 +933,7 @@
   },
   {
     "fecha": "2026-04-16",
-    "concepto": "Impuesto sobre los Créditos y Débitos en cobros",
+    "concepto": "Impuesto sobre los CrÃ©ditos y DÃ©bitos en cobros",
     "monto": 192.0,
     "categoria": "AFIP / Impuestos",
     "medio": "Mercado Pago",
@@ -973,7 +941,7 @@
   },
   {
     "fecha": "2026-04-16",
-    "concepto": "Retención Impuesto a los IIBB de Corrientes",
+    "concepto": "RetenciÃ³n Impuesto a los IIBB de Corrientes",
     "monto": 640.0,
     "categoria": "AFIP / Impuestos",
     "medio": "Mercado Pago",
@@ -997,7 +965,7 @@
   },
   {
     "fecha": "2026-04-16",
-    "concepto": "Impuesto sobre los Créditos y Débitos en pagos",
+    "concepto": "Impuesto sobre los CrÃ©ditos y DÃ©bitos en pagos",
     "monto": 62.96,
     "categoria": "AFIP / Impuestos",
     "medio": "Mercado Pago",
@@ -1013,7 +981,7 @@
   },
   {
     "fecha": "2026-04-16",
-    "concepto": "Impuesto sobre los Créditos y Débitos en cobros",
+    "concepto": "Impuesto sobre los CrÃ©ditos y DÃ©bitos en cobros",
     "monto": 430.8,
     "categoria": "AFIP / Impuestos",
     "medio": "Mercado Pago",
@@ -1021,7 +989,7 @@
   },
   {
     "fecha": "2026-04-16",
-    "concepto": "Retención Impuesto a los IIBB de Corrientes",
+    "concepto": "RetenciÃ³n Impuesto a los IIBB de Corrientes",
     "monto": 1436.0,
     "categoria": "AFIP / Impuestos",
     "medio": "Mercado Pago",
@@ -1092,16 +1060,8 @@
     "notas": "Extracto Santander 01-17/04"
   },
   {
-    "fecha": "2026-04-16",
-    "concepto": "TRANSFERENCI 30717936279",
-    "monto": 1000000.0,
-    "categoria": "Otros",
-    "medio": "BBVA Frances",
-    "notas": "Extracto BBVA 01-17/04"
-  },
-  {
     "fecha": "2026-04-17",
-    "concepto": "Impuesto sobre los Créditos y Débitos en cobros",
+    "concepto": "Impuesto sobre los CrÃ©ditos y DÃ©bitos en cobros",
     "monto": 773.4,
     "categoria": "AFIP / Impuestos",
     "medio": "Mercado Pago",
@@ -1109,7 +1069,7 @@
   },
   {
     "fecha": "2026-04-17",
-    "concepto": "Retención Impuesto a los IIBB de Corrientes",
+    "concepto": "RetenciÃ³n Impuesto a los IIBB de Corrientes",
     "monto": 2578.0,
     "categoria": "AFIP / Impuestos",
     "medio": "Mercado Pago",
@@ -1133,7 +1093,7 @@
   },
   {
     "fecha": "2026-04-17",
-    "concepto": "Impuesto sobre los Créditos y Débitos en cobros",
+    "concepto": "Impuesto sobre los CrÃ©ditos y DÃ©bitos en cobros",
     "monto": 990.0,
     "categoria": "AFIP / Impuestos",
     "medio": "Mercado Pago",
@@ -1165,7 +1125,7 @@
   },
   {
     "fecha": "2026-04-17",
-    "concepto": "Impuesto sobre los Créditos y Débitos en cobros",
+    "concepto": "Impuesto sobre los CrÃ©ditos y DÃ©bitos en cobros",
     "monto": 378.6,
     "categoria": "AFIP / Impuestos",
     "medio": "Mercado Pago",
@@ -1173,7 +1133,7 @@
   },
   {
     "fecha": "2026-04-17",
-    "concepto": "Retención Impuesto a los IIBB de Corrientes",
+    "concepto": "RetenciÃ³n Impuesto a los IIBB de Corrientes",
     "monto": 1262.0,
     "categoria": "AFIP / Impuestos",
     "medio": "Mercado Pago",
@@ -1197,7 +1157,7 @@
   },
   {
     "fecha": "2026-04-17",
-    "concepto": "Impuesto sobre los Créditos y Débitos en cobros",
+    "concepto": "Impuesto sobre los CrÃ©ditos y DÃ©bitos en cobros",
     "monto": 241.44,
     "categoria": "AFIP / Impuestos",
     "medio": "Mercado Pago",
@@ -1213,7 +1173,7 @@
   },
   {
     "fecha": "2026-04-17",
-    "concepto": "Retención Impuesto a los IIBB de Corrientes",
+    "concepto": "RetenciÃ³n Impuesto a los IIBB de Corrientes",
     "monto": 804.8,
     "categoria": "AFIP / Impuestos",
     "medio": "Mercado Pago",
@@ -1237,7 +1197,7 @@
   },
   {
     "fecha": "2026-04-17",
-    "concepto": "Impuesto sobre los Créditos y Débitos en cobros",
+    "concepto": "Impuesto sobre los CrÃ©ditos y DÃ©bitos en cobros",
     "monto": 215.4,
     "categoria": "AFIP / Impuestos",
     "medio": "Mercado Pago",
@@ -1245,7 +1205,7 @@
   },
   {
     "fecha": "2026-04-17",
-    "concepto": "Retención Impuesto a los IIBB de Corrientes",
+    "concepto": "RetenciÃ³n Impuesto a los IIBB de Corrientes",
     "monto": 718.0,
     "categoria": "AFIP / Impuestos",
     "medio": "Mercado Pago",
@@ -1269,7 +1229,7 @@
   },
   {
     "fecha": "2026-04-17",
-    "concepto": "Impuesto sobre los Créditos y Débitos en cobros",
+    "concepto": "Impuesto sobre los CrÃ©ditos y DÃ©bitos en cobros",
     "monto": 430.8,
     "categoria": "AFIP / Impuestos",
     "medio": "Mercado Pago",
@@ -1277,7 +1237,7 @@
   },
   {
     "fecha": "2026-04-17",
-    "concepto": "Retención Impuesto a los IIBB de Corrientes",
+    "concepto": "RetenciÃ³n Impuesto a los IIBB de Corrientes",
     "monto": 1436.0,
     "categoria": "AFIP / Impuestos",
     "medio": "Mercado Pago",
@@ -1322,21 +1282,5 @@
     "categoria": "AFIP / Impuestos",
     "medio": "Santander",
     "notas": "Extracto Santander 01-17/04"
-  },
-  {
-    "fecha": "2026-04-17",
-    "concepto": "TRANSFERENCI 30717936279",
-    "monto": 75000.0,
-    "categoria": "Otros",
-    "medio": "BBVA Frances",
-    "notas": "Extracto BBVA 01-17/04"
-  },
-  {
-    "fecha": "2026-04-17",
-    "concepto": "TRANSFERENCI 30717936279",
-    "monto": 655100.0,
-    "categoria": "Otros",
-    "medio": "BBVA Frances",
-    "notas": "Extracto BBVA 01-17/04"
   }
 ]
