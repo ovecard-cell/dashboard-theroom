@@ -144,8 +144,14 @@ def load_dux_files(folder: str = "data/ventas") -> pd.DataFrame:
         df["total_con_iva"] = df["neto"] * 1.21
 
     # ── Filtros ───────────────────────────────────────────────────────────────
-    # Quitar envíos
-    df = df[~df["producto"].astype(str).str.upper().str.contains("ENVIO|COSTO_ENVIO", na=False)]
+    # Quitar COSTO_ENVIO (costo interno) pero dejar ENVIO cobrado al cliente
+    df = df[~df["producto"].astype(str).str.upper().str.contains("COSTO_ENVIO", na=False)]
+    # Quitar envíos gratis ($1 o menos — Dux los registra igual)
+    _mask_envio_gratis = (
+        df["producto"].astype(str).str.upper().str.contains("ENVIO", na=False) &
+        (pd.to_numeric(df.get("neto_raw", 0), errors="coerce").fillna(0) <= 1)
+    )
+    df = df[~_mask_envio_gratis]
     # Quitar devoluciones y cero
     df = df[df["cantidad"] > 0]
     # Quitar sin fecha
