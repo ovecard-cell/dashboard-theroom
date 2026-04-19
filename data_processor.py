@@ -486,6 +486,17 @@ def _categorizar_movimiento(tipo: str, referencia: str) -> tuple:
     """Devuelve (categoria, descripcion) para cada movimiento."""
     tipo_u = str(tipo).upper().strip()
     ref_u  = str(referencia).upper().strip()
+    # Texto combinado para detectar transferencias internas en cualquier campo
+    combo  = f"{tipo_u} {ref_u}"
+
+    # Transferencias internas (ANTES que todo — nunca son gastos)
+    # CUIT propio de BRUDER SRL / The Room
+    if "30717936279" in combo:
+        return "TRANSFERENCIA", f"Transferencia interna BRUDER — {tipo.strip()}"
+    elif "TRANSF" in tipo_u or "TRF" in tipo_u or "TRANSF" in ref_u or "TRF:" in ref_u:
+        return "TRANSFERENCIA", f"Transferencia — {tipo.strip()}"
+    elif "BRUDER" in combo or "THE ROOM" in combo:
+        return "TRANSFERENCIA", f"Transferencia interna — {tipo.strip()}"
 
     # Impuestos
     if "25413" in tipo_u or "25.4" in tipo_u:
@@ -500,9 +511,6 @@ def _categorizar_movimiento(tipo: str, referencia: str) -> tuple:
         return "AFIP / Impuestos", f"Sellado — {tipo.strip()}"
     elif "ARCA" in tipo_u:
         return "AFIP / Impuestos", f"ARCA (AFIP) — {tipo.strip()}"
-    # Transferencias
-    elif "TRANSF" in tipo_u or "TRF" in tipo_u:
-        return "TRANSFERENCIA", f"Transferencia — {tipo.strip()}"
     # Tarjeta de crédito
     elif "T.CREDITO" in tipo_u or "T.DEBITO" in tipo_u or "COBRO T." in tipo_u:
         return "Gastos bancarios", f"Pago tarjeta — {tipo.strip()}"

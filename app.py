@@ -4740,14 +4740,22 @@ if tab9:
                         bancos_data.append(ult_banco)
                         save_bancos(bancos_data)
 
-                        # Agregar gastos nuevos a gastos.json (sin duplicar)
+                        # Agregar gastos nuevos a gastos.json (sin duplicar, sin transferencias)
                         gastos_existentes = get_gastos()
                         claves_existentes = {
                             (g["fecha"], g["concepto"], g["monto"]) for g in gastos_existentes
                         }
+                        _CUIT_PROPIO = "30717936279"
+                        _FILTRO_TRANSFER = ("TRANSF", "TRF:", "BRUDER", "THE ROOM")
                         nuevos_agregados = 0
+                        transferencias_filtradas = 0
                         for g in gastos_nuevos:
                             g["medio"] = banco_sel
+                            # Filtro de seguridad: rechazar transferencias internas
+                            _txt = f"{g.get('concepto','')} {g.get('notas','')}".upper()
+                            if _CUIT_PROPIO in _txt or any(p in _txt for p in _FILTRO_TRANSFER):
+                                transferencias_filtradas += 1
+                                continue
                             clave = (g["fecha"], g["concepto"], g["monto"])
                             if clave not in claves_existentes:
                                 gastos_existentes.append(g)
@@ -4756,12 +4764,14 @@ if tab9:
                         save_gastos(gastos_existentes)
 
                         # Notificación persistente
+                        _msg_transf = f" | {transferencias_filtradas} transferencias internas ignoradas" if transferencias_filtradas else ""
                         _notificar(
                             f"✅ Extracto de {banco_sel} procesado correctamente — "
                             f"Saldo: {fmt(saldo_nuevo)} | "
                             f"{resumen['cant_movimientos']} movimientos | "
                             f"{nuevos_agregados} gastos cargados | "
                             f"Total débitos: {fmt(resumen['total_debitos'])}"
+                            f"{_msg_transf}"
                         )
                         st.rerun()
                 except Exception as e:
