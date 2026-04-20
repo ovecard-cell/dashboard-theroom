@@ -1282,5 +1282,29 @@
     "categoria": "AFIP / Impuestos",
     "medio": "Santander",
     "notas": "Extracto Santander 01-17/04"
+  },
+  {
+    "fecha": "2026-04-18",
+    "concepto": "Impuesto sobre los Creditos y Debitos en pagos",
+    "monto": 226.74,
+    "categoria": "AFIP / Impuestos",
+    "medio": "Mercado Pago",
+    "notas": "Extracto MP mov #2267470905888"
+  },
+  {
+    "fecha": "2026-04-18",
+    "concepto": "Pago",
+    "monto": 37790.29,
+    "categoria": "Otros",
+    "medio": "Mercado Pago",
+    "notas": "Extracto MP mov #2267470905890"
+  },
+  {
+    "fecha": "2026-04-18",
+    "concepto": "CORREO OFICIAL DE LA REPUBLICA ARGENTINA — TRANSPORTE",
+    "monto": 37017.0,
+    "categoria": "Transporte",
+    "medio": "Cuenta bancaria",
+    "notas": "Importado de Dux compras 18/04"
   }
 ]

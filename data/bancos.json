@@ -35,8 +35,18 @@
     "Banco Corrientes": -10205938,
     "Galicia": -74602,
     "Santander": 2088594,
-    "Mercado Pago": 641334,
+    "Mercado Pago": 603317,
     "Efectivo Caja": 416000,
-    "notas": "BBVA -$6.923.582 + Santander $2.088.594 (extractos 18/04). MP mismo que 17/04, pendiente extracto 18/04."
+    "notas": "BBVA -$6.923.582 + Santander $2.088.594 (extractos 18/04). MP $603.317 (extracto real: pago $37.790 + imp $227)."
+  },
+  {
+    "fecha": "2026-04-20",
+    "BBVA Frances": -6923581,
+    "Banco Corrientes": -10205938,
+    "Galicia": 398,
+    "Santander": 2815224,
+    "Mercado Pago": 604137,
+    "Efectivo Caja": 416000,
+    "notas": "Santander $2.815.224, Galicia $398, MP $604.137 (extractos 20/04). BBVA y Corrientes sin extracto nuevo."
   }
 ]
