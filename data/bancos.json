@@ -41,12 +41,22 @@
   },
   {
     "fecha": "2026-04-20",
-    "BBVA Frances": -6923581,
-    "Banco Corrientes": -10205938,
+    "BBVA Frances": -6973582,
+    "Banco Corrientes": -10200264,
     "Galicia": 398,
     "Santander": 2815224,
     "Mercado Pago": 604137,
     "Efectivo Caja": 416000,
-    "notas": "Santander $2.815.224, Galicia $398, MP $604.137 (extractos 20/04). BBVA y Corrientes sin extracto nuevo."
+    "notas": "Todos los bancos al 20/04: BBVA -$6.973.582 (transfer -$50K), Ctes -$10.200.264, Sant $2.815.224, Gal $398, MP $604.137"
+  },
+  {
+    "fecha": "2026-04-21",
+    "BBVA Frances": -6973582,
+    "Banco Corrientes": -10200264,
+    "Galicia": 398,
+    "Santander": 2765186,
+    "Mercado Pago": 604137,
+    "Efectivo Caja": 416000,
+    "notas": "Santander $2.765.186 al 21/04 (IIBB -$358 + Getnet -$49.247). Otros sin cambio."
   }
 ]

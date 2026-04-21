@@ -1306,5 +1306,37 @@
     "categoria": "Transporte",
     "medio": "Cuenta bancaria",
     "notas": "Importado de Dux compras 18/04"
+  },
+  {
+    "fecha": "2026-04-20",
+    "concepto": "Pago tarjeta — Cobro T.Credito",
+    "monto": 44061.91,
+    "categoria": "Gastos bancarios",
+    "medio": "Banco Corrientes",
+    "notas": "Extracto Corrientes 20/04"
+  },
+  {
+    "fecha": "2026-04-20",
+    "concepto": "Impuesto al cheque (Ley 25413) — Banco Corrientes",
+    "monto": 264.37,
+    "categoria": "AFIP / Impuestos",
+    "medio": "Banco Corrientes",
+    "notas": "Debito automatico extracto 20/04"
+  },
+  {
+    "fecha": "2026-04-21",
+    "concepto": "Regimen Recaudacion Iibbcorrientes — 0.50% s/$71.530",
+    "monto": 357.65,
+    "categoria": "AFIP / Impuestos",
+    "medio": "Santander",
+    "notas": "Extracto Santander 21/04"
+  },
+  {
+    "fecha": "2026-04-21",
+    "concepto": "Debito Comercio Getnet",
+    "monto": 49247.0,
+    "categoria": "Gastos bancarios",
+    "medio": "Santander",
+    "notas": "Extracto Santander 21/04"
   }
 ]
