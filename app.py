@@ -1553,21 +1553,23 @@ if tab2:
         df_mes = df[(df["fecha_dia"] >= mes_inicio) & (df["fecha_dia"] <= hoy)]
         venta_acum  = df_mes["neto"].sum()
         venta_acum_iva = df_mes["total_con_iva"].sum() if "total_con_iva" in df_mes.columns else venta_acum * 1.21
-        gasto_acum  = round(GASTOS_FIJOS_MES / dias_mes_t * dias_trans)
+        # Gastos reales: solo gastos.json (sin duplicar con estimacion mensual)
         gastos_extra = sum(
             g["monto"] for g in get_gastos()
             if date.fromisoformat(g["fecha"]) >= mes_inicio
             and date.fromisoformat(g["fecha"]) <= hoy
         )
-        gasto_total_acum = gasto_acum + gastos_extra
+        gasto_total_acum = gastos_extra
         resultado_acum   = venta_acum_iva - gasto_total_acum
         proy_venta_mes   = (venta_acum_iva / dias_trans * dias_mes_t) if dias_trans > 0 else 0
         proy_venta_neto  = (venta_acum / dias_trans * dias_mes_t) if dias_trans > 0 else 0
-        gasto_mes_total  = GASTOS_FIJOS_MES + sum(
+        # Proyeccion de gastos: los reales acumulados + pendientes del mes (estimado con lo que falta cargar)
+        _gastos_mes_completo = sum(
             g["monto"] for g in get_gastos()
             if date.fromisoformat(g["fecha"]).month == hoy.month
             and date.fromisoformat(g["fecha"]).year == hoy.year
         )
+        gasto_mes_total  = _gastos_mes_completo  # solo gastos reales
         resultado_proy   = proy_venta_mes - gasto_mes_total
         pct_acum         = min(venta_acum / gasto_total_acum * 100, 100) if gasto_total_acum else 0
         color_res        = "#00c96b" if resultado_acum >= 0 else "#e94560"
@@ -1575,13 +1577,20 @@ if tab2:
         # ── KPIs del mes ─────────────────────────────────────────────────────
         seccion(f"Como va {fmt_fecha(hoy, 'mes')} — dia {dias_trans} de {dias_mes_t}")
 
+        # Separar cheques (mercaderia) de operativos
+        _gastos_mes_list = [g for g in get_gastos()
+                            if date.fromisoformat(g["fecha"]) >= mes_inicio
+                            and date.fromisoformat(g["fecha"]) <= hoy]
+        _cheques_acum = sum(g["monto"] for g in _gastos_mes_list if g.get("categoria") == "Cheque debitado")
+        _operativos_acum = gasto_total_acum - _cheques_acum
+
         c1, c2, c3, c4 = st.columns(4)
         with c1:
             st.markdown(metric_card("💰","Ventas acumuladas",fmt(venta_acum_iva),
                 f"Sin IVA: {fmt(venta_acum)} · {dias_trans} dias","verde"), unsafe_allow_html=True)
         with c2:
             st.markdown(metric_card("💸","Gastos acumulados",fmt(gasto_total_acum),
-                f"Fijos {fmt(gasto_acum)} + extras {fmt(gastos_extra)}","rojo"), unsafe_allow_html=True)
+                f"Operativos {fmt(_operativos_acum)} + cheques {fmt(_cheques_acum)}","rojo"), unsafe_allow_html=True)
         with c3:
             col_r = "verde" if resultado_acum >= 0 else "rojo"
             st.markdown(metric_card("📊","Resultado hasta hoy",fmt(resultado_acum),
@@ -1592,13 +1601,9 @@ if tab2:
                 f"Sin IVA: {fmt(proy_venta_neto)} · Resultado {fmt(resultado_proy)}",col_p), unsafe_allow_html=True)
 
         # ── Resultado Operativo vs Flujo de Caja ─────────────────────────────
-        # Separar gastos: cheques (mercaderia) vs operativos (sueldos, alquiler, etc)
-        _gastos_mes = [g for g in get_gastos()
-                       if date.fromisoformat(g["fecha"]) >= mes_inicio
-                       and date.fromisoformat(g["fecha"]) <= hoy]
-        _cheques_mes = sum(g["monto"] for g in _gastos_mes if g.get("categoria") == "Cheque debitado")
-        _operativos_extra = sum(g["monto"] for g in _gastos_mes if g.get("categoria") != "Cheque debitado")
-        _gastos_operativos = gasto_acum + _operativos_extra  # fijos prorrateados + operativos variables
+        # Usar solo gastos reales (ya calculados arriba)
+        _cheques_mes = _cheques_acum
+        _gastos_operativos = _operativos_acum
         _resultado_operativo = venta_acum_iva - _gastos_operativos
         _flujo_caja = venta_acum_iva - _gastos_operativos - _cheques_mes
         _col_op = "#00c96b" if _resultado_operativo >= 0 else "#e94560"
