@@ -152,8 +152,9 @@ def load_dux_files(folder: str = "data/ventas") -> pd.DataFrame:
         (pd.to_numeric(df.get("neto_raw", 0), errors="coerce").fillna(0) <= 1)
     )
     df = df[~_mask_envio_gratis]
-    # Quitar devoluciones y cero
-    df = df[df["cantidad"] > 0]
+    # Quitar cantidad = 0 (filas vacías de Dux), pero dejar devoluciones/notas crédito (cant < 0)
+    # para que los cambios se cancelen automáticamente con la venta del mismo monto
+    df = df[df["cantidad"] != 0]
     # Quitar sin fecha
     df = df[df["fecha"].notna()]
     # Deduplicar filas idénticas (si se subió el mismo archivo dos veces o con rangos que se pisan)
