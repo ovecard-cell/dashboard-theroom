@@ -45,58 +45,82 @@
     "estado": "pendiente"
   },
   {
-    "id": "#218",
-    "proveedor": "ICOMP SRL",
-    "concepto": "Echeq 1/6 — compra nueva",
+    "id": "#224",
+    "proveedor": "La Rambla",
+    "concepto": "Echeq 1/6 — compra nueva (reemplazo cheque ICOMP)",
     "vencimiento": "2026-05-16",
     "monto": 595343,
     "tipo": "emitido",
-    "estado": "pendiente"
+    "estado": "pendiente",
+    "id_echeq": "W612EV3G77Q9GXY",
+    "cuit_beneficiario": "30707048529",
+    "razon_social": "MANUFACTURA ARRECIFES SA",
+    "fecha_emision": "2026-04-22"
   },
   {
-    "id": "#219",
-    "proveedor": "ICOMP SRL",
-    "concepto": "Echeq 2/6 — compra nueva",
+    "id": "#225",
+    "proveedor": "La Rambla",
+    "concepto": "Echeq 2/6 — compra nueva (reemplazo cheque ICOMP)",
     "vencimiento": "2026-05-31",
     "monto": 595343,
     "tipo": "emitido",
-    "estado": "pendiente"
+    "estado": "pendiente",
+    "id_echeq": "LMDN30GDYY6NE7R",
+    "cuit_beneficiario": "30707048529",
+    "razon_social": "MANUFACTURA ARRECIFES SA",
+    "fecha_emision": "2026-04-22"
   },
   {
-    "id": "#220",
-    "proveedor": "ICOMP SRL",
-    "concepto": "Echeq 3/6 — compra nueva",
+    "id": "#226",
+    "proveedor": "La Rambla",
+    "concepto": "Echeq 3/6 — compra nueva (reemplazo cheque ICOMP)",
     "vencimiento": "2026-06-15",
     "monto": 595343,
     "tipo": "emitido",
-    "estado": "pendiente"
+    "estado": "pendiente",
+    "id_echeq": "XJE27MQO11ON7MY",
+    "cuit_beneficiario": "30707048529",
+    "razon_social": "MANUFACTURA ARRECIFES SA",
+    "fecha_emision": "2026-04-22"
   },
   {
-    "id": "#221",
-    "proveedor": "ICOMP SRL",
-    "concepto": "Echeq 4/6 — compra nueva",
+    "id": "#227",
+    "proveedor": "La Rambla",
+    "concepto": "Echeq 4/6 — compra nueva (reemplazo cheque ICOMP)",
     "vencimiento": "2026-06-30",
     "monto": 595343,
     "tipo": "emitido",
-    "estado": "pendiente"
+    "estado": "pendiente",
+    "id_echeq": "RPQ2GJDO66G2GLY",
+    "cuit_beneficiario": "30707048529",
+    "razon_social": "MANUFACTURA ARRECIFES SA",
+    "fecha_emision": "2026-04-22"
   },
   {
-    "id": "#222",
-    "proveedor": "ICOMP SRL",
-    "concepto": "Echeq 5/6 — compra nueva",
+    "id": "#228",
+    "proveedor": "La Rambla",
+    "concepto": "Echeq 5/6 — compra nueva (reemplazo cheque ICOMP)",
     "vencimiento": "2026-07-15",
     "monto": 595343,
     "tipo": "emitido",
-    "estado": "pendiente"
+    "estado": "pendiente",
+    "id_echeq": "KYZ9QR4Y11R2V50",
+    "cuit_beneficiario": "30707048529",
+    "razon_social": "MANUFACTURA ARRECIFES SA",
+    "fecha_emision": "2026-04-22"
   },
   {
-    "id": "#223",
-    "proveedor": "ICOMP SRL",
-    "concepto": "Echeq 6/6 — compra nueva",
+    "id": "#229",
+    "proveedor": "La Rambla",
+    "concepto": "Echeq 6/6 — compra nueva (reemplazo cheque ICOMP)",
     "vencimiento": "2026-07-30",
     "monto": 595343,
     "tipo": "emitido",
-    "estado": "pendiente"
+    "estado": "pendiente",
+    "id_echeq": "6DVNOQG8RRM25J8",
+    "cuit_beneficiario": "30707048529",
+    "razon_social": "MANUFACTURA ARRECIFES SA",
+    "fecha_emision": "2026-04-22"
   },
   {
     "id": "-",
