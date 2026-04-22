@@ -1591,6 +1591,60 @@ if tab2:
             st.markdown(metric_card("📈","Proyeccion fin de mes",fmt(proy_venta_mes),
                 f"Sin IVA: {fmt(proy_venta_neto)} · Resultado {fmt(resultado_proy)}",col_p), unsafe_allow_html=True)
 
+        # ── Resultado Operativo vs Flujo de Caja ─────────────────────────────
+        # Separar gastos: cheques (mercaderia) vs operativos (sueldos, alquiler, etc)
+        _gastos_mes = [g for g in get_gastos()
+                       if date.fromisoformat(g["fecha"]) >= mes_inicio
+                       and date.fromisoformat(g["fecha"]) <= hoy]
+        _cheques_mes = sum(g["monto"] for g in _gastos_mes if g.get("categoria") == "Cheque debitado")
+        _operativos_extra = sum(g["monto"] for g in _gastos_mes if g.get("categoria") != "Cheque debitado")
+        _gastos_operativos = gasto_acum + _operativos_extra  # fijos prorrateados + operativos variables
+        _resultado_operativo = venta_acum_iva - _gastos_operativos
+        _flujo_caja = venta_acum_iva - _gastos_operativos - _cheques_mes
+        _col_op = "#00c96b" if _resultado_operativo >= 0 else "#e94560"
+        _col_fc = "#00c96b" if _flujo_caja >= 0 else "#e94560"
+
+        st.markdown(f"""
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:8px 0 20px 0">
+            <div style="background:linear-gradient(135deg, {_col_op}15, {_col_op}08);border:1px solid {_col_op}40;border-radius:14px;padding:20px 24px">
+                <div style="font-size:0.7rem;color:{_col_op};font-weight:700;text-transform:uppercase;letter-spacing:1px;margin-bottom:4px">📊 Resultado operativo</div>
+                <div style="font-size:2rem;font-weight:800;color:{_col_op};margin:6px 0">{fmt(_resultado_operativo)}</div>
+                <div style="font-size:0.78rem;color:#8888aa;margin-bottom:10px">Ventas menos gastos fijos (sueldos, alquiler, impuestos, comisiones)</div>
+                <div style="display:flex;justify-content:space-between;padding:6px 0;border-top:1px solid #ffffff08;font-size:0.82rem">
+                    <span style="color:#8888aa">Ventas con IVA</span>
+                    <span style="color:#00c96b;font-weight:700">{fmt(venta_acum_iva)}</span>
+                </div>
+                <div style="display:flex;justify-content:space-between;padding:6px 0;font-size:0.82rem">
+                    <span style="color:#8888aa">− Gastos operativos</span>
+                    <span style="color:#e94560;font-weight:700">{fmt(-_gastos_operativos)}</span>
+                </div>
+                <div style="margin-top:8px;padding:6px 10px;background:#ffffff06;border-radius:6px;font-size:0.72rem;color:#6666aa;font-style:italic">
+                    Sin contar cheques por mercadería
+                </div>
+            </div>
+            <div style="background:linear-gradient(135deg, {_col_fc}15, {_col_fc}08);border:1px solid {_col_fc}40;border-radius:14px;padding:20px 24px">
+                <div style="font-size:0.7rem;color:{_col_fc};font-weight:700;text-transform:uppercase;letter-spacing:1px;margin-bottom:4px">💰 Flujo de caja</div>
+                <div style="font-size:2rem;font-weight:800;color:{_col_fc};margin:6px 0">{fmt(_flujo_caja)}</div>
+                <div style="font-size:0.78rem;color:#8888aa;margin-bottom:10px">Plata real que entró y salió del banco</div>
+                <div style="display:flex;justify-content:space-between;padding:6px 0;border-top:1px solid #ffffff08;font-size:0.82rem">
+                    <span style="color:#8888aa">Ventas con IVA</span>
+                    <span style="color:#00c96b;font-weight:700">{fmt(venta_acum_iva)}</span>
+                </div>
+                <div style="display:flex;justify-content:space-between;padding:6px 0;font-size:0.82rem">
+                    <span style="color:#8888aa">− Gastos operativos</span>
+                    <span style="color:#e94560;font-weight:700">{fmt(-_gastos_operativos)}</span>
+                </div>
+                <div style="display:flex;justify-content:space-between;padding:6px 0;font-size:0.82rem">
+                    <span style="color:#8888aa">− Cheques pagados</span>
+                    <span style="color:#f7b731;font-weight:700">{fmt(-_cheques_mes)}</span>
+                </div>
+                <div style="margin-top:8px;padding:6px 10px;background:#ffffff06;border-radius:6px;font-size:0.72rem;color:#6666aa;font-style:italic">
+                    Cheques = compra de stock (vuelve al vender)
+                </div>
+            </div>
+        </div>
+        """, unsafe_allow_html=True)
+
         # Barra de progreso: ventas vs gastos del mes
         st.markdown(f"""
         <div style="background:#1a1a2e;border:1px solid #ffffff0e;border-radius:14px;padding:20px 24px;margin:8px 0 20px 0">
