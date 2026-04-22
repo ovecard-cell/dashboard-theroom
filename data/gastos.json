@@ -1316,12 +1316,12 @@
     "notas": "Extracto Corrientes 20/04"
   },
   {
-    "fecha": "2026-04-20",
+    "fecha": "2026-04-21",
     "concepto": "Impuesto al cheque (Ley 25413) — Banco Corrientes",
     "monto": 264.37,
     "categoria": "AFIP / Impuestos",
     "medio": "Banco Corrientes",
-    "notas": "Debito automatico extracto 20/04"
+    "notas": "Debito automatico extracto 21/04 (corregido)"
   },
   {
     "fecha": "2026-04-21",
@@ -1338,5 +1338,61 @@
     "categoria": "Gastos bancarios",
     "medio": "Santander",
     "notas": "Extracto Santander 21/04"
+  },
+  {
+    "fecha": "2026-04-21",
+    "concepto": "Impuesto Ley 25.413 Debito 0,6%",
+    "monto": 297.63,
+    "categoria": "AFIP / Impuestos",
+    "medio": "Santander",
+    "notas": "Extracto Santander 21/04"
+  },
+  {
+    "fecha": "2026-04-21",
+    "concepto": "Impuesto Ley 25.413 Credito 0,6%",
+    "monto": 512.04,
+    "categoria": "AFIP / Impuestos",
+    "medio": "Santander",
+    "notas": "Extracto Santander 21/04"
+  },
+  {
+    "fecha": "2026-04-21",
+    "concepto": "Impuesto sobre los Creditos y Debitos en cobros",
+    "monto": 117.0,
+    "categoria": "AFIP / Impuestos",
+    "medio": "Mercado Pago",
+    "notas": "Extracto MP mov #2269836858423"
+  },
+  {
+    "fecha": "2026-04-21",
+    "concepto": "Tarifa por uso de plataforma de terceros",
+    "monto": 195.0,
+    "categoria": "Gastos bancarios",
+    "medio": "Mercado Pago",
+    "notas": "Extracto MP mov #2269836858425"
+  },
+  {
+    "fecha": "2026-04-21",
+    "concepto": "Retencion Impuesto a los IIBB de Corrientes",
+    "monto": 390.0,
+    "categoria": "AFIP / Impuestos",
+    "medio": "Mercado Pago",
+    "notas": "Extracto MP mov #2269836858427"
+  },
+  {
+    "fecha": "2026-04-21",
+    "concepto": "Costo de Mercado Pago",
+    "monto": 1483.95,
+    "categoria": "Gastos bancarios",
+    "medio": "Mercado Pago",
+    "notas": "Extracto MP mov #2269836858429"
+  },
+  {
+    "fecha": "2026-04-22",
+    "concepto": "Echeq Clearing Recibido 48hs — cheque #215 Dacob/Kazuma",
+    "monto": 573127.0,
+    "categoria": "Cheque debitado",
+    "medio": "Santander",
+    "notas": "Extracto Santander 22/04 — cheque vencimiento 21/04"
   }
 ]

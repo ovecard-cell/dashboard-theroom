@@ -42,12 +42,12 @@
   {
     "fecha": "2026-04-20",
     "BBVA Frances": -6973582,
-    "Banco Corrientes": -10200264,
+    "Banco Corrientes": -10200000,
     "Galicia": 398,
     "Santander": 2815224,
     "Mercado Pago": 604137,
     "Efectivo Caja": 416000,
-    "notas": "Todos los bancos al 20/04: BBVA -$6.973.582 (transfer -$50K), Ctes -$10.200.264, Sant $2.815.224, Gal $398, MP $604.137"
+    "notas": "Todos los bancos al 20/04: BBVA -$6.973.582 (transfer interna -$50K), Ctes -$10.200.000, Sant $2.815.224, Gal $398, MP $604.137"
   },
   {
     "fecha": "2026-04-21",
@@ -55,8 +55,18 @@
     "Banco Corrientes": -10200264,
     "Galicia": 398,
     "Santander": 2765186,
-    "Mercado Pago": 604137,
+    "Mercado Pago": 253767,
     "Efectivo Caja": 416000,
-    "notas": "Santander $2.765.186 al 21/04 (IIBB -$358 + Getnet -$49.247). Otros sin cambio."
+    "notas": "Ctes -$10.200.264 (imp ley -$264), Sant $2.765.186, MP $253.767 (retiro -$368K a Sant + cobro $19.500 - comisiones)"
+  },
+  {
+    "fecha": "2026-04-22",
+    "BBVA Frances": -6973582,
+    "Banco Corrientes": -10200264,
+    "Galicia": 398,
+    "Santander": 2644162,
+    "Mercado Pago": 253767,
+    "Efectivo Caja": 416000,
+    "notas": "Santander $2.644.162 al 22/04 (Echeq Clearing #215 Dacob/Kazuma -$573.127). Resto sin movimientos."
   }
 ]
