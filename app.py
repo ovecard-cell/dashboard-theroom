@@ -3058,8 +3058,11 @@ if tab5:
         except Exception:
             _all_cheques = []
         # Detectar cheques pagados: matchear por monto Y fecha cercana al vencimiento
+        # Excluir gastos ya linkeados (cheque_id)
         _gastos_cheq_r = [(date.fromisoformat(g["fecha"]), round(float(g.get("monto", 0)), 2))
-                          for g in get_gastos() if g.get("categoria") == "Cheque debitado"]
+                          for g in get_gastos()
+                          if g.get("categoria") == "Cheque debitado"
+                          and not g.get("cheque_id")]
 
         _patrones_marca = _mapa_marca_prov_chq.get(_marca_sel, [_marca_sel.lower()])
         _cheques_marca = []
@@ -4872,10 +4875,14 @@ if tab5b:
 if tab6:
   with tab6:
     # Deteccion automatica: marcar como pagados los cheques cuyo monto aparece
-    # como "Cheque debitado" en gastos.json, pero SOLO si la fecha del gasto
-    # esta cerca del vencimiento (±7 dias). Evita confundir cheques con mismo monto.
+    # como "Cheque debitado" en gastos.json, pero SOLO si:
+    # - la fecha del gasto esta cerca del vencimiento (±7 dias)
+    # - el gasto NO tiene cheque_id asignado (ya linkeado a otro cheque)
+    # Evita confundir cheques con mismo monto.
     _gastos_cheq = [(date.fromisoformat(g["fecha"]), round(float(g.get("monto", 0)), 2))
-                    for g in get_gastos() if g.get("categoria") == "Cheque debitado"]
+                    for g in get_gastos()
+                    if g.get("categoria") == "Cheque debitado"
+                    and not g.get("cheque_id")]  # excluir los ya linkeados
     _usados = [False] * len(_gastos_cheq)
     _cambios = False
     for _c in cheques:

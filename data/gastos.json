@@ -109,7 +109,8 @@
     "monto": 1279705.1,
     "categoria": "Cheque debitado",
     "medio": "Santander",
-    "notas": "Extracto Santander 01-17/04"
+    "notas": "Extracto Santander 01-17/04",
+    "cheque_id": "#212"
   },
   {
     "fecha": "2026-04-01",
