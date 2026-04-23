@@ -3184,12 +3184,14 @@ if tab5:
 
         _rep_txt = _generar_txt_proveedor(_prov_reporte, df_stock, df)
         st.download_button(
-            label=f"Descargar reporte {_prov_reporte} (.txt)",
-            data=_rep_txt,
+            label=f"📄 Descargar .txt",
+            data=_rep_txt.encode("utf-8-sig"),
             file_name=f"reporte_stock_{_prov_reporte.lower()}_{hoy.isoformat()}.txt",
             mime="text/plain",
             use_container_width=True,
+            key="dl_prov_txt",
         )
+        st.info("💡 Para descargar el reporte en **Excel (.xlsx)** con compra, deuda, cheques y cruce de SKU, usá la sección **'Reporte por marca'** que está más abajo ⬇️")
 
         # ── Reporte por marca (AUTOMATICO desde Dux) ────────────────────────
         seccion("Reporte por marca (todas las marcas del Dux)")
