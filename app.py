@@ -3446,104 +3446,188 @@ if tab5:
                 bottom=Side(style="thin", color="CCCCCC"),
             )
 
-            # === HOJA 1: RESUMEN ===
+            # === HOJA 1: ANALISIS POR PRODUCTO (la principal) ===
+            # Una fila por producto: compra + venta + stock + velocidad + recomendacion
+            # Para decidir que devolver al proveedor
             ws1 = wb.active
-            ws1.title = "Resumen"
-            ws1.merge_cells("A1:D1")
-            ws1["A1"] = f"THE ROOM — Reporte {marca} — {hoy.strftime('%d/%m/%Y')}"
+            ws1.title = "Analisis por producto"
+            ws1.merge_cells("A1:M1")
+            ws1["A1"] = f"THE ROOM — Análisis {marca} — {hoy.strftime('%d/%m/%Y')} — Qué devolver/liquidar"
             ws1["A1"].font = _title_font
             ws1["A1"].fill = _title_fill
             ws1["A1"].alignment = _center
             ws1.row_dimensions[1].height = 28
 
-            # Buscar deuda
-            try:
-                with open("data/cheques.json", encoding="utf-8") as _f:
-                    _chqs = _json.load(_f)
-            except Exception:
-                _chqs = []
-            _marca_busca = marca.lower()
-            _mapa_prov_debt = {"LISBON":"lisbon","KAZUMA":"kazuma","DISTRICT":"tarkus|district","GO NORTH":"vintage|go north","VILO":"vilo","ARAQUINA":"araquina|vegas"}
-            _pattern = _mapa_prov_debt.get(marca, marca.lower())
-            import re as _re
-            _deuda_emitida = sum(c["monto"] for c in _chqs if c.get("tipo")=="emitido" and _re.search(_pattern, c.get("proveedor","").lower()) and c.get("estado")=="pendiente")
-            _deuda_negociar = sum(c["monto"] for c in _chqs if c.get("tipo")=="por_negociar" and _re.search(_pattern, c.get("proveedor","").lower()))
-
-            # Buscar compra (stock inicial)
-            try:
-                with open("data/stock_inicial.json", encoding="utf-8") as _f:
-                    _stk_ini = _json.load(_f)
-            except Exception:
-                _stk_ini = []
-            _mapa_prov_stk = {"LISBON":"LISBON","KAZUMA":"KAZUMA","DISTRICT":"DISTRICT"}
-            _prov_stk = _mapa_prov_stk.get(marca)
-            _items_compra = [it for it in _stk_ini if it.get("proveedor") == _prov_stk] if _prov_stk else []
-            _total_uds_compra = sum(it["stock_inicial"] for it in _items_compra)
-            _total_costo_compra = sum(it["stock_inicial"] * it["costo_unit"] for it in _items_compra)
-
-            # Compras historicas (del archivo compras_mercaderia.json)
+            # Cargar todas las compras del proveedor
             try:
                 with open("data/compras_mercaderia.json", encoding="utf-8") as _f:
                     _all_cmp = _json.load(_f)
             except Exception:
                 _all_cmp = []
             _cmp_marca = [c for c in _all_cmp if c.get("prov","").strip() in _provs_dux_marca] if _provs_dux_marca else []
-            _cmp_total_hist = sum(c.get("total",0) for c in _cmp_marca)
-            _cmp_uds_hist = int(sum(c.get("cant",0) for c in _cmp_marca))
-            _cmp_fechas = sorted(set(c.get("fecha","")[:7] for c in _cmp_marca))
-            _cmp_anio_actual = [c for c in _cmp_marca if c.get("fecha","").startswith(str(hoy.year))]
-            _cmp_total_anio = sum(c.get("total",0) for c in _cmp_anio_actual)
-            _cmp_uds_anio = int(sum(c.get("cant",0) for c in _cmp_anio_actual))
 
-            _row = 3
-            _resumen = [
-                ("COMPRA NUEVA", ""),
-                ("  Unidades compradas (manual)", _total_uds_compra),
-                ("  Costo total compra", _total_costo_compra),
-                ("  Items distintos", len(_items_compra)),
-                ("", ""),
-                ("COMPRAS HISTÓRICAS DUX", ""),
-                (f"  Total histórico ({len(_cmp_fechas)} meses)", _cmp_total_hist),
-                ("  Unidades total histórico", _cmp_uds_hist),
-                (f"  Total año {hoy.year}", _cmp_total_anio),
-                (f"  Unidades año {hoy.year}", _cmp_uds_anio),
-                ("", ""),
-                ("DEUDA", ""),
-                ("  Cheques emitidos pendientes", _deuda_emitida),
-                ("  Por negociar", _deuda_negociar),
-                ("  DEUDA TOTAL", _deuda_emitida + _deuda_negociar),
-                ("", ""),
-                ("VENTAS", ""),
-                ("  Unidades vendidas", int(dfv["cantidad"].sum()) if len(dfv) else 0),
-                ("  Facturado con IVA", float(dfv["total_con_iva"].sum()) if len(dfv) else 0),
-                ("  Facturado sin IVA", float(dfv["neto"].sum()) if len(dfv) else 0),
-                ("  Cantidad de ventas", len(dfv)),
-                ("", ""),
-                ("STOCK ACTUAL", ""),
-                ("  Unidades en stock", int(dfs["cantidad"].sum()) if len(dfs) else 0),
-                ("  Valor total stock", float(dfs["valor_total"].sum()) if len(dfs) else 0),
-                ("  SKUs distintos", len(dfs)),
-                ("", ""),
-                ("INDICADORES", ""),
-                ("  % vendido (del stock inicial)", f"{int(dfv['cantidad'].sum())/_total_uds_compra*100:.1f}%" if _total_uds_compra > 0 else "-"),
-                ("  Velocidad (uds/dia)", f"{int(dfv['cantidad'].sum())/max(_dias_data,1):.2f}" if len(dfv) else "0"),
-                ("  Dias de stock restante", f"{int(int(dfs['cantidad'].sum())/(int(dfv['cantidad'].sum())/max(_dias_data,1)))}" if len(dfv) and int(dfv['cantidad'].sum()) > 0 and len(dfs) else "-"),
-            ]
-            for _lbl, _val in _resumen:
-                ws1.cell(row=_row, column=1, value=_lbl)
-                if isinstance(_val, (int, float)) and not isinstance(_val, bool):
-                    ws1.cell(row=_row, column=2, value=_val)
-                    if "Costo" in _lbl or "Deuda" in _lbl or "Facturado" in _lbl or "Valor" in _lbl:
-                        ws1.cell(row=_row, column=2).number_format = '"$"#,##0'
-                    if _lbl in ("COMPRA","DEUDA","VENTAS","STOCK ACTUAL","INDICADORES"):
-                        ws1.cell(row=_row, column=1).font = Font(bold=True, color="3a86ff")
+            # Agrupar compras por producto
+            from collections import defaultdict as _dd
+            _comp_por_prod = _dd(lambda: {"cant_total":0,"cant_anio":0,"total_inv":0,"ultima_fecha":"","costo_u":0,"compras":[]})
+            _anio_actual_str = str(hoy.year)
+            for _c in _cmp_marca:
+                _p = _c.get("prod","").strip().upper()
+                if not _p: continue
+                _cant = _c.get("cant", 0)
+                _tot = _c.get("total", 0)
+                _fe = _c.get("fecha", "")
+                _comp_por_prod[_p]["cant_total"] += _cant
+                _comp_por_prod[_p]["total_inv"] += _tot
+                _comp_por_prod[_p]["compras"].append({"fecha":_fe, "cant":_cant, "total":_tot})
+                if _fe.startswith(_anio_actual_str):
+                    _comp_por_prod[_p]["cant_anio"] += _cant
+                if _fe > _comp_por_prod[_p]["ultima_fecha"]:
+                    _comp_por_prod[_p]["ultima_fecha"] = _fe
+                    _comp_por_prod[_p]["costo_u"] = _tot / max(_cant, 1)
+
+            # Ventas por producto
+            _v_por_prod = {}
+            if len(dfv) > 0:
+                _vg = dfv.groupby(dfv["producto"].str.upper()).agg(
+                    vendidos=("cantidad","sum"), neto=("neto","sum"), iva=("total_con_iva","sum"),
+                    ultima_venta=("fecha","max"),
+                ).to_dict("index")
+                _v_por_prod = _vg
+
+            # Stock actual por producto
+            _s_por_prod = {}
+            if len(dfs) > 0:
+                for _, _r in dfs.iterrows():
+                    _p = str(_r["producto"]).strip().upper()
+                    _s_por_prod[_p] = {"stock":int(_r["cantidad"]), "costo":float(_r["costo_unit"])}
+
+            # Universo de productos (union)
+            _todos_prod = set(_comp_por_prod.keys()) | set(_v_por_prod.keys()) | set(_s_por_prod.keys())
+
+            # Headers
+            _headers = ["Producto", "Última compra", "Días desde compra", "Compr. total",
+                        f"Compr. {_anio_actual_str}", "Costo U.", "Invertido",
+                        "Vendidos", "Facturado c/IVA", "Stock actual",
+                        "Velocidad (uds/mes)", "Meses p/vender stock", "RECOMENDACIÓN"]
+            ws1.append(_headers)
+            for c in range(1, len(_headers)+1):
+                _cell = ws1.cell(row=2, column=c)
+                _cell.font = _bold
+                _cell.fill = _header_fill
+                _cell.alignment = _center
+
+            # Armar filas con recomendacion
+            _rows_data = []
+            for _p in _todos_prod:
+                _c_d = _comp_por_prod.get(_p, {})
+                _v_d = _v_por_prod.get(_p, {})
+                _s_d = _s_por_prod.get(_p, {})
+
+                _cant_c = int(_c_d.get("cant_total", 0))
+                _cant_c_anio = int(_c_d.get("cant_anio", 0))
+                _costo_u = _c_d.get("costo_u", 0) or _s_d.get("costo", 0)
+                _total_inv = _c_d.get("total_inv", 0)
+                _ult_c = _c_d.get("ultima_fecha", "")
+                _cant_v = int(_v_d.get("vendidos", 0)) if _v_d else 0
+                _fact_iva = float(_v_d.get("iva", 0)) if _v_d else 0
+                _stock = int(_s_d.get("stock", 0)) if _s_d else 0
+
+                # Dias desde ultima compra
+                if _ult_c:
+                    try:
+                        _dias_c = (hoy - date.fromisoformat(_ult_c)).days
+                    except Exception:
+                        _dias_c = 0
                 else:
-                    ws1.cell(row=_row, column=2, value=_val)
-                    if _lbl in ("COMPRA","DEUDA","VENTAS","STOCK ACTUAL","INDICADORES"):
-                        ws1.cell(row=_row, column=1).font = Font(bold=True, color="3a86ff")
-                _row += 1
-            ws1.column_dimensions["A"].width = 35
-            ws1.column_dimensions["B"].width = 20
+                    _dias_c = 0
+
+                # Velocidad uds/mes (vendidos / meses transcurridos desde ultima compra)
+                _meses = max(_dias_c / 30.44, 1)
+                _vel_mes = _cant_v / _meses if _meses > 0 else 0
+
+                # Meses para vender el stock actual
+                _meses_agot = _stock / _vel_mes if _vel_mes > 0 else 999
+
+                # Recomendacion
+                if _stock == 0 and _cant_v > 0:
+                    _reco = "LIQUIDADO"
+                elif _cant_c == 0 and _stock > 0:
+                    _reco = "SIN DATO COMPRA"
+                elif _vel_mes == 0 and _stock > 0 and _dias_c > 90:
+                    _reco = "⚠️ DEVOLVER"
+                elif _vel_mes < 0.3 and _stock > 0 and _dias_c > 60:
+                    _reco = "🔴 DEVOLVER"
+                elif _vel_mes < 1 and _stock > 5:
+                    _reco = "🟡 LIQUIDAR"
+                elif _meses_agot > 12:
+                    _reco = "🟡 LENTO"
+                elif _meses_agot < 1 and _cant_v > 0:
+                    _reco = "🟢 REPONER"
+                elif _cant_v > 0:
+                    _reco = "🟢 OK"
+                else:
+                    _reco = "—"
+
+                _rows_data.append([_p, _ult_c or "-", _dias_c if _ult_c else "-",
+                                   _cant_c, _cant_c_anio, _costo_u, _total_inv,
+                                   _cant_v, _fact_iva, _stock,
+                                   round(_vel_mes, 2),
+                                   round(_meses_agot, 1) if _meses_agot < 999 else "∞",
+                                   _reco])
+
+            # Ordenar: DEVOLVER primero, luego LIQUIDAR, LENTO, OK, REPONER, LIQUIDADO
+            _prio = {"⚠️ DEVOLVER":0, "🔴 DEVOLVER":1, "🟡 LIQUIDAR":2, "🟡 LENTO":3,
+                     "🟢 OK":4, "🟢 REPONER":5, "SIN DATO COMPRA":6, "LIQUIDADO":7, "—":8}
+            _rows_data.sort(key=lambda r: (_prio.get(r[12], 99), -r[9]))  # por recomendacion, luego por stock desc
+
+            # Colores de reco
+            _colores_reco = {
+                "⚠️ DEVOLVER": "FFCCCC",
+                "🔴 DEVOLVER": "FFCCCC",
+                "🟡 LIQUIDAR": "FFF2CC",
+                "🟡 LENTO": "FFF2CC",
+                "🟢 OK": "CCFFCC",
+                "🟢 REPONER": "CCFFCC",
+                "LIQUIDADO": "E0E0E0",
+                "SIN DATO COMPRA": "FFE0CC",
+                "—": "FFFFFF",
+            }
+
+            for _rd in _rows_data:
+                ws1.append(_rd)
+                _row_idx = ws1.max_row
+                _col_reco = ws1.cell(row=_row_idx, column=13)
+                _col_reco.font = Font(bold=True)
+                _color_bg = _colores_reco.get(_rd[12], "FFFFFF")
+                _col_reco.fill = PatternFill("solid", fgColor=_color_bg)
+
+            # Formato numerico
+            for _row_c in ws1.iter_rows(min_row=3, max_col=13):
+                for _cell in _row_c:
+                    if _cell.column in (6, 7, 9):  # costo u, invertido, facturado
+                        _cell.number_format = '"$"#,##0'
+                    elif _cell.column in (4, 5, 8, 10):  # cants
+                        _cell.alignment = Alignment(horizontal="center")
+
+            # Fila total
+            _total_comp = sum(r[6] for r in _rows_data if isinstance(r[6], (int, float)))
+            _total_vend = sum(r[7] for r in _rows_data if isinstance(r[7], (int, float)))
+            _total_fact = sum(r[8] for r in _rows_data if isinstance(r[8], (int, float)))
+            _total_stock = sum(r[9] for r in _rows_data if isinstance(r[9], (int, float)))
+            ws1.append(["TOTAL", "", "", sum(r[3] for r in _rows_data if isinstance(r[3], (int, float))),
+                        sum(r[4] for r in _rows_data if isinstance(r[4], (int, float))),
+                        "", _total_comp, _total_vend, _total_fact, _total_stock, "", "", ""])
+            for c in range(1, 14):
+                ws1.cell(row=ws1.max_row, column=c).font = Font(bold=True)
+                ws1.cell(row=ws1.max_row, column=c).fill = PatternFill("solid", fgColor="D0D0D0")
+
+            # Anchos de columna
+            _anchos = [50, 12, 8, 10, 10, 12, 13, 9, 14, 9, 12, 14, 18]
+            for i, w in enumerate(_anchos):
+                ws1.column_dimensions[get_column_letter(i+1)].width = w
+
+            # Freeze panes
+            ws1.freeze_panes = "A3"
 
             # === HOJA 2: COMPRA ===
             ws2 = wb.create_sheet("Compra")
