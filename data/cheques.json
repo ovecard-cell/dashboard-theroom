@@ -4,9 +4,10 @@
     "proveedor": "Lisbon",
     "concepto": "Compra anterior — VENCIDO sin cobrar",
     "vencimiento": "2026-04-04",
-    "monto": 1279705.10,
+    "monto": 1279705.1,
     "tipo": "emitido",
-    "estado": "pendiente"
+    "estado": "pagado",
+    "fecha_pago_real": "2026-04-01"
   },
   {
     "id": "#214",
@@ -24,7 +25,8 @@
     "vencimiento": "2026-04-21",
     "monto": 573127,
     "tipo": "emitido",
-    "estado": "pendiente"
+    "estado": "pagado",
+    "fecha_pago_real": "2026-04-22"
   },
   {
     "id": "#216",

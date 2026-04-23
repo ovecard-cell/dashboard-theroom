@@ -3057,22 +3057,36 @@ if tab5:
                 _all_cheques = _json.load(_f)
         except Exception:
             _all_cheques = []
-        # Detectar cheques pagados por gastos
-        _gastos_all = get_gastos()
-        _cheq_pagados_montos = set()
-        for _g in _gastos_all:
-            if _g.get("categoria") == "Cheque debitado":
-                _cheq_pagados_montos.add(round(float(_g.get("monto", 0)), 2))
+        # Detectar cheques pagados: matchear por monto Y fecha cercana al vencimiento
+        _gastos_cheq_r = [(date.fromisoformat(g["fecha"]), round(float(g.get("monto", 0)), 2))
+                          for g in get_gastos() if g.get("categoria") == "Cheque debitado"]
 
         _patrones_marca = _mapa_marca_prov_chq.get(_marca_sel, [_marca_sel.lower()])
         _cheques_marca = []
+        _gastos_usados_r = [False] * len(_gastos_cheq_r)
         for c in _all_cheques:
             _prov_low = c.get("proveedor", "").lower()
-            if any(p in _prov_low for p in _patrones_marca):
-                # Marcar si fue pagado
-                c_copy = dict(c)
-                c_copy["_pagado"] = round(float(c.get("monto", 0)), 2) in _cheq_pagados_montos
-                _cheques_marca.append(c_copy)
+            if not any(p in _prov_low for p in _patrones_marca):
+                continue
+            c_copy = dict(c)
+            # Si ya esta marcado como pagado en cheques.json, respetarlo
+            if c.get("estado") == "pagado":
+                c_copy["_pagado"] = True
+            else:
+                # Deteccion automatica: mismo monto + fecha cercana venc
+                _pagado_auto = False
+                try:
+                    _venc = date.fromisoformat(c.get("vencimiento", ""))
+                    _mc = round(float(c.get("monto", 0)), 2)
+                    for _i, (_fg, _mg) in enumerate(_gastos_cheq_r):
+                        if not _gastos_usados_r[_i] and _mg == _mc and abs((_fg - _venc).days) <= 7:
+                            _pagado_auto = True
+                            _gastos_usados_r[_i] = True
+                            break
+                except Exception:
+                    pass
+                c_copy["_pagado"] = _pagado_auto
+            _cheques_marca.append(c_copy)
 
         _ch_pend_total = sum(c["monto"] for c in _cheques_marca if not c["_pagado"])
         _ch_pagado_total = sum(c["monto"] for c in _cheques_marca if c["_pagado"])
@@ -4857,6 +4871,38 @@ if tab5b:
 # ══════════════════════════════════════════════════════════════════════════════
 if tab6:
   with tab6:
+    # Deteccion automatica: marcar como pagados los cheques cuyo monto aparece
+    # como "Cheque debitado" en gastos.json, pero SOLO si la fecha del gasto
+    # esta cerca del vencimiento (±7 dias). Evita confundir cheques con mismo monto.
+    _gastos_cheq = [(date.fromisoformat(g["fecha"]), round(float(g.get("monto", 0)), 2))
+                    for g in get_gastos() if g.get("categoria") == "Cheque debitado"]
+    _usados = [False] * len(_gastos_cheq)
+    _cambios = False
+    for _c in cheques:
+        if _c.get("estado") == "pendiente" and _c.get("tipo") == "emitido":
+            _monto_c = round(float(_c.get("monto", 0)), 2)
+            try:
+                _venc_c = date.fromisoformat(_c.get("vencimiento", ""))
+            except Exception:
+                continue
+            # Buscar gasto matcheable: mismo monto + fecha cercana al venc
+            _mejor_idx = None
+            _mejor_diff = 999
+            for _i, (_fg, _mg) in enumerate(_gastos_cheq):
+                if _usados[_i] or _mg != _monto_c:
+                    continue
+                _diff = abs((_fg - _venc_c).days)
+                if _diff <= 7 and _diff < _mejor_diff:
+                    _mejor_diff = _diff
+                    _mejor_idx = _i
+            if _mejor_idx is not None:
+                _c["estado"] = "pagado"
+                _c["fecha_pago_real"] = _gastos_cheq[_mejor_idx][0].isoformat()
+                _usados[_mejor_idx] = True
+                _cambios = True
+    if _cambios:
+        save_cheques(cheques)
+
     emitidos = [c for c in cheques if c.get("tipo", "emitido") == "emitido"]
     por_negociar = [c for c in cheques if c.get("tipo") == "por_negociar"]
     pendientes = [c for c in cheques if c["estado"] == "pendiente"]
