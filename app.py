@@ -3795,10 +3795,10 @@ if tab5:
             return buf.getvalue()
 
         _rep_marca_txt = _gen_txt_marca(_marca_sel, _v_marca, _stk_marca)
-        _dl1, _dl2 = st.columns(2)
+        _dl1, _dl2, _dl3 = st.columns(3)
         with _dl1:
             st.download_button(
-                label=f"📄 Descargar .txt",
+                label=f"📄 {_marca_sel} (.txt)",
                 data=_rep_marca_txt.encode("utf-8-sig"),
                 file_name=f"reporte_marca_{_marca_sel.lower().replace(' ','_')}_{hoy.isoformat()}.txt",
                 mime="text/plain",
@@ -3809,7 +3809,7 @@ if tab5:
             try:
                 _rep_xlsx = _gen_xlsx_marca(_marca_sel, _v_marca, _stk_marca)
                 st.download_button(
-                    label=f"📊 Descargar Excel (.xlsx)",
+                    label=f"📊 {_marca_sel} (.xlsx)",
                     data=_rep_xlsx,
                     file_name=f"reporte_marca_{_marca_sel.lower().replace(' ','_')}_{hoy.isoformat()}.xlsx",
                     mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
@@ -3818,6 +3818,22 @@ if tab5:
                 )
             except Exception as e:
                 st.error(f"Error generando Excel: {e}")
+        with _dl3:
+            try:
+                from generar_reporte_completo import generar_reporte, save_to_bytes
+                _wb_completo = generar_reporte(hoy)
+                _bytes_completo = save_to_bytes(_wb_completo)
+                st.download_button(
+                    label=f"💼 REPORTE COMPLETO (.xlsx)",
+                    data=_bytes_completo,
+                    file_name=f"the_room_reporte_completo_{hoy.isoformat()}.xlsx",
+                    mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+                    use_container_width=True,
+                    key="dl_completo_xlsx",
+                    type="primary",
+                )
+            except Exception as e:
+                st.error(f"Error reporte completo: {e}")
 
         # Resumen total nuevo
         seccion("Resumen stock nuevo")
