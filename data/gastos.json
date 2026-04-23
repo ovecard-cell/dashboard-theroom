@@ -1394,6 +1394,7 @@
     "monto": 573127.0,
     "categoria": "Cheque debitado",
     "medio": "Santander",
-    "notas": "Extracto Santander 22/04 — cheque vencimiento 21/04"
+    "notas": "Extracto Santander 22/04 — cheque vencimiento 21/04",
+    "cheque_id": "#215"
   }
 ]
