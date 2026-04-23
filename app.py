@@ -3174,6 +3174,212 @@ if tab5:
             use_container_width=True,
         )
 
+        # ── Reporte por marca (AUTOMATICO desde Dux) ────────────────────────
+        seccion("Reporte por marca (todas las marcas del Dux)")
+        st.markdown('<div style="color:#8888aa;font-size:0.82rem;margin-bottom:12px">Cruce automático entre ventas y stock actual desde Dux. Funciona para cualquier marca.</div>', unsafe_allow_html=True)
+
+        # Obtener marcas disponibles
+        _marcas_ventas = set(str(m).strip().upper() for m in df["marca"].unique() if str(m).strip() and str(m).strip() != "nan")
+        from data_processor import load_stock_dux as _load_stk
+        _df_stk_all = _load_stk("data/stock_dux.xls")
+        _marcas_dux = set()
+        if not _df_stk_all.empty and "proveedor_dux" in _df_stk_all.columns:
+            # Mapeo proveedor_dux → marca
+            _prov_a_marca = {
+                "DANDY IND S.R.L.": "LISBON",
+                "DACOB S.A": "KAZUMA",
+                "TARKUS TREND S.R.L.": "DISTRICT",
+                "VINTAGE S A S. A.": "GO NORTH",
+                "VISTE VILO SRL, VISTE VILO": "VILO",
+                "GRUPO VEGAS": "ARAQUINA",
+            }
+        _marcas_total = sorted(_marcas_ventas)
+
+        _marca_sel = st.selectbox("Elegi marca", _marcas_total, key="marca_reporte_sel")
+
+        # Ventas de la marca
+        _v_marca = df[df["marca"].str.upper() == _marca_sel]
+
+        # Stock actual de la marca (via proveedor_dux mapping o por nombre)
+        _stk_marca = _df_stk_all.iloc[0:0]  # empty
+        if not _df_stk_all.empty and "proveedor_dux" in _df_stk_all.columns:
+            _mapa_inv = {v: k for k, v in _prov_a_marca.items()}
+            _prov_dux_nombre = _mapa_inv.get(_marca_sel)
+            if _prov_dux_nombre:
+                _stk_marca = _df_stk_all[_df_stk_all["proveedor_dux"].astype(str).str.strip().str.upper() == _prov_dux_nombre.upper()]
+
+        # Metricas
+        _v_uds = int(_v_marca["cantidad"].sum()) if len(_v_marca) > 0 else 0
+        _v_neto = _v_marca["neto"].sum() if len(_v_marca) > 0 else 0
+        _v_iva = _v_marca["total_con_iva"].sum() if len(_v_marca) > 0 else 0
+        _stk_uds = int(_stk_marca["cantidad"].sum()) if len(_stk_marca) > 0 else 0
+        _stk_val = _stk_marca["valor_total"].sum() if len(_stk_marca) > 0 else 0
+
+        # Colores por marca
+        _color_marca = {"LISBON":"#8b5cf6","KAZUMA":"#3a86ff","DISTRICT":"#f7b731","GO NORTH":"#00c96b","VILO":"#e94560","ARAQUINA":"#4ecdc4"}.get(_marca_sel, "#aaaacc")
+
+        # Dias periodo
+        _dias_data = (hoy - df["fecha"].min().date()).days + 1 if len(df) > 0 else 1
+        _vel = _v_uds / max(_dias_data, 1)
+
+        st.markdown(f'''<div style="background:linear-gradient(135deg, {_color_marca}15, {_color_marca}08);
+            border:1px solid {_color_marca}40;border-radius:14px;padding:22px;margin:8px 0 16px 0">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px">
+                <div>
+                    <span style="font-size:1.3rem;font-weight:800;color:{_color_marca};letter-spacing:1px">{_marca_sel}</span>
+                    <span style="color:#8888aa;font-size:0.82rem;margin-left:12px">{_dias_data} dias de datos</span>
+                </div>
+            </div>
+            <div style="display:grid;grid-template-columns:repeat(5, 1fr);gap:16px">
+                <div>
+                    <div style="font-size:0.65rem;color:#6666aa;text-transform:uppercase;letter-spacing:1px">Vendidos</div>
+                    <div style="font-size:1.4rem;font-weight:800;color:#00c96b">{_v_uds} <span style="color:#555;font-size:0.85rem;font-weight:400">uds</span></div>
+                </div>
+                <div>
+                    <div style="font-size:0.65rem;color:#6666aa;text-transform:uppercase;letter-spacing:1px">Facturado</div>
+                    <div style="font-size:1.4rem;font-weight:800;color:#f7b731">{fmt(_v_iva)}</div>
+                    <div style="font-size:0.72rem;color:#8888aa">sin IVA: {fmt(_v_neto)}</div>
+                </div>
+                <div>
+                    <div style="font-size:0.65rem;color:#6666aa;text-transform:uppercase;letter-spacing:1px">Stock actual</div>
+                    <div style="font-size:1.4rem;font-weight:800;color:#fff">{_stk_uds} <span style="color:#555;font-size:0.85rem;font-weight:400">uds</span></div>
+                    <div style="font-size:0.72rem;color:#8888aa">valor: {fmt(_stk_val)}</div>
+                </div>
+                <div>
+                    <div style="font-size:0.65rem;color:#6666aa;text-transform:uppercase;letter-spacing:1px">Velocidad</div>
+                    <div style="font-size:1.4rem;font-weight:800;color:{_color_marca}">{_vel:.2f}</div>
+                    <div style="font-size:0.72rem;color:#8888aa">uds / dia</div>
+                </div>
+                <div>
+                    <div style="font-size:0.65rem;color:#6666aa;text-transform:uppercase;letter-spacing:1px">Dias stock</div>
+                    <div style="font-size:1.4rem;font-weight:800;color:#fff">{int(_stk_uds / _vel) if _vel > 0 else "∞"}</div>
+                    <div style="font-size:0.72rem;color:#8888aa">a ritmo actual</div>
+                </div>
+            </div>
+        </div>''', unsafe_allow_html=True)
+
+        # Tabs: ventas + stock + SKUs
+        _tab_v, _tab_s, _tab_sku = st.tabs([f"🛒 {len(_v_marca)} ventas", f"📦 {len(_stk_marca)} SKUs en stock", "📊 Cruce SKU"])
+
+        with _tab_v:
+            if len(_v_marca) == 0:
+                alerta_html(f"Sin ventas de {_marca_sel}", "amarillo")
+            else:
+                _v_sort = _v_marca.sort_values("fecha", ascending=False)
+                _rows_v = ""
+                for _, _vr in _v_sort.iterrows():
+                    _canal_col = "#3a86ff" if _vr["canal"] == "Online" else "#8888aa"
+                    _rows_v += f'''<tr style="border-bottom:1px solid #ffffff06">
+                        <td style="padding:8px;color:#8888aa;font-size:0.8rem">{str(_vr["fecha"])[:10]}</td>
+                        <td style="padding:8px;color:#eeeeff;font-size:0.84rem">{_vr["producto"]}</td>
+                        <td style="padding:8px;text-align:center;color:#00c96b;font-weight:700">{int(_vr["cantidad"])}</td>
+                        <td style="padding:8px;text-align:right;color:#f7b731;font-weight:700">{fmt(_vr["total_con_iva"])}</td>
+                        <td style="padding:8px;text-align:right;color:#8888aa;font-size:0.78rem">{fmt(_vr["neto"])}</td>
+                        <td style="padding:8px;text-align:center;color:{_canal_col};font-size:0.78rem">{_vr["canal"]}</td>
+                    </tr>'''
+                st.markdown(f'''<table style="width:100%;border-collapse:collapse">
+                    <thead><tr style="border-bottom:2px solid {_color_marca}30">
+                        <th style="text-align:left;padding:8px;color:#6666aa;font-size:0.68rem;text-transform:uppercase">Fecha</th>
+                        <th style="text-align:left;padding:8px;color:#6666aa;font-size:0.68rem;text-transform:uppercase">Producto</th>
+                        <th style="text-align:center;padding:8px;color:#6666aa;font-size:0.68rem;text-transform:uppercase">Uds</th>
+                        <th style="text-align:right;padding:8px;color:#6666aa;font-size:0.68rem;text-transform:uppercase">Con IVA</th>
+                        <th style="text-align:right;padding:8px;color:#6666aa;font-size:0.68rem;text-transform:uppercase">Sin IVA</th>
+                        <th style="text-align:center;padding:8px;color:#6666aa;font-size:0.68rem;text-transform:uppercase">Canal</th>
+                    </tr></thead><tbody>{_rows_v}</tbody></table>''', unsafe_allow_html=True)
+
+        with _tab_s:
+            if len(_stk_marca) == 0:
+                alerta_html(f"Sin stock de {_marca_sel} en el archivo stock_dux.xls", "amarillo")
+            else:
+                _stk_sort = _stk_marca.sort_values("cantidad", ascending=False)
+                _rows_s = ""
+                for _, _sr in _stk_sort.iterrows():
+                    _rows_s += f'''<tr style="border-bottom:1px solid #ffffff06">
+                        <td style="padding:8px;color:#eeeeff;font-size:0.84rem">{_sr["producto"]}</td>
+                        <td style="padding:8px;text-align:center;color:#00c96b;font-weight:700">{int(_sr["cantidad"])}</td>
+                        <td style="padding:8px;text-align:right;color:#8888aa;font-size:0.82rem">{fmt(_sr["costo_unit"])}</td>
+                        <td style="padding:8px;text-align:right;color:#f7b731;font-weight:700">{fmt(_sr["valor_total"])}</td>
+                    </tr>'''
+                st.markdown(f'''<table style="width:100%;border-collapse:collapse">
+                    <thead><tr style="border-bottom:2px solid {_color_marca}30">
+                        <th style="text-align:left;padding:8px;color:#6666aa;font-size:0.68rem;text-transform:uppercase">SKU</th>
+                        <th style="text-align:center;padding:8px;color:#6666aa;font-size:0.68rem;text-transform:uppercase">Uds</th>
+                        <th style="text-align:right;padding:8px;color:#6666aa;font-size:0.68rem;text-transform:uppercase">Costo U.</th>
+                        <th style="text-align:right;padding:8px;color:#6666aa;font-size:0.68rem;text-transform:uppercase">Valor</th>
+                    </tr></thead><tbody>{_rows_s}</tbody></table>''', unsafe_allow_html=True)
+
+        with _tab_sku:
+            if len(_stk_marca) == 0 or len(_v_marca) == 0:
+                alerta_html(f"Necesito stock Y ventas de {_marca_sel} para cruzar", "azul")
+            else:
+                # Cruzar SKUs: cuanto hay y cuanto se vendio por cada uno
+                _v_por_prod = _v_marca.groupby(_v_marca["producto"].str.upper()).agg(
+                    vendidos=("cantidad","sum"), neto=("neto","sum")
+                ).reset_index()
+                _v_por_prod.columns = ["producto_upper", "vendidos", "neto"]
+
+                _stk_copy = _stk_marca.copy()
+                _stk_copy["producto_upper"] = _stk_copy["producto"].astype(str).str.upper()
+                _cruce = _stk_copy.merge(_v_por_prod, on="producto_upper", how="outer")
+                _cruce["cantidad"] = _cruce["cantidad"].fillna(0).astype(int)
+                _cruce["vendidos"] = _cruce["vendidos"].fillna(0).astype(int)
+                _cruce["neto"] = _cruce["neto"].fillna(0)
+                _cruce["producto"] = _cruce["producto"].fillna(_cruce["producto_upper"])
+                _cruce["inicial"] = _cruce["cantidad"] + _cruce["vendidos"]
+                _cruce = _cruce.sort_values(["vendidos","cantidad"], ascending=[False, False])
+
+                _rows_c = ""
+                for _, _cr in _cruce.iterrows():
+                    _ini = int(_cr["inicial"])
+                    _v = int(_cr["vendidos"])
+                    _q = int(_cr["cantidad"])
+                    _pct = round(_v/_ini*100, 0) if _ini > 0 else 0
+                    _est_col = "#00c96b" if _pct >= 50 else _color_marca if _pct >= 20 else "#e94560" if _v == 0 else "#f7b731"
+                    _rows_c += f'''<tr style="border-bottom:1px solid #ffffff06">
+                        <td style="padding:8px;color:#eeeeff;font-size:0.82rem">{_cr["producto"]}</td>
+                        <td style="padding:8px;text-align:center;color:#8888aa">{_ini}</td>
+                        <td style="padding:8px;text-align:center;color:#00c96b;font-weight:700">{_v}</td>
+                        <td style="padding:8px;text-align:center;color:#e94560;font-weight:600">{_q}</td>
+                        <td style="padding:8px;text-align:center;color:{_est_col};font-weight:700">{_pct:.0f}%</td>
+                        <td style="padding:8px;text-align:right;color:#f7b731">{fmt(_cr["neto"])}</td>
+                    </tr>'''
+                st.markdown(f'''<table style="width:100%;border-collapse:collapse">
+                    <thead><tr style="border-bottom:2px solid {_color_marca}30">
+                        <th style="text-align:left;padding:8px;color:#6666aa;font-size:0.68rem;text-transform:uppercase">SKU</th>
+                        <th style="text-align:center;padding:8px;color:#6666aa;font-size:0.68rem;text-transform:uppercase">Ini</th>
+                        <th style="text-align:center;padding:8px;color:#6666aa;font-size:0.68rem;text-transform:uppercase">Vend</th>
+                        <th style="text-align:center;padding:8px;color:#6666aa;font-size:0.68rem;text-transform:uppercase">Qued</th>
+                        <th style="text-align:center;padding:8px;color:#6666aa;font-size:0.68rem;text-transform:uppercase">%</th>
+                        <th style="text-align:right;padding:8px;color:#6666aa;font-size:0.68rem;text-transform:uppercase">Neto</th>
+                    </tr></thead><tbody>{_rows_c}</tbody></table>''', unsafe_allow_html=True)
+
+        # Boton de descarga
+        def _gen_txt_marca(marca, dfv, dfs):
+            _l = [f"THE ROOM — Reporte marca {marca} — {hoy.strftime('%d/%m/%Y')}", "=" * 60, ""]
+            _l.append(f"VENTAS: {int(dfv['cantidad'].sum())} uds | {fmt(dfv['total_con_iva'].sum())} con IVA | {fmt(dfv['neto'].sum())} sin IVA")
+            _l.append(f"STOCK:  {int(dfs['cantidad'].sum())} uds | {fmt(dfs['valor_total'].sum())} valor total")
+            _l.append("")
+            if len(dfv) > 0:
+                _l.append(f"{'-' * 30} VENTAS ({len(dfv)}) {'-' * 30}")
+                for _, _r in dfv.sort_values("fecha", ascending=False).iterrows():
+                    _l.append(f"  {str(_r['fecha'])[:10]}  {_r['producto']:<50} {int(_r['cantidad']):>2} ud  {fmt(_r['total_con_iva'])}  {_r['canal']}")
+            _l.append("")
+            if len(dfs) > 0:
+                _l.append(f"{'-' * 30} STOCK ACTUAL ({len(dfs)} SKUs) {'-' * 30}")
+                for _, _r in dfs.sort_values("cantidad", ascending=False).iterrows():
+                    _l.append(f"  {_r['producto']:<55} {int(_r['cantidad']):>3} uds  {fmt(_r['valor_total'])}")
+            return "\n".join(_l)
+
+        _rep_marca_txt = _gen_txt_marca(_marca_sel, _v_marca, _stk_marca)
+        st.download_button(
+            label=f"Descargar reporte {_marca_sel} (.txt)",
+            data=_rep_marca_txt,
+            file_name=f"reporte_marca_{_marca_sel.lower().replace(' ','_')}_{hoy.isoformat()}.txt",
+            mime="text/plain",
+            use_container_width=True,
+            key="dl_marca",
+        )
+
         # Resumen total nuevo
         seccion("Resumen stock nuevo")
         totales = df_stock.groupby("Proveedor").agg(
