@@ -3079,6 +3079,23 @@ if tab5:
         _ch_cant_pend = sum(1 for c in _cheques_marca if not c["_pagado"])
         _ch_cant_pag = sum(1 for c in _cheques_marca if c["_pagado"])
 
+        # Compras historicas del proveedor
+        _mapa_marca_prov_dux = {
+            "LISBON": ["DANDY IND S.R.L."],
+            "KAZUMA": ["DACOB S.A"],
+            "DISTRICT": ["TARKUS TREND S.R.L."],
+            "GO NORTH": ["VINTAGE S A S. A."],
+            "VILO": ["VISTE VILO SRL, VISTE VILO", "VISTE VILO SRL"],
+            "ARAQUINA": ["GRUPO VEGAS"],
+        }
+        try:
+            with open("data/compras_mercaderia.json", encoding="utf-8") as _f:
+                _all_compras = _json.load(_f)
+        except Exception:
+            _all_compras = []
+        _provs_dux_marca = _mapa_marca_prov_dux.get(_marca_sel, [])
+        _compras_marca = [c for c in _all_compras if c.get("prov","").strip() in _provs_dux_marca]
+
         st.markdown(f'''<div style="background:linear-gradient(135deg, {_color_marca}15, {_color_marca}08);
             border:1px solid {_color_marca}40;border-radius:14px;padding:22px;margin:8px 0 16px 0">
             <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px">
@@ -3134,14 +3151,21 @@ if tab5:
                 </div>
             </div>''', unsafe_allow_html=True)
 
-        # Tabs: ventas + stock + SKUs + cheques
+        # Tabs: ventas + stock + SKUs + cheques + compras historicas
         _tabs_labels = [f"🛒 {len(_v_marca)} ventas", f"📦 {len(_stk_marca)} SKUs en stock", "📊 Cruce SKU"]
         if _cheques_marca:
             _tabs_labels.append(f"💳 {len(_cheques_marca)} cheques")
-            _tab_v, _tab_s, _tab_sku, _tab_chq = st.tabs(_tabs_labels)
-        else:
-            _tab_v, _tab_s, _tab_sku = st.tabs(_tabs_labels)
-            _tab_chq = None
+        if _compras_marca:
+            _tabs_labels.append(f"📅 {len(_compras_marca)} compras históricas")
+
+        _tabs_obj = st.tabs(_tabs_labels)
+        _tab_v = _tabs_obj[0]
+        _tab_s = _tabs_obj[1]
+        _tab_sku = _tabs_obj[2]
+        _idx = 3
+        _tab_chq = _tabs_obj[_idx] if _cheques_marca else None
+        if _cheques_marca: _idx += 1
+        _tab_compras = _tabs_obj[_idx] if _compras_marca else None
 
         with _tab_v:
             if len(_v_marca) == 0:
@@ -3283,6 +3307,87 @@ if tab5:
                         <th style="text-align:left;padding:8px;color:#6666aa;font-size:0.68rem;text-transform:uppercase">Concepto</th>
                     </tr></thead><tbody>{_rows_chq}</tbody></table>''', unsafe_allow_html=True)
 
+        # Tab de compras historicas (con velocidad por lote)
+        if _tab_compras is not None:
+            with _tab_compras:
+                # Selector de año
+                _anios_compras = sorted(set(c["fecha"][:4] for c in _compras_marca), reverse=True)
+                _col_a1, _col_a2 = st.columns([1, 3])
+                with _col_a1:
+                    _anio_sel = st.selectbox("Año", ["TODOS"] + _anios_compras, key=f"compras_anio_{_marca_sel}")
+
+                _compras_filtradas = _compras_marca if _anio_sel == "TODOS" else [c for c in _compras_marca if c["fecha"][:4] == _anio_sel]
+
+                # Agrupar por fecha de compra
+                _por_fecha = {}
+                for c in _compras_filtradas:
+                    _f = c["fecha"]
+                    if _f not in _por_fecha:
+                        _por_fecha[_f] = {"items": [], "uds": 0, "total": 0}
+                    _por_fecha[_f]["items"].append(c)
+                    _por_fecha[_f]["uds"] += c.get("cant", 0)
+                    _por_fecha[_f]["total"] += c.get("total", 0)
+
+                # Resumen total del periodo
+                _total_uds_per = sum(c.get("cant", 0) for c in _compras_filtradas)
+                _total_plata_per = sum(c.get("total", 0) for c in _compras_filtradas)
+                st.markdown(f'''<div style="background:{_color_marca}10;border:1px solid {_color_marca}30;border-radius:10px;padding:14px 18px;margin:8px 0 14px 0">
+                    <div style="display:flex;gap:30px;flex-wrap:wrap">
+                        <div>
+                            <div style="font-size:0.65rem;color:#6666aa;text-transform:uppercase;letter-spacing:1px">Compras</div>
+                            <div style="font-size:1.2rem;font-weight:800;color:#fff">{len(_compras_filtradas)}<span style="color:#555;font-size:0.85rem;font-weight:400"> items en {len(_por_fecha)} fechas</span></div>
+                        </div>
+                        <div>
+                            <div style="font-size:0.65rem;color:#6666aa;text-transform:uppercase;letter-spacing:1px">Unidades</div>
+                            <div style="font-size:1.2rem;font-weight:800;color:{_color_marca}">{int(_total_uds_per)}</div>
+                        </div>
+                        <div>
+                            <div style="font-size:0.65rem;color:#6666aa;text-transform:uppercase;letter-spacing:1px">Invertido</div>
+                            <div style="font-size:1.2rem;font-weight:800;color:#f7b731">{fmt(_total_plata_per)}</div>
+                        </div>
+                    </div>
+                </div>''', unsafe_allow_html=True)
+
+                # Por cada fecha de compra, mostrar velocidad de ventas DESDE esa fecha
+                for _f_comp in sorted(_por_fecha.keys(), reverse=True):
+                    _data_f = _por_fecha[_f_comp]
+                    # Calcular ventas de esta marca desde la fecha de compra
+                    try:
+                        _fc = date.fromisoformat(_f_comp)
+                    except Exception:
+                        continue
+                    _dias_desde = max((hoy - _fc).days, 1)
+                    _v_desde = df[(df["marca"].str.upper() == _marca_sel) & (df["fecha"].dt.date >= _fc)]
+                    _uds_vend = int(_v_desde["cantidad"].sum()) if len(_v_desde) else 0
+                    _fact_desde = float(_v_desde["total_con_iva"].sum()) if len(_v_desde) else 0
+                    _vel = _uds_vend / _dias_desde
+                    _pct_rot = round(_uds_vend / _data_f["uds"] * 100, 1) if _data_f["uds"] > 0 else 0
+                    _queda_est = max(_data_f["uds"] - _uds_vend, 0)
+
+                    with st.expander(f"📅 {_f_comp} — {int(_data_f['uds'])} uds compradas · {fmt(_data_f['total'])} invertido · {_uds_vend} vendidos ({_pct_rot:.0f}%) · vel {_vel:.2f} ud/día"):
+                        _rows_co = ""
+                        for _it in sorted(_data_f["items"], key=lambda x: -x.get("total", 0)):
+                            _rows_co += f'''<tr style="border-bottom:1px solid #ffffff06">
+                                <td style="padding:7px 8px;color:#eeeeff;font-size:0.82rem">{_it.get("prod","")}</td>
+                                <td style="padding:7px 4px;text-align:center;color:#3a86ff;font-weight:700">{int(_it.get("cant",0))}</td>
+                                <td style="padding:7px 4px;text-align:right;color:#8888aa;font-size:0.8rem">{fmt(_it.get("total",0)/max(_it.get("cant",1),1))}</td>
+                                <td style="padding:7px 4px;text-align:right;color:#f7b731;font-weight:700">{fmt(_it.get("total",0))}</td>
+                            </tr>'''
+                        st.markdown(f'''<table style="width:100%;border-collapse:collapse">
+                            <thead><tr style="border-bottom:2px solid {_color_marca}30">
+                                <th style="text-align:left;padding:7px 8px;color:#6666aa;font-size:0.65rem;text-transform:uppercase">Producto</th>
+                                <th style="text-align:center;padding:7px 4px;color:#6666aa;font-size:0.65rem;text-transform:uppercase">Cant</th>
+                                <th style="text-align:right;padding:7px 4px;color:#6666aa;font-size:0.65rem;text-transform:uppercase">Costo U.</th>
+                                <th style="text-align:right;padding:7px 4px;color:#6666aa;font-size:0.65rem;text-transform:uppercase">Total</th>
+                            </tr></thead><tbody>{_rows_co}</tbody></table>
+                            <div style="margin-top:12px;padding:10px 14px;background:#ffffff06;border-radius:8px;font-size:0.82rem;color:#aaa">
+                                <b style="color:#fff">Desde {_f_comp}</b> ({_dias_desde} días):
+                                {_uds_vend} vendidos de {int(_data_f["uds"])} ({_pct_rot:.0f}%) ·
+                                velocidad {_vel:.2f} uds/día ·
+                                facturado {fmt(_fact_desde)} ·
+                                quedan ~{_queda_est} uds
+                            </div>''', unsafe_allow_html=True)
+
         # Boton de descarga
         def _gen_txt_marca(marca, dfv, dfs):
             _l = [f"THE ROOM — Reporte marca {marca} — {hoy.strftime('%d/%m/%Y')}", "=" * 60, ""]
@@ -3359,12 +3464,32 @@ if tab5:
             _total_uds_compra = sum(it["stock_inicial"] for it in _items_compra)
             _total_costo_compra = sum(it["stock_inicial"] * it["costo_unit"] for it in _items_compra)
 
+            # Compras historicas (del archivo compras_mercaderia.json)
+            try:
+                with open("data/compras_mercaderia.json", encoding="utf-8") as _f:
+                    _all_cmp = _json.load(_f)
+            except Exception:
+                _all_cmp = []
+            _cmp_marca = [c for c in _all_cmp if c.get("prov","").strip() in _provs_dux_marca] if _provs_dux_marca else []
+            _cmp_total_hist = sum(c.get("total",0) for c in _cmp_marca)
+            _cmp_uds_hist = int(sum(c.get("cant",0) for c in _cmp_marca))
+            _cmp_fechas = sorted(set(c.get("fecha","")[:7] for c in _cmp_marca))
+            _cmp_anio_actual = [c for c in _cmp_marca if c.get("fecha","").startswith(str(hoy.year))]
+            _cmp_total_anio = sum(c.get("total",0) for c in _cmp_anio_actual)
+            _cmp_uds_anio = int(sum(c.get("cant",0) for c in _cmp_anio_actual))
+
             _row = 3
             _resumen = [
-                ("COMPRA", ""),
-                ("  Unidades compradas", _total_uds_compra),
+                ("COMPRA NUEVA", ""),
+                ("  Unidades compradas (manual)", _total_uds_compra),
                 ("  Costo total compra", _total_costo_compra),
                 ("  Items distintos", len(_items_compra)),
+                ("", ""),
+                ("COMPRAS HISTÓRICAS DUX", ""),
+                (f"  Total histórico ({len(_cmp_fechas)} meses)", _cmp_total_hist),
+                ("  Unidades total histórico", _cmp_uds_hist),
+                (f"  Total año {hoy.year}", _cmp_total_anio),
+                (f"  Unidades año {hoy.year}", _cmp_uds_anio),
                 ("", ""),
                 ("DEUDA", ""),
                 ("  Cheques emitidos pendientes", _deuda_emitida),
@@ -3506,7 +3631,33 @@ if tab5:
                         elif cell.column == 6:
                             cell.number_format = '"$"#,##0'
 
-            # === HOJA 6: CHEQUES ===
+            # === HOJA 6.5: COMPRAS HISTORICAS ===
+            if _compras_marca:
+                ws_cmp = wb.create_sheet("Compras historicas")
+                ws_cmp.append(["Fecha", "Producto", "Cantidad", "Costo unitario", "Total", "Comprobante"])
+                for c in range(1, 7):
+                    _cell = ws_cmp.cell(row=1, column=c)
+                    _cell.font = _bold
+                    _cell.fill = _header_fill
+                    _cell.alignment = _center
+                for c in sorted(_compras_marca, key=lambda x: (x.get("fecha",""), -x.get("total",0))):
+                    _cant = c.get("cant", 0)
+                    _tot = c.get("total", 0)
+                    _cu = _tot / max(_cant, 1)
+                    ws_cmp.append([c.get("fecha",""), c.get("prod",""), int(_cant), _cu, _tot, c.get("comp","")])
+                _tot_compras = sum(c.get("total",0) for c in _compras_marca)
+                _tot_uds = sum(c.get("cant",0) for c in _compras_marca)
+                ws_cmp.append(["TOTAL", "", int(_tot_uds), "", _tot_compras, ""])
+                for c in range(1, 7):
+                    ws_cmp.cell(row=ws_cmp.max_row, column=c).font = Font(bold=True)
+                for col_letter, w in zip(["A","B","C","D","E","F"], [12, 55, 12, 15, 15, 20]):
+                    ws_cmp.column_dimensions[col_letter].width = w
+                for row_c in ws_cmp.iter_rows(min_row=2, max_col=6):
+                    for cell in row_c:
+                        if cell.column in (4, 5):
+                            cell.number_format = '"$"#,##0'
+
+            # === HOJA 7: CHEQUES ===
             if _cheques_marca:
                 ws6 = wb.create_sheet("Cheques")
                 ws6.append(["ID", "Proveedor", "Vencimiento", "Monto", "Estado", "Concepto"])
