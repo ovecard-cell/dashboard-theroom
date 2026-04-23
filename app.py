@@ -3222,6 +3222,44 @@ if tab5:
         _dias_data = (hoy - df["fecha"].min().date()).days + 1 if len(df) > 0 else 1
         _vel = _v_uds / max(_dias_data, 1)
 
+        # Cheques de la marca
+        _mapa_marca_prov_chq = {
+            "LISBON": ["lisbon"],
+            "KAZUMA": ["kazuma", "dacob"],
+            "DISTRICT": ["district", "tarkus"],
+            "GO NORTH": ["go north", "vintage"],
+            "VILO": ["vilo"],
+            "ARAQUINA": ["araquina", "vegas"],
+            "LA RAMBLA": ["la rambla", "rambla", "manufactura arrecifes"],
+        }
+        try:
+            import json as _json
+            with open("data/cheques.json", encoding="utf-8") as _f:
+                _all_cheques = _json.load(_f)
+        except Exception:
+            _all_cheques = []
+        # Detectar cheques pagados por gastos
+        _gastos_all = get_gastos()
+        _cheq_pagados_montos = set()
+        for _g in _gastos_all:
+            if _g.get("categoria") == "Cheque debitado":
+                _cheq_pagados_montos.add(round(float(_g.get("monto", 0)), 2))
+
+        _patrones_marca = _mapa_marca_prov_chq.get(_marca_sel, [_marca_sel.lower()])
+        _cheques_marca = []
+        for c in _all_cheques:
+            _prov_low = c.get("proveedor", "").lower()
+            if any(p in _prov_low for p in _patrones_marca):
+                # Marcar si fue pagado
+                c_copy = dict(c)
+                c_copy["_pagado"] = round(float(c.get("monto", 0)), 2) in _cheq_pagados_montos
+                _cheques_marca.append(c_copy)
+
+        _ch_pend_total = sum(c["monto"] for c in _cheques_marca if not c["_pagado"])
+        _ch_pagado_total = sum(c["monto"] for c in _cheques_marca if c["_pagado"])
+        _ch_cant_pend = sum(1 for c in _cheques_marca if not c["_pagado"])
+        _ch_cant_pag = sum(1 for c in _cheques_marca if c["_pagado"])
+
         st.markdown(f'''<div style="background:linear-gradient(135deg, {_color_marca}15, {_color_marca}08);
             border:1px solid {_color_marca}40;border-radius:14px;padding:22px;margin:8px 0 16px 0">
             <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px">
@@ -3258,8 +3296,33 @@ if tab5:
             </div>
         </div>''', unsafe_allow_html=True)
 
-        # Tabs: ventas + stock + SKUs
-        _tab_v, _tab_s, _tab_sku = st.tabs([f"🛒 {len(_v_marca)} ventas", f"📦 {len(_stk_marca)} SKUs en stock", "📊 Cruce SKU"])
+        # Card de DEUDA (cheques)
+        if _cheques_marca:
+            _color_deuda = "#e94560" if _ch_pend_total > 0 else "#00c96b"
+            st.markdown(f'''<div style="background:linear-gradient(135deg, {_color_deuda}15, {_color_deuda}08);
+                border:1px solid {_color_deuda}40;border-radius:14px;padding:18px 22px;margin:8px 0 16px 0">
+                <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px">
+                    <div>
+                        <div style="font-size:0.7rem;color:{_color_deuda};font-weight:700;text-transform:uppercase;letter-spacing:1px">💳 Deuda en cheques</div>
+                        <div style="font-size:1.8rem;font-weight:800;color:{_color_deuda};margin-top:4px">{fmt(_ch_pend_total)}</div>
+                        <div style="font-size:0.8rem;color:#8888aa">{_ch_cant_pend} cheques pendientes · {_ch_cant_pag} ya pagados ({fmt(_ch_pagado_total)})</div>
+                    </div>
+                    <div style="text-align:right">
+                        <div style="font-size:0.7rem;color:#6666aa;text-transform:uppercase;letter-spacing:1px">Total emitido</div>
+                        <div style="font-size:1.2rem;font-weight:700;color:#fff">{fmt(_ch_pend_total + _ch_pagado_total)}</div>
+                        <div style="font-size:0.75rem;color:#8888aa">{len(_cheques_marca)} cheques en total</div>
+                    </div>
+                </div>
+            </div>''', unsafe_allow_html=True)
+
+        # Tabs: ventas + stock + SKUs + cheques
+        _tabs_labels = [f"🛒 {len(_v_marca)} ventas", f"📦 {len(_stk_marca)} SKUs en stock", "📊 Cruce SKU"]
+        if _cheques_marca:
+            _tabs_labels.append(f"💳 {len(_cheques_marca)} cheques")
+            _tab_v, _tab_s, _tab_sku, _tab_chq = st.tabs(_tabs_labels)
+        else:
+            _tab_v, _tab_s, _tab_sku = st.tabs(_tabs_labels)
+            _tab_chq = None
 
         with _tab_v:
             if len(_v_marca) == 0:
@@ -3353,6 +3416,54 @@ if tab5:
                         <th style="text-align:right;padding:8px;color:#6666aa;font-size:0.68rem;text-transform:uppercase">Neto</th>
                     </tr></thead><tbody>{_rows_c}</tbody></table>''', unsafe_allow_html=True)
 
+        # Tab de cheques
+        if _tab_chq is not None:
+            with _tab_chq:
+                _rows_chq = ""
+                for c in sorted(_cheques_marca, key=lambda x: (x.get("vencimiento","9999"))):
+                    _pag = c["_pagado"]
+                    _venc = c.get("vencimiento", "-")
+                    _tipo = c.get("tipo", "")
+                    if _pag:
+                        _estado_html = '<span style="background:#00c96b20;color:#00c96b;padding:3px 10px;border-radius:20px;font-size:0.72rem;font-weight:700">PAGADO</span>'
+                        _monto_col = "#00c96b"
+                    elif _tipo == "por_negociar":
+                        _estado_html = '<span style="background:#f7b73120;color:#f7b731;padding:3px 10px;border-radius:20px;font-size:0.72rem;font-weight:700">POR NEGOCIAR</span>'
+                        _monto_col = "#f7b731"
+                    else:
+                        try:
+                            _fv = date.fromisoformat(_venc)
+                            _dias_v = (_fv - hoy).days
+                            if _dias_v < 0:
+                                _estado_html = '<span style="background:#e9456020;color:#e94560;padding:3px 10px;border-radius:20px;font-size:0.72rem;font-weight:700">VENCIDO</span>'
+                                _monto_col = "#e94560"
+                            elif _dias_v <= 7:
+                                _estado_html = f'<span style="background:#f7b73120;color:#f7b731;padding:3px 10px;border-radius:20px;font-size:0.72rem;font-weight:700">VENCE EN {_dias_v}d</span>'
+                                _monto_col = "#f7b731"
+                            else:
+                                _estado_html = '<span style="background:#3a86ff20;color:#3a86ff;padding:3px 10px;border-radius:20px;font-size:0.72rem;font-weight:700">PENDIENTE</span>'
+                                _monto_col = "#3a86ff"
+                        except Exception:
+                            _estado_html = '<span style="background:#8888aa20;color:#8888aa;padding:3px 10px;border-radius:20px;font-size:0.72rem;font-weight:700">PENDIENTE</span>'
+                            _monto_col = "#8888aa"
+                    _rows_chq += f'''<tr style="border-bottom:1px solid #ffffff06">
+                        <td style="padding:8px;color:#eeeeff;font-weight:700;font-size:0.84rem">{c.get("id","-")}</td>
+                        <td style="padding:8px;color:#8888aa;font-size:0.82rem">{c.get("proveedor","")}</td>
+                        <td style="padding:8px;color:#8888aa;font-size:0.82rem">{_venc}</td>
+                        <td style="padding:8px;text-align:right;color:{_monto_col};font-weight:700">{fmt(c.get("monto",0))}</td>
+                        <td style="padding:8px;text-align:center">{_estado_html}</td>
+                        <td style="padding:8px;color:#6666aa;font-size:0.78rem">{c.get("concepto","")}</td>
+                    </tr>'''
+                st.markdown(f'''<table style="width:100%;border-collapse:collapse">
+                    <thead><tr style="border-bottom:2px solid {_color_marca}30">
+                        <th style="text-align:left;padding:8px;color:#6666aa;font-size:0.68rem;text-transform:uppercase">ID</th>
+                        <th style="text-align:left;padding:8px;color:#6666aa;font-size:0.68rem;text-transform:uppercase">Proveedor</th>
+                        <th style="text-align:left;padding:8px;color:#6666aa;font-size:0.68rem;text-transform:uppercase">Vencimiento</th>
+                        <th style="text-align:right;padding:8px;color:#6666aa;font-size:0.68rem;text-transform:uppercase">Monto</th>
+                        <th style="text-align:center;padding:8px;color:#6666aa;font-size:0.68rem;text-transform:uppercase">Estado</th>
+                        <th style="text-align:left;padding:8px;color:#6666aa;font-size:0.68rem;text-transform:uppercase">Concepto</th>
+                    </tr></thead><tbody>{_rows_chq}</tbody></table>''', unsafe_allow_html=True)
+
         # Boton de descarga
         def _gen_txt_marca(marca, dfv, dfs):
             _l = [f"THE ROOM — Reporte marca {marca} — {hoy.strftime('%d/%m/%Y')}", "=" * 60, ""]
@@ -3370,15 +3481,272 @@ if tab5:
                     _l.append(f"  {_r['producto']:<55} {int(_r['cantidad']):>3} uds  {fmt(_r['valor_total'])}")
             return "\n".join(_l)
 
+        # Generar Excel con multiples hojas
+        def _gen_xlsx_marca(marca, dfv, dfs, df_cruce=None):
+            import io
+            import json as _json
+            from openpyxl import Workbook
+            from openpyxl.styles import Font, PatternFill, Alignment, Border, Side
+            from openpyxl.utils import get_column_letter
+
+            wb = Workbook()
+
+            # Estilos
+            _bold = Font(bold=True, color="FFFFFF", size=11)
+            _header_fill = PatternFill("solid", fgColor="1a1a2e")
+            _title_font = Font(bold=True, size=14, color="FFFFFF")
+            _title_fill = PatternFill("solid", fgColor="3a86ff")
+            _center = Alignment(horizontal="center", vertical="center")
+            _right = Alignment(horizontal="right", vertical="center")
+            _border = Border(
+                left=Side(style="thin", color="CCCCCC"),
+                right=Side(style="thin", color="CCCCCC"),
+                top=Side(style="thin", color="CCCCCC"),
+                bottom=Side(style="thin", color="CCCCCC"),
+            )
+
+            # === HOJA 1: RESUMEN ===
+            ws1 = wb.active
+            ws1.title = "Resumen"
+            ws1.merge_cells("A1:D1")
+            ws1["A1"] = f"THE ROOM — Reporte {marca} — {hoy.strftime('%d/%m/%Y')}"
+            ws1["A1"].font = _title_font
+            ws1["A1"].fill = _title_fill
+            ws1["A1"].alignment = _center
+            ws1.row_dimensions[1].height = 28
+
+            # Buscar deuda
+            try:
+                with open("data/cheques.json", encoding="utf-8") as _f:
+                    _chqs = _json.load(_f)
+            except Exception:
+                _chqs = []
+            _marca_busca = marca.lower()
+            _mapa_prov_debt = {"LISBON":"lisbon","KAZUMA":"kazuma","DISTRICT":"tarkus|district","GO NORTH":"vintage|go north","VILO":"vilo","ARAQUINA":"araquina|vegas"}
+            _pattern = _mapa_prov_debt.get(marca, marca.lower())
+            import re as _re
+            _deuda_emitida = sum(c["monto"] for c in _chqs if c.get("tipo")=="emitido" and _re.search(_pattern, c.get("proveedor","").lower()) and c.get("estado")=="pendiente")
+            _deuda_negociar = sum(c["monto"] for c in _chqs if c.get("tipo")=="por_negociar" and _re.search(_pattern, c.get("proveedor","").lower()))
+
+            # Buscar compra (stock inicial)
+            try:
+                with open("data/stock_inicial.json", encoding="utf-8") as _f:
+                    _stk_ini = _json.load(_f)
+            except Exception:
+                _stk_ini = []
+            _mapa_prov_stk = {"LISBON":"LISBON","KAZUMA":"KAZUMA","DISTRICT":"DISTRICT"}
+            _prov_stk = _mapa_prov_stk.get(marca)
+            _items_compra = [it for it in _stk_ini if it.get("proveedor") == _prov_stk] if _prov_stk else []
+            _total_uds_compra = sum(it["stock_inicial"] for it in _items_compra)
+            _total_costo_compra = sum(it["stock_inicial"] * it["costo_unit"] for it in _items_compra)
+
+            _row = 3
+            _resumen = [
+                ("COMPRA", ""),
+                ("  Unidades compradas", _total_uds_compra),
+                ("  Costo total compra", _total_costo_compra),
+                ("  Items distintos", len(_items_compra)),
+                ("", ""),
+                ("DEUDA", ""),
+                ("  Cheques emitidos pendientes", _deuda_emitida),
+                ("  Por negociar", _deuda_negociar),
+                ("  DEUDA TOTAL", _deuda_emitida + _deuda_negociar),
+                ("", ""),
+                ("VENTAS", ""),
+                ("  Unidades vendidas", int(dfv["cantidad"].sum()) if len(dfv) else 0),
+                ("  Facturado con IVA", float(dfv["total_con_iva"].sum()) if len(dfv) else 0),
+                ("  Facturado sin IVA", float(dfv["neto"].sum()) if len(dfv) else 0),
+                ("  Cantidad de ventas", len(dfv)),
+                ("", ""),
+                ("STOCK ACTUAL", ""),
+                ("  Unidades en stock", int(dfs["cantidad"].sum()) if len(dfs) else 0),
+                ("  Valor total stock", float(dfs["valor_total"].sum()) if len(dfs) else 0),
+                ("  SKUs distintos", len(dfs)),
+                ("", ""),
+                ("INDICADORES", ""),
+                ("  % vendido (del stock inicial)", f"{int(dfv['cantidad'].sum())/_total_uds_compra*100:.1f}%" if _total_uds_compra > 0 else "-"),
+                ("  Velocidad (uds/dia)", f"{int(dfv['cantidad'].sum())/max(_dias_data,1):.2f}" if len(dfv) else "0"),
+                ("  Dias de stock restante", f"{int(int(dfs['cantidad'].sum())/(int(dfv['cantidad'].sum())/max(_dias_data,1)))}" if len(dfv) and int(dfv['cantidad'].sum()) > 0 and len(dfs) else "-"),
+            ]
+            for _lbl, _val in _resumen:
+                ws1.cell(row=_row, column=1, value=_lbl)
+                if isinstance(_val, (int, float)) and not isinstance(_val, bool):
+                    ws1.cell(row=_row, column=2, value=_val)
+                    if "Costo" in _lbl or "Deuda" in _lbl or "Facturado" in _lbl or "Valor" in _lbl:
+                        ws1.cell(row=_row, column=2).number_format = '"$"#,##0'
+                    if _lbl in ("COMPRA","DEUDA","VENTAS","STOCK ACTUAL","INDICADORES"):
+                        ws1.cell(row=_row, column=1).font = Font(bold=True, color="3a86ff")
+                else:
+                    ws1.cell(row=_row, column=2, value=_val)
+                    if _lbl in ("COMPRA","DEUDA","VENTAS","STOCK ACTUAL","INDICADORES"):
+                        ws1.cell(row=_row, column=1).font = Font(bold=True, color="3a86ff")
+                _row += 1
+            ws1.column_dimensions["A"].width = 35
+            ws1.column_dimensions["B"].width = 20
+
+            # === HOJA 2: COMPRA ===
+            ws2 = wb.create_sheet("Compra")
+            ws2.append(["Producto", "Unidades compradas", "Costo unitario", "Valor total", "Fecha ingreso"])
+            for c in range(1, 6):
+                _cell = ws2.cell(row=1, column=c)
+                _cell.font = _bold
+                _cell.fill = _header_fill
+                _cell.alignment = _center
+            for it in _items_compra:
+                ws2.append([it["tipo"], it["stock_inicial"], it["costo_unit"], it["stock_inicial"]*it["costo_unit"], it.get("fecha_ingreso","")])
+            if _items_compra:
+                ws2.append(["TOTAL", _total_uds_compra, "", _total_costo_compra, ""])
+                _last = ws2.max_row
+                for c in range(1, 5):
+                    ws2.cell(row=_last, column=c).font = Font(bold=True)
+            for col_letter, w in zip(["A","B","C","D","E"], [40, 15, 15, 15, 15]):
+                ws2.column_dimensions[col_letter].width = w
+            for row_c in ws2.iter_rows(min_row=2, max_col=5):
+                for cell in row_c:
+                    if cell.column in (3, 4):
+                        cell.number_format = '"$"#,##0'
+
+            # === HOJA 3: VENTAS ===
+            ws3 = wb.create_sheet("Ventas")
+            ws3.append(["Fecha", "Producto", "Unidades", "Neto (sin IVA)", "Con IVA", "Canal", "Forma pago"])
+            for c in range(1, 8):
+                _cell = ws3.cell(row=1, column=c)
+                _cell.font = _bold
+                _cell.fill = _header_fill
+                _cell.alignment = _center
+            if len(dfv) > 0:
+                for _, r in dfv.sort_values("fecha", ascending=False).iterrows():
+                    ws3.append([str(r["fecha"])[:10], r["producto"], int(r["cantidad"]), float(r["neto"]), float(r["total_con_iva"]), r["canal"], str(r.get("forma_pago",""))[:40]])
+                ws3.append(["TOTAL", "", int(dfv["cantidad"].sum()), float(dfv["neto"].sum()), float(dfv["total_con_iva"].sum()), "", ""])
+                _last = ws3.max_row
+                for c in range(1, 8):
+                    ws3.cell(row=_last, column=c).font = Font(bold=True)
+            for col_letter, w in zip(["A","B","C","D","E","F","G"], [12, 50, 10, 15, 15, 12, 35]):
+                ws3.column_dimensions[col_letter].width = w
+            for row_c in ws3.iter_rows(min_row=2, max_col=7):
+                for cell in row_c:
+                    if cell.column in (4, 5):
+                        cell.number_format = '"$"#,##0'
+
+            # === HOJA 4: STOCK ACTUAL ===
+            ws4 = wb.create_sheet("Stock actual")
+            ws4.append(["SKU", "Cantidad", "Costo unitario", "Valor total", "Rubro"])
+            for c in range(1, 6):
+                _cell = ws4.cell(row=1, column=c)
+                _cell.font = _bold
+                _cell.fill = _header_fill
+                _cell.alignment = _center
+            if len(dfs) > 0:
+                for _, r in dfs.sort_values("cantidad", ascending=False).iterrows():
+                    ws4.append([r["producto"], int(r["cantidad"]), float(r["costo_unit"]), float(r["valor_total"]), str(r.get("rubro",""))])
+                ws4.append(["TOTAL", int(dfs["cantidad"].sum()), "", float(dfs["valor_total"].sum()), ""])
+                _last = ws4.max_row
+                for c in range(1, 6):
+                    ws4.cell(row=_last, column=c).font = Font(bold=True)
+            for col_letter, w in zip(["A","B","C","D","E"], [55, 12, 15, 15, 20]):
+                ws4.column_dimensions[col_letter].width = w
+            for row_c in ws4.iter_rows(min_row=2, max_col=5):
+                for cell in row_c:
+                    if cell.column in (3, 4):
+                        cell.number_format = '"$"#,##0'
+
+            # === HOJA 5: CRUCE SKU ===
+            if len(dfv) > 0 and len(dfs) > 0:
+                ws5 = wb.create_sheet("Cruce SKU")
+                ws5.append(["Producto", "Stock inicial", "Vendidos", "Quedan", "% Vendido", "Neto facturado"])
+                for c in range(1, 7):
+                    _cell = ws5.cell(row=1, column=c)
+                    _cell.font = _bold
+                    _cell.fill = _header_fill
+                    _cell.alignment = _center
+                _v_por_prod = dfv.groupby(dfv["producto"].str.upper()).agg(
+                    vendidos=("cantidad","sum"), neto=("neto","sum")
+                ).reset_index()
+                _v_por_prod.columns = ["producto_upper", "vendidos", "neto"]
+                _stk_copy = dfs.copy()
+                _stk_copy["producto_upper"] = _stk_copy["producto"].astype(str).str.upper()
+                _cruce = _stk_copy.merge(_v_por_prod, on="producto_upper", how="outer")
+                _cruce["cantidad"] = _cruce["cantidad"].fillna(0).astype(int)
+                _cruce["vendidos"] = _cruce["vendidos"].fillna(0).astype(int)
+                _cruce["neto"] = _cruce["neto"].fillna(0)
+                _cruce["producto"] = _cruce["producto"].fillna(_cruce["producto_upper"])
+                _cruce["inicial"] = _cruce["cantidad"] + _cruce["vendidos"]
+                _cruce = _cruce.sort_values(["vendidos","cantidad"], ascending=[False, False])
+                for _, r in _cruce.iterrows():
+                    _ini = int(r["inicial"])
+                    _v = int(r["vendidos"])
+                    _q = int(r["cantidad"])
+                    _pct = round(_v/_ini*100, 1) if _ini > 0 else 0
+                    ws5.append([r["producto"], _ini, _v, _q, _pct/100, float(r["neto"])])
+                for col_letter, w in zip(["A","B","C","D","E","F"], [55, 12, 12, 12, 12, 15]):
+                    ws5.column_dimensions[col_letter].width = w
+                for row_c in ws5.iter_rows(min_row=2, max_col=6):
+                    for cell in row_c:
+                        if cell.column == 5:
+                            cell.number_format = '0.0%'
+                        elif cell.column == 6:
+                            cell.number_format = '"$"#,##0'
+
+            # === HOJA 6: CHEQUES ===
+            if _cheques_marca:
+                ws6 = wb.create_sheet("Cheques")
+                ws6.append(["ID", "Proveedor", "Vencimiento", "Monto", "Estado", "Concepto"])
+                for c in range(1, 7):
+                    _cell = ws6.cell(row=1, column=c)
+                    _cell.font = _bold
+                    _cell.fill = _header_fill
+                    _cell.alignment = _center
+                _total_pag = 0
+                _total_pend = 0
+                for _c in sorted(_cheques_marca, key=lambda x: x.get("vencimiento","9999")):
+                    _est = "PAGADO" if _c["_pagado"] else ("POR NEGOCIAR" if _c.get("tipo")=="por_negociar" else "PENDIENTE")
+                    if _c["_pagado"]:
+                        _total_pag += _c["monto"]
+                    else:
+                        _total_pend += _c["monto"]
+                    ws6.append([_c.get("id","-"), _c.get("proveedor",""), _c.get("vencimiento",""), float(_c.get("monto",0)), _est, _c.get("concepto","")])
+                ws6.append(["TOTAL PAGADO", "", "", _total_pag, "", ""])
+                ws6.append(["TOTAL PENDIENTE", "", "", _total_pend, "", ""])
+                for _r in (ws6.max_row - 1, ws6.max_row):
+                    for c in range(1, 7):
+                        ws6.cell(row=_r, column=c).font = Font(bold=True)
+                for col_letter, w in zip(["A","B","C","D","E","F"], [10, 25, 14, 15, 16, 45]):
+                    ws6.column_dimensions[col_letter].width = w
+                for row_c in ws6.iter_rows(min_row=2, max_col=6):
+                    for cell in row_c:
+                        if cell.column == 4:
+                            cell.number_format = '"$"#,##0'
+
+            # Guardar en memoria
+            buf = io.BytesIO()
+            wb.save(buf)
+            buf.seek(0)
+            return buf.getvalue()
+
         _rep_marca_txt = _gen_txt_marca(_marca_sel, _v_marca, _stk_marca)
-        st.download_button(
-            label=f"Descargar reporte {_marca_sel} (.txt)",
-            data=_rep_marca_txt,
-            file_name=f"reporte_marca_{_marca_sel.lower().replace(' ','_')}_{hoy.isoformat()}.txt",
-            mime="text/plain",
-            use_container_width=True,
-            key="dl_marca",
-        )
+        _dl1, _dl2 = st.columns(2)
+        with _dl1:
+            st.download_button(
+                label=f"📄 Descargar .txt",
+                data=_rep_marca_txt.encode("utf-8-sig"),
+                file_name=f"reporte_marca_{_marca_sel.lower().replace(' ','_')}_{hoy.isoformat()}.txt",
+                mime="text/plain",
+                use_container_width=True,
+                key="dl_marca_txt",
+            )
+        with _dl2:
+            try:
+                _rep_xlsx = _gen_xlsx_marca(_marca_sel, _v_marca, _stk_marca)
+                st.download_button(
+                    label=f"📊 Descargar Excel (.xlsx)",
+                    data=_rep_xlsx,
+                    file_name=f"reporte_marca_{_marca_sel.lower().replace(' ','_')}_{hoy.isoformat()}.xlsx",
+                    mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+                    use_container_width=True,
+                    key="dl_marca_xlsx",
+                )
+            except Exception as e:
+                st.error(f"Error generando Excel: {e}")
 
         # Resumen total nuevo
         seccion("Resumen stock nuevo")
