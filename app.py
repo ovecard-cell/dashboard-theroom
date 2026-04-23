@@ -1270,14 +1270,31 @@ if tab1:
                 f"Ventas {fmt(_efectivo_dux_total)} - Gastos {fmt(_gastos_efectivo)}", "verde" if _efectivo_esperado > 0 else "gris"), unsafe_allow_html=True)
 
         # Recalcular disponible con el efectivo correcto
-        disponible = max(santander, 0) + max(mp, 0) + _efectivo_esperado
+        # Armar etiquetas dinamicas segun saldo real de cada banco
+        _bancos_pos = []
+        _bancos_neg = []
+        if santander > 0: _bancos_pos.append("Santander")
+        if mp > 0: _bancos_pos.append("MP")
+        if galicia > 0: _bancos_pos.append("Galicia")
+        if _efectivo_esperado > 0: _bancos_pos.append("Caja")
+        if frances < 0: _bancos_neg.append("BBVA")
+        if bctes < 0: _bancos_neg.append("Corrientes")
+        if galicia < 0: _bancos_neg.append("Galicia")
+        if santander < 0: _bancos_neg.append("Santander")
+        if mp < 0: _bancos_neg.append("MP")
+
+        disponible = max(santander, 0) + max(mp, 0) + max(galicia, 0) + _efectivo_esperado
+        descubierto = abs(min(frances, 0)) + abs(min(bctes, 0)) + abs(min(galicia, 0)) + abs(min(santander, 0)) + abs(min(mp, 0))
+
+        _lbl_pos = " + ".join(_bancos_pos) if _bancos_pos else "—"
+        _lbl_neg = " + ".join(_bancos_neg) if _bancos_neg else "ninguno"
 
         with row_b2[2]:
             st.markdown(metric_card("💰", "Disponible real", fmt(disponible),
-                f"Santander + MP + Caja", "azul"), unsafe_allow_html=True)
+                _lbl_pos, "azul"), unsafe_allow_html=True)
         with row_b2[3]:
             st.markdown(metric_card("🔴", "Deuda total", fmt(-descubierto),
-                f"BBVA + Corrientes + Galicia", "rojo"), unsafe_allow_html=True)
+                _lbl_neg, "rojo"), unsafe_allow_html=True)
 
         # ── Cuadro de control de caja ────────────────────────────────────
         _ultimo_arqueo = _ctrl.get("arqueos", [])[-1] if _ctrl.get("arqueos") else None
