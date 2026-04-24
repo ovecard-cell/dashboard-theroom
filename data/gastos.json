@@ -1396,5 +1396,133 @@
     "medio": "Santander",
     "notas": "Extracto Santander 22/04 — cheque vencimiento 21/04",
     "cheque_id": "#215"
+  },
+  {
+    "fecha": "2026-04-22",
+    "concepto": "Impuesto Ley 25.413 Debito 0,6%",
+    "monto": 3441.32,
+    "categoria": "AFIP / Impuestos",
+    "medio": "Santander",
+    "notas": "Extracto Santander 22/04"
+  },
+  {
+    "fecha": "2026-04-22",
+    "concepto": "Impuesto Ley 25.413 Credito 0,6%",
+    "monto": 429.18,
+    "categoria": "AFIP / Impuestos",
+    "medio": "Santander",
+    "notas": "Extracto Santander 22/04"
+  },
+  {
+    "fecha": "2026-04-23",
+    "concepto": "Debito Comercio Payway",
+    "monto": 61998.76,
+    "categoria": "Gastos bancarios",
+    "medio": "Santander",
+    "notas": "Extracto Santander 23/04"
+  },
+  {
+    "fecha": "2026-04-22",
+    "concepto": "Impuesto sobre los Creditos y Debitos en cobros",
+    "monto": 1152.78,
+    "categoria": "AFIP / Impuestos",
+    "medio": "Mercado Pago",
+    "notas": "Extracto MP mov #2270921506269 (cobro $192.130)"
+  },
+  {
+    "fecha": "2026-04-22",
+    "concepto": "Tarifa por uso de plataforma de terceros",
+    "monto": 1921.3,
+    "categoria": "Gastos bancarios",
+    "medio": "Mercado Pago",
+    "notas": "Extracto MP"
+  },
+  {
+    "fecha": "2026-04-22",
+    "concepto": "Retencion Impuesto IIBB Buenos Aires por falta de alta",
+    "monto": 2881.95,
+    "categoria": "AFIP / Impuestos",
+    "medio": "Mercado Pago",
+    "notas": "Extracto MP"
+  },
+  {
+    "fecha": "2026-04-22",
+    "concepto": "Costo de Mercado Pago (cobro $192.130)",
+    "monto": 14621.09,
+    "categoria": "Gastos bancarios",
+    "medio": "Mercado Pago",
+    "notas": "Extracto MP"
+  },
+  {
+    "fecha": "2026-04-22",
+    "concepto": "Costo por intereses absorbidos",
+    "monto": 15120.63,
+    "categoria": "Gastos bancarios",
+    "medio": "Mercado Pago",
+    "notas": "Extracto MP"
+  },
+  {
+    "fecha": "2026-04-22",
+    "concepto": "Impuesto sobre los Creditos y Debitos en cobros",
+    "monto": 405.0,
+    "categoria": "AFIP / Impuestos",
+    "medio": "Mercado Pago",
+    "notas": "Extracto MP (cobro $67.500)"
+  },
+  {
+    "fecha": "2026-04-22",
+    "concepto": "Retencion IIBB Corrientes",
+    "monto": 1350.0,
+    "categoria": "AFIP / Impuestos",
+    "medio": "Mercado Pago",
+    "notas": "Extracto MP"
+  },
+  {
+    "fecha": "2026-04-22",
+    "concepto": "Costo de Mercado Pago (cobro $67.500)",
+    "monto": 5136.75,
+    "categoria": "Gastos bancarios",
+    "medio": "Mercado Pago",
+    "notas": "Extracto MP"
+  },
+  {
+    "fecha": "2026-04-22",
+    "concepto": "Costo por intereses absorbidos",
+    "monto": 5312.25,
+    "categoria": "Gastos bancarios",
+    "medio": "Mercado Pago",
+    "notas": "Extracto MP"
+  },
+  {
+    "fecha": "2026-04-22",
+    "concepto": "Impuesto sobre los Creditos y Debitos en retiros",
+    "monto": 195.79,
+    "categoria": "AFIP / Impuestos",
+    "medio": "Mercado Pago",
+    "notas": "Extracto MP"
+  },
+  {
+    "fecha": "2026-04-22",
+    "concepto": "Impuesto sobre los Creditos y Debitos en retiros",
+    "monto": 361.96,
+    "categoria": "AFIP / Impuestos",
+    "medio": "Mercado Pago",
+    "notas": "Extracto MP"
+  },
+  {
+    "fecha": "2026-04-22",
+    "concepto": "EXPRESO DEMONTE — TRANSPORTE",
+    "monto": 63900.0,
+    "categoria": "Transporte",
+    "medio": "Cuenta bancaria",
+    "notas": "Importado de Dux compras 22/04"
+  },
+  {
+    "fecha": "2026-04-22",
+    "concepto": "Regimen Recaudacion Iibbcorrientes — 0.50% s/71.530",
+    "monto": 357.65,
+    "categoria": "AFIP / Impuestos",
+    "medio": "Santander",
+    "notas": "Extracto Santander 22/04 (IIBB sobre cobros de clientes)"
   }
 ]

@@ -61,12 +61,22 @@
   },
   {
     "fecha": "2026-04-22",
-    "BBVA Frances": -6973582,
+    "BBVA Frances": -7066582,
     "Banco Corrientes": -10200264,
     "Galicia": 398,
-    "Santander": 2644162,
-    "Mercado Pago": 253767,
+    "Santander": 2711464,
+    "Mercado Pago": 465113,
     "Efectivo Caja": 416000,
-    "notas": "Santander $2.644.162 al 22/04 (Echeq Clearing #215 Dacob/Kazuma -$573.127). Resto sin movimientos."
+    "notas": "BBVA -$7.066.582 (-$93K sin detalle), Sant $2.711.464 (echeq -$573K + transfers +$71.5K + impuestos), MP $465.113 (cobros +$259K, retiros -$93K + comisiones)"
+  },
+  {
+    "fecha": "2026-04-23",
+    "BBVA Frances": -7066582,
+    "Banco Corrientes": -10200264,
+    "Galicia": 398,
+    "Santander": 2649465,
+    "Mercado Pago": 465113,
+    "Efectivo Caja": 416000,
+    "notas": "Santander $2.649.465 al 23/04 (Payway -$61.998). BBVA, Corrientes, Galicia, MP, Caja sin datos nuevos."
   }
 ]
