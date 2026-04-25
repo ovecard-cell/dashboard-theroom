@@ -150,5 +150,16 @@
     "monto": 956512,
     "tipo": "por_negociar",
     "estado": "pendiente"
+  },
+  {
+    "id": "-",
+    "proveedor": "District (Tarkus)",
+    "concepto": "Compra 24/04/2026 — pendiente emitir cheques",
+    "vencimiento": "2026-05-24",
+    "monto": 2998528,
+    "tipo": "por_negociar",
+    "estado": "pendiente",
+    "fecha_compra": "2026-04-24",
+    "cantidad_uds": 122
   }
 ]

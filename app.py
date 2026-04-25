@@ -3011,8 +3011,31 @@ if tab5:
                 "VINTAGE S A S. A.": "GO NORTH",
                 "VISTE VILO SRL, VISTE VILO": "VILO",
                 "GRUPO VEGAS": "ARAQUINA",
+                "LA RAMBLA": "LA RAMBLA",
+                "MANUFACTURA ARRECIFES SA": "LA RAMBLA",
             }
-        _marcas_total = sorted(_marcas_ventas)
+        # Tambien agregar marcas que tengan compras pero no ventas todavia
+        try:
+            with open("data/compras_mercaderia.json", encoding="utf-8") as _f_cm:
+                _cmp_marcas_data = _json.load(_f_cm)
+            _marcas_de_compras = set()
+            for _cm in _cmp_marcas_data:
+                _prov = _cm.get("prov","").strip().upper()
+                # Mapear a marca conocida
+                _mapa_inv = {
+                    "DANDY IND S.R.L.": "LISBON",
+                    "DACOB S.A": "KAZUMA",
+                    "TARKUS TREND S.R.L.": "DISTRICT",
+                    "VINTAGE S A S. A.": "GO NORTH",
+                    "VISTE VILO SRL, VISTE VILO": "VILO",
+                    "GRUPO VEGAS": "ARAQUINA",
+                    "LA RAMBLA": "LA RAMBLA",
+                }
+                if _prov in _mapa_inv:
+                    _marcas_de_compras.add(_mapa_inv[_prov])
+        except Exception:
+            _marcas_de_compras = set()
+        _marcas_total = sorted(_marcas_ventas | _marcas_de_compras)
 
         _marca_sel = st.selectbox("Elegi marca", _marcas_total, key="marca_reporte_sel")
 
