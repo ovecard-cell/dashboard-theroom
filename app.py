@@ -5069,6 +5069,113 @@ if tab6:
         else:
             st.markdown(metric_card("📊", "Ventas del mes", "Sin datos", "", "azul"), unsafe_allow_html=True)
 
+    # ── Calendario de pagos por mes ──────────────────────────────────────────
+    seccion("Calendario de pagos por mes")
+    st.markdown('<div style="color:#8888aa;font-size:0.82rem;margin-bottom:12px">Cuánto debemos en cheques cada mes (solo emitidos pendientes)</div>', unsafe_allow_html=True)
+
+    # Agrupar cheques pendientes emitidos por mes de vencimiento
+    _meses_es = ["Ene","Feb","Mar","Abr","May","Jun","Jul","Ago","Sep","Oct","Nov","Dic"]
+    _por_mes = {}
+    for _c in cheques:
+        if _c.get("tipo") != "emitido" or _c.get("estado") != "pendiente":
+            continue
+        try:
+            _fv = date.fromisoformat(_c["vencimiento"])
+        except Exception:
+            continue
+        _key = (_fv.year, _fv.month)
+        if _key not in _por_mes:
+            _por_mes[_key] = {"cheques": [], "total": 0}
+        _por_mes[_key]["cheques"].append(_c)
+        _por_mes[_key]["total"] += _c["monto"]
+
+    if not _por_mes:
+        alerta_html("Sin cheques emitidos pendientes.", "verde")
+    else:
+        # Total general
+        _total_global = sum(d["total"] for d in _por_mes.values())
+        _max_mes = max(d["total"] for d in _por_mes.values())
+
+        # Cards por mes (grid)
+        _meses_ord = sorted(_por_mes.keys())
+        _cols_mes = st.columns(min(len(_meses_ord), 4))
+        for _i, _key in enumerate(_meses_ord):
+            _data_m = _por_mes[_key]
+            _año, _mes = _key
+            _nombre = f"{_meses_es[_mes-1]} {_año}"
+            _es_mes_actual = (_año == hoy.year and _mes == hoy.month)
+            _es_pasado = (_año < hoy.year or (_año == hoy.year and _mes < hoy.month))
+            _color = "#e94560" if _es_pasado else "#f7b731" if _es_mes_actual else "#3a86ff"
+            _label = "VENCIDO" if _es_pasado else "ESTE MES" if _es_mes_actual else "FUTURO"
+            _pct_barra = round(_data_m["total"] / _max_mes * 100, 1)
+
+            with _cols_mes[_i % len(_cols_mes)]:
+                st.markdown(f'''<div style="background:linear-gradient(135deg, {_color}15, {_color}08);
+                    border:1px solid {_color}40;border-radius:12px;padding:16px 18px;margin:8px 0">
+                    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">
+                        <span style="font-size:0.95rem;font-weight:700;color:#fff">{_nombre}</span>
+                        <span style="font-size:0.6rem;font-weight:700;color:{_color};letter-spacing:1px">{_label}</span>
+                    </div>
+                    <div style="font-size:1.5rem;font-weight:800;color:{_color};margin:4px 0">{fmt(_data_m["total"])}</div>
+                    <div style="font-size:0.78rem;color:#8888aa;margin-bottom:8px">{len(_data_m["cheques"])} cheques</div>
+                    <div style="background:#ffffff10;border-radius:4px;height:6px;overflow:hidden">
+                        <div style="width:{_pct_barra}%;height:100%;background:{_color};border-radius:4px"></div>
+                    </div>
+                </div>''', unsafe_allow_html=True)
+
+        # Tabla detalle por mes (expandibles)
+        st.markdown(f'<div style="color:#888;font-size:0.85rem;margin:14px 0 8px 0">Total general: <b style="color:#fff">{fmt(_total_global)}</b> en {sum(len(d["cheques"]) for d in _por_mes.values())} cheques</div>', unsafe_allow_html=True)
+
+        for _key in _meses_ord:
+            _data_m = _por_mes[_key]
+            _año, _mes = _key
+            _nombre = f"{_meses_es[_mes-1]} {_año}"
+            with st.expander(f"📅 {_nombre} — {fmt(_data_m['total'])} ({len(_data_m['cheques'])} cheques)"):
+                _rows_html = ""
+                for _c in sorted(_data_m["cheques"], key=lambda x: x["vencimiento"]):
+                    _venc = date.fromisoformat(_c["vencimiento"])
+                    _dias = (_venc - hoy).days
+                    _est_color = "#e94560" if _dias < 0 else "#f7b731" if _dias <= 7 else "#3a86ff"
+                    _est_txt = f"Vencido hace {-_dias}d" if _dias < 0 else "HOY" if _dias == 0 else f"En {_dias}d"
+                    _rows_html += f'''<tr style="border-bottom:1px solid #ffffff06">
+                        <td style="padding:8px;color:#eeeeff;font-weight:700">{_c.get("id","-")}</td>
+                        <td style="padding:8px;color:#8888aa">{_c.get("proveedor","")}</td>
+                        <td style="padding:8px;color:#8888aa;font-size:0.82rem">{_venc.strftime("%d/%m/%Y")}</td>
+                        <td style="padding:8px;text-align:right;color:#f7b731;font-weight:700">{fmt(_c["monto"])}</td>
+                        <td style="padding:8px;text-align:center;color:{_est_color};font-weight:600;font-size:0.82rem">{_est_txt}</td>
+                        <td style="padding:8px;color:#666;font-size:0.78rem">{_c.get("concepto","")}</td>
+                    </tr>'''
+                st.markdown(f'''<table style="width:100%;border-collapse:collapse">
+                    <thead><tr style="border-bottom:2px solid #ffffff20">
+                        <th style="text-align:left;padding:8px;color:#6666aa;font-size:0.68rem;text-transform:uppercase">ID</th>
+                        <th style="text-align:left;padding:8px;color:#6666aa;font-size:0.68rem;text-transform:uppercase">Proveedor</th>
+                        <th style="text-align:left;padding:8px;color:#6666aa;font-size:0.68rem;text-transform:uppercase">Vencimiento</th>
+                        <th style="text-align:right;padding:8px;color:#6666aa;font-size:0.68rem;text-transform:uppercase">Monto</th>
+                        <th style="text-align:center;padding:8px;color:#6666aa;font-size:0.68rem;text-transform:uppercase">Estado</th>
+                        <th style="text-align:left;padding:8px;color:#6666aa;font-size:0.68rem;text-transform:uppercase">Concepto</th>
+                    </tr></thead><tbody>{_rows_html}</tbody></table>''', unsafe_allow_html=True)
+
+        # Boton de descarga del calendario
+        _txt_calendario = [f"THE ROOM — Calendario de pagos cheques — {hoy.strftime('%d/%m/%Y')}", "=" * 60, ""]
+        for _key in _meses_ord:
+            _data_m = _por_mes[_key]
+            _año, _mes = _key
+            _nombre = f"{_meses_es[_mes-1]} {_año}"
+            _txt_calendario.append(f"{_nombre}: {fmt(_data_m['total'])} ({len(_data_m['cheques'])} cheques)")
+            for _c in sorted(_data_m["cheques"], key=lambda x: x["vencimiento"]):
+                _txt_calendario.append(f"  {_c.get('id','-')} {_c.get('proveedor',''):<22} {_c['vencimiento']} ${_c['monto']:>12,.0f}  {_c.get('concepto','')}")
+            _txt_calendario.append("")
+        _txt_calendario.append(f"TOTAL: {fmt(_total_global)} en {sum(len(d['cheques']) for d in _por_mes.values())} cheques")
+
+        st.download_button(
+            label="📄 Descargar calendario de pagos (.txt)",
+            data="\n".join(_txt_calendario).encode("utf-8-sig"),
+            file_name=f"calendario_cheques_{hoy.isoformat()}.txt",
+            mime="text/plain",
+            use_container_width=True,
+            key="dl_calendario_cheques",
+        )
+
     def _render_cheque_lista(lista, prefijo_key):
         for i, c in enumerate(lista):
             idx_global = cheques.index(c)
