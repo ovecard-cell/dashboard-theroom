@@ -1524,5 +1524,45 @@
     "categoria": "AFIP / Impuestos",
     "medio": "Santander",
     "notas": "Extracto Santander 22/04 (IIBB sobre cobros de clientes)"
+  },
+  {
+    "fecha": "2026-04-23",
+    "concepto": "Impuesto Ley 25.413 Debito 0,6%",
+    "monto": 374.14,
+    "categoria": "AFIP / Impuestos",
+    "medio": "Santander",
+    "notas": "Extracto Santander 23/04"
+  },
+  {
+    "fecha": "2026-04-23",
+    "concepto": "Impuesto Ley 25.413 Credito 0,6%",
+    "monto": 405.36,
+    "categoria": "AFIP / Impuestos",
+    "medio": "Santander",
+    "notas": "Extracto Santander 23/04"
+  },
+  {
+    "fecha": "2026-04-24",
+    "concepto": "Regimen Recaudacion Iibbcorrientes — 0.50% s/67.560",
+    "monto": 337.8,
+    "categoria": "AFIP / Impuestos",
+    "medio": "Santander",
+    "notas": "Extracto Santander 24/04 (sobre cobros transfers 23/04)"
+  },
+  {
+    "fecha": "2026-04-23",
+    "concepto": "EXPRESO DEMONTE — TRANSPORTE",
+    "monto": 48400.0,
+    "categoria": "Transporte",
+    "medio": "Efectivo",
+    "notas": "Importado de Dux compras 23/04"
+  },
+  {
+    "fecha": "2026-04-23",
+    "concepto": "GASTO RAPIDO — GASTOS VARIOS",
+    "monto": 12000.0,
+    "categoria": "Servicios (luz/gas/tel)",
+    "medio": "Efectivo",
+    "notas": "Importado de Dux compras 23/04"
   }
 ]

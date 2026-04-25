@@ -74,9 +74,19 @@
     "BBVA Frances": -7066582,
     "Banco Corrientes": -10200264,
     "Galicia": 398,
-    "Santander": 2649465,
+    "Santander": 2716246,
     "Mercado Pago": 465113,
     "Efectivo Caja": 416000,
-    "notas": "Santander $2.649.465 al 23/04 (Payway -$61.998). BBVA, Corrientes, Galicia, MP, Caja sin datos nuevos."
+    "notas": "Santander $2.716.246 al 23/04 (Payway -$62K + transfers +$67.5K - impuestos)"
+  },
+  {
+    "fecha": "2026-04-24",
+    "BBVA Frances": -7066582,
+    "Banco Corrientes": -10200264,
+    "Galicia": 398,
+    "Santander": 2715908,
+    "Mercado Pago": 465113,
+    "Efectivo Caja": 416000,
+    "notas": "Santander $2.715.908 al 24/04 (IIBB -$338 sobre transfers 23/04). BBVA y MP sin datos nuevos."
   }
 ]
