@@ -1564,5 +1564,61 @@
     "categoria": "Servicios (luz/gas/tel)",
     "medio": "Efectivo",
     "notas": "Importado de Dux compras 23/04"
+  },
+  {
+    "fecha": "2026-04-24",
+    "concepto": "Impuesto Ley 25.413 Debito 0,6%",
+    "monto": 2.03,
+    "categoria": "AFIP / Impuestos",
+    "medio": "Santander",
+    "notas": "Extracto Santander 24/04"
+  },
+  {
+    "fecha": "2026-04-24",
+    "concepto": "Impuesto Ley 25.413 Credito 0,6%",
+    "monto": 306.67,
+    "categoria": "AFIP / Impuestos",
+    "medio": "Santander",
+    "notas": "Extracto Santander 24/04"
+  },
+  {
+    "fecha": "2026-04-24",
+    "concepto": "Regimen Recaudacion Iibbcorrientes — 0.50% s/51.111",
+    "monto": 255.56,
+    "categoria": "AFIP / Impuestos",
+    "medio": "Santander",
+    "notas": "Extracto Santander 25/04 (sobre cobro 24/04)"
+  },
+  {
+    "fecha": "2026-04-24",
+    "concepto": "Impuesto sobre los Creditos y Debitos en cobros",
+    "monto": 497.4,
+    "categoria": "AFIP / Impuestos",
+    "medio": "Mercado Pago",
+    "notas": "Extracto MP (cobro $82.900)"
+  },
+  {
+    "fecha": "2026-04-24",
+    "concepto": "Retencion IIBB Corrientes",
+    "monto": 1658.0,
+    "categoria": "AFIP / Impuestos",
+    "medio": "Mercado Pago",
+    "notas": "Extracto MP"
+  },
+  {
+    "fecha": "2026-04-24",
+    "concepto": "Costo de Mercado Pago (cobro $82.900 6 cuotas)",
+    "monto": 6308.69,
+    "categoria": "Gastos bancarios",
+    "medio": "Mercado Pago",
+    "notas": "Extracto MP"
+  },
+  {
+    "fecha": "2026-04-24",
+    "concepto": "Costo por intereses absorbidos (6 cuotas)",
+    "monto": 10934.51,
+    "categoria": "Gastos bancarios",
+    "medio": "Mercado Pago",
+    "notas": "Extracto MP"
   }
 ]

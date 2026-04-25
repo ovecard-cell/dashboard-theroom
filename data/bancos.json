@@ -75,18 +75,28 @@
     "Banco Corrientes": -10200264,
     "Galicia": 398,
     "Santander": 2716246,
-    "Mercado Pago": 465113,
+    "Mercado Pago": 465326,
     "Efectivo Caja": 416000,
-    "notas": "Santander $2.716.246 al 23/04 (Payway -$62K + transfers +$67.5K - impuestos)"
+    "notas": "Santander $2.716.246 (Payway + transfers - impuestos). MP $465.326 (rendimiento +$213)"
   },
   {
     "fecha": "2026-04-24",
     "BBVA Frances": -7066582,
     "Banco Corrientes": -10200264,
     "Galicia": 398,
-    "Santander": 2715908,
-    "Mercado Pago": 465113,
+    "Santander": 2766454,
+    "Mercado Pago": 529067,
     "Efectivo Caja": 416000,
-    "notas": "Santander $2.715.908 al 24/04 (IIBB -$338 sobre transfers 23/04). BBVA y MP sin datos nuevos."
+    "notas": "Santander $2.766.454 (Transfer Credin +$51.111 - impuestos - IIBB). MP $529.067 (cobro $82.900 - comisiones $19.4K)"
+  },
+  {
+    "fecha": "2026-04-25",
+    "BBVA Frances": -7066582,
+    "Banco Corrientes": -10200264,
+    "Galicia": 398,
+    "Santander": 2868955,
+    "Mercado Pago": 529067,
+    "Efectivo Caja": 416000,
+    "notas": "Santander $2.868.955 (transfers recibidas: Credin +$86.500 + Fernandez +$16.000)"
   }
 ]
